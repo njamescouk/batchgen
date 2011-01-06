@@ -261,9 +261,13 @@ static void yy_flex_free YY_PROTO(( void * ));
 
 #define YY_AT_BOL() (yy_current_buffer->yy_at_bol)
 
+
+#define FLEX_DEBUG
 typedef unsigned char YY_CHAR;
 FILE *yyin = (FILE *) 0, *yyout = (FILE *) 0;
 typedef int yy_state_type;
+
+#define FLEX_DEBUG
 extern char *yytext;
 #define yytext_ptr yytext
 
@@ -424,6 +428,16 @@ static yyconst short int yy_chk[190] =
 static yy_state_type yy_last_accepting_state;
 static char *yy_last_accepting_cpos;
 
+extern int yy_flex_debug;
+int yy_flex_debug = 1;
+
+static yyconst short int yy_rule_linenum[29] =
+    {   0,
+       36,   37,   38,   39,   40,   71,   72,   73,   74,   75,
+       76,   77,   78,   79,   80,   81,   82,   83,   84,   85,
+       86,   87,   88,   89,   90,   91,   92,   93
+    } ;
+
 /* The intent behind this definition is that it'll catch
  * any uses of REJECT which flex missed.
  */
@@ -432,9 +446,9 @@ static char *yy_last_accepting_cpos;
 #define YY_MORE_ADJ 0
 #define YY_RESTORE_YY_MORE_OFFSET
 char *yytext;
-#line 1 "batchgen.l"
+#line 1 "..\\source\\batchgen.l"
 #define INITIAL 0
-#line 2 "batchgen.l"
+#line 2 "..\\source\\batchgen.l"
 #define YY_USE_PROTOS
 
 #include <stdlib.h>
@@ -456,7 +470,7 @@ extern int lineno;
 
 #define dos_cmd 1
 
-#line 460 "lex.yy.c"
+#line 474 "lex.yy.c"
 
 /* Macros after this point can all be overridden by user definitions in
  * section 1.
@@ -607,9 +621,9 @@ YY_DECL
 	register char *yy_cp, *yy_bp;
 	register int yy_act;
 
-#line 35 "batchgen.l"
+#line 35 "..\\source\\batchgen.l"
 
-#line 613 "lex.yy.c"
+#line 627 "lex.yy.c"
 
 	if ( yy_init )
 		{
@@ -682,6 +696,21 @@ yy_find_action:
 
 do_action:	/* This label is used only to access EOF actions. */
 
+		if ( yy_flex_debug )
+			{
+			if ( yy_act == 0 )
+				fprintf( stderr, "--scanner backing up\n" );
+			else if ( yy_act < 29 )
+				fprintf( stderr, "--accepting rule at line %d (\"%s\")\n",
+				         yy_rule_linenum[yy_act], yytext );
+			else if ( yy_act == 29 )
+				fprintf( stderr, "--accepting default rule (\"%s\")\n",
+				         yytext );
+			else if ( yy_act == 30 )
+				fprintf( stderr, "--(end of buffer or a NUL)\n" );
+			else
+				fprintf( stderr, "--EOF (start condition %d)\n", YY_START );
+			}
 
 		switch ( yy_act )
 	{ /* beginning of action switch */
@@ -694,27 +723,27 @@ do_action:	/* This label is used only to access EOF actions. */
 
 case 1:
 YY_RULE_SETUP
-#line 36 "batchgen.l"
+#line 36 "..\\source\\batchgen.l"
 { }
 	YY_BREAK
 case 2:
 YY_RULE_SETUP
-#line 37 "batchgen.l"
+#line 37 "..\\source\\batchgen.l"
 {lineno++;}
 	YY_BREAK
 case 3:
 YY_RULE_SETUP
-#line 38 "batchgen.l"
+#line 38 "..\\source\\batchgen.l"
 {   BEGIN (INITIAL); }
 	YY_BREAK
 case 4:
 YY_RULE_SETUP
-#line 39 "batchgen.l"
+#line 39 "..\\source\\batchgen.l"
 { BEGIN (dos_cmd); }
 	YY_BREAK
 case 5:
 YY_RULE_SETUP
-#line 40 "batchgen.l"
+#line 40 "..\\source\\batchgen.l"
 {
 	       char *yyptr, *nlptr;
 
@@ -748,125 +777,125 @@ YY_RULE_SETUP
 	YY_BREAK
 case 6:
 YY_RULE_SETUP
-#line 71 "batchgen.l"
+#line 71 "..\\source\\batchgen.l"
 {return IF;}
 	YY_BREAK
 case 7:
 YY_RULE_SETUP
-#line 72 "batchgen.l"
+#line 72 "..\\source\\batchgen.l"
 {return CASE;}
 	YY_BREAK
 case 8:
 YY_RULE_SETUP
-#line 73 "batchgen.l"
+#line 73 "..\\source\\batchgen.l"
 {return ELSE;}
 	YY_BREAK
 case 9:
 YY_RULE_SETUP
-#line 74 "batchgen.l"
+#line 74 "..\\source\\batchgen.l"
 {return SWITCH;}
 	YY_BREAK
 case 10:
 YY_RULE_SETUP
-#line 75 "batchgen.l"
+#line 75 "..\\source\\batchgen.l"
 {return DEFAULT;}
 	YY_BREAK
 case 11:
 YY_RULE_SETUP
-#line 76 "batchgen.l"
+#line 76 "..\\source\\batchgen.l"
 {return WHILE;}
 	YY_BREAK
 case 12:
 YY_RULE_SETUP
-#line 77 "batchgen.l"
+#line 77 "..\\source\\batchgen.l"
 {return RETURN;}
 	YY_BREAK
 case 13:
 YY_RULE_SETUP
-#line 78 "batchgen.l"
+#line 78 "..\\source\\batchgen.l"
 {return BREAK;}
 	YY_BREAK
 case 14:
 YY_RULE_SETUP
-#line 79 "batchgen.l"
+#line 79 "..\\source\\batchgen.l"
 {return LOG_OR;}
 	YY_BREAK
 case 15:
 YY_RULE_SETUP
-#line 80 "batchgen.l"
+#line 80 "..\\source\\batchgen.l"
 {return LOG_AND;}
 	YY_BREAK
 case 16:
 YY_RULE_SETUP
-#line 81 "batchgen.l"
+#line 81 "..\\source\\batchgen.l"
 {return EQ;}
 	YY_BREAK
 case 17:
 YY_RULE_SETUP
-#line 82 "batchgen.l"
+#line 82 "..\\source\\batchgen.l"
 {return NE;}
 	YY_BREAK
 case 18:
 YY_RULE_SETUP
-#line 83 "batchgen.l"
+#line 83 "..\\source\\batchgen.l"
 {return GE;}
 	YY_BREAK
 case 19:
 YY_RULE_SETUP
-#line 84 "batchgen.l"
+#line 84 "..\\source\\batchgen.l"
 {return param;}
 	YY_BREAK
 case 20:
 YY_RULE_SETUP
-#line 85 "batchgen.l"
+#line 85 "..\\source\\batchgen.l"
 {return en_var;}
 	YY_BREAK
 case 21:
 YY_RULE_SETUP
-#line 86 "batchgen.l"
+#line 86 "..\\source\\batchgen.l"
 { return empty; }
 	YY_BREAK
 case 22:
 YY_RULE_SETUP
-#line 87 "batchgen.l"
+#line 87 "..\\source\\batchgen.l"
 {return ERRORLEVEL;}
 	YY_BREAK
 case 23:
 YY_RULE_SETUP
-#line 88 "batchgen.l"
+#line 88 "..\\source\\batchgen.l"
 {return ERRORLEVEL;}
 	YY_BREAK
 case 24:
 YY_RULE_SETUP
-#line 89 "batchgen.l"
+#line 89 "..\\source\\batchgen.l"
 {return EXIST;}
 	YY_BREAK
 case 25:
 YY_RULE_SETUP
-#line 90 "batchgen.l"
+#line 90 "..\\source\\batchgen.l"
 {return EXIST;}
 	YY_BREAK
 case 26:
 YY_RULE_SETUP
-#line 91 "batchgen.l"
+#line 91 "..\\source\\batchgen.l"
 {return number;}
 	YY_BREAK
 case 27:
 YY_RULE_SETUP
-#line 92 "batchgen.l"
+#line 92 "..\\source\\batchgen.l"
 {return identifier;}
 	YY_BREAK
 case 28:
 YY_RULE_SETUP
-#line 93 "batchgen.l"
+#line 93 "..\\source\\batchgen.l"
 {return yytext [0];}
 	YY_BREAK
 case 29:
 YY_RULE_SETUP
-#line 96 "batchgen.l"
+#line 96 "..\\source\\batchgen.l"
 ECHO;
 	YY_BREAK
-#line 870 "lex.yy.c"
+#line 899 "lex.yy.c"
 case YY_STATE_EOF(INITIAL):
 case YY_STATE_EOF(dos_cmd):
 	yyterminate();
@@ -1753,7 +1782,7 @@ int main()
 	return 0;
 	}
 #endif
-#line 96 "batchgen.l"
+#line 96 "..\\source\\batchgen.l"
 
 
 
