@@ -8,6 +8,7 @@ static char yysccsid[] = "@(#)yaccpar	1.9 (Berkeley) 02/21/93";
 #define yyerrok (yyerrflag=0)
 #define YYRECOVERING (yyerrflag!=0)
 #define YYPREFIX "yy"
+#line 2 "..\source\batchgen.y"
 #include <stdio.h>
 #include <stdlib.h>
 #include <stdarg.h>
@@ -32,12 +33,14 @@ int newiflabel = 0;
 int newcondlabel = 0;
 int new_sr_return = 0;
 
+#line 28 "..\source\batchgen.y"
 typedef union
 {
    code_list_t *code_node;
    expr_t *expr_node;
    int integer;
 } YYSTYPE;
+#line 44 "y.tab.c"
 #define LEXERROR 257
 #define FDEF 258
 #define identifier 259
@@ -180,7 +183,7 @@ short yycheck[] = {                                      41,
 };
 #define YYFINAL 11
 #ifndef YYDEBUG
-#define YYDEBUG 0
+#define YYDEBUG 1
 #endif
 #define YYMAXTOKEN 279
 #if YYDEBUG
@@ -268,6 +271,7 @@ YYSTYPE yylval;
 short yyss[YYSTACKSIZE];
 YYSTYPE yyvs[YYSTACKSIZE];
 #define yystacksize YYSTACKSIZE
+#line 758 "..\source\batchgen.y"
 
 int yyerror (char *s)
 {
@@ -402,6 +406,7 @@ void main (void)
       printf ("\nyyparse returns int %d =  char %c\n\n", c, c);
 }
 #endif
+#line 410 "y.tab.c"
 #define YYABORT goto yyabort
 #define YYREJECT goto yyabort
 #define YYACCEPT goto yyaccept
@@ -543,6 +548,7 @@ yyreduce:
     switch (yyn)
     {
 case 1:
+#line 81 "..\source\batchgen.y"
 {
       /*
          code pointed to by $1.code.
@@ -559,6 +565,7 @@ case 1:
    }
 break;
 case 2:
+#line 99 "..\source\batchgen.y"
 {
       /*
           dos_command
@@ -572,12 +579,14 @@ case 2:
    }
 break;
 case 8:
+#line 115 "..\source\batchgen.y"
 {fprintf (stderr, "error near line %d\n", lineno);
             if (yydebug)
                printf ("error near line %d\n", lineno);
            }
 break;
 case 9:
+#line 123 "..\source\batchgen.y"
 {
       code_list_t *sw_code = to_ss (),
                   *label_def = new_code_node ();
@@ -612,6 +621,7 @@ case 9:
     }
 break;
 case 10:
+#line 157 "..\source\batchgen.y"
 {
       /*
           default: check we are in a switch
@@ -637,6 +647,7 @@ case 10:
     }
 break;
 case 11:
+#line 184 "..\source\batchgen.y"
 {
       /*
          compound statement
@@ -646,6 +657,7 @@ case 11:
    }
 break;
 case 12:
+#line 192 "..\source\batchgen.y"
 {
       /* insert rem statement */
       yyval.code_node = new_code_node ();
@@ -653,6 +665,7 @@ case 12:
     }
 break;
 case 13:
+#line 201 "..\source\batchgen.y"
 {
        /*
           statement
@@ -662,6 +675,7 @@ case 13:
     }
 break;
 case 14:
+#line 209 "..\source\batchgen.y"
 {
        /*
           statement_list statement
@@ -672,6 +686,7 @@ case 14:
      }
 break;
 case 15:
+#line 223 "..\source\batchgen.y"
 {
       /*
          IF ( expr ) stmt
@@ -723,6 +738,7 @@ case 15:
    }
 break;
 case 16:
+#line 274 "..\source\batchgen.y"
 {
       /*
          IF ( expr ) stmt else stmt
@@ -784,6 +800,7 @@ case 16:
       }
 break;
 case 17:
+#line 335 "..\source\batchgen.y"
 {
          /* stack first half of test code */
 
@@ -794,6 +811,7 @@ case 17:
       }
 break;
 case 18:
+#line 346 "..\source\batchgen.y"
 {
          /* switch:
          form code: rem switch
@@ -831,6 +849,7 @@ case 18:
         }
 break;
 case 19:
+#line 386 "..\source\batchgen.y"
 {
       /*
          push a code node onto wstack and flag the fact
@@ -844,6 +863,7 @@ case 19:
    }
 break;
 case 20:
+#line 399 "..\source\batchgen.y"
 {
       /*
          get 3 labels, true, false + begin
@@ -904,6 +924,7 @@ case 20:
    }
 break;
 case 21:
+#line 462 "..\source\batchgen.y"
 {
       /*
          break: check we are in a while or a switch. if so find out which one
@@ -931,6 +952,7 @@ case 21:
    }
 break;
 case 22:
+#line 488 "..\source\batchgen.y"
 {
       yyval.code_node = new_code_node ();
 	  /*
@@ -942,6 +964,7 @@ case 22:
    }
 break;
 case 23:
+#line 498 "..\source\batchgen.y"
 {
       char text [TEXTLEN];
                                  
@@ -951,11 +974,13 @@ case 23:
    }
 break;
 case 24:
+#line 509 "..\source\batchgen.y"
 {
       yyval.expr_node = yyvsp[0].expr_node;
    }
 break;
 case 25:
+#line 513 "..\source\batchgen.y"
 {
       /*
          logical or
@@ -988,11 +1013,13 @@ case 25:
    }
 break;
 case 26:
+#line 547 "..\source\batchgen.y"
 {
       yyval.expr_node = yyvsp[0].expr_node;
    }
 break;
 case 27:
+#line 551 "..\source\batchgen.y"
 {
       /*
          logical and
@@ -1022,16 +1049,19 @@ case 27:
    }
 break;
 case 28:
+#line 582 "..\source\batchgen.y"
 {
       yyval.expr_node = yyvsp[0].expr_node;
    }
 break;
 case 29:
+#line 586 "..\source\batchgen.y"
 {
       yyval.expr_node = yyvsp[-1].expr_node;
    }
 break;
 case 30:
+#line 590 "..\source\batchgen.y"
 {
       /* not unary_expr */
       yyval.expr_node = new_expr ();
@@ -1041,6 +1071,7 @@ case 30:
    }
 break;
 case 31:
+#line 601 "..\source\batchgen.y"
 {
       char text [TEXTLEN] ;
 
@@ -1051,6 +1082,7 @@ case 31:
    }
 break;
 case 32:
+#line 610 "..\source\batchgen.y"
 {
       char text [TEXTLEN] ;
 
@@ -1061,6 +1093,7 @@ case 32:
    }
 break;
 case 33:
+#line 620 "..\source\batchgen.y"
 {
       char text [TEXTLEN] ;
 
@@ -1071,6 +1104,7 @@ case 33:
    }
 break;
 case 34:
+#line 630 "..\source\batchgen.y"
 {
       char text [TEXTLEN] ;
 
@@ -1081,6 +1115,7 @@ case 34:
    }
 break;
 case 35:
+#line 640 "..\source\batchgen.y"
 {
       char text [TEXTLEN] ;
 
@@ -1091,6 +1126,7 @@ case 35:
    }
 break;
 case 36:
+#line 649 "..\source\batchgen.y"
 {
       char text [TEXTLEN] ;
 
@@ -1102,6 +1138,7 @@ case 36:
    }
 break;
 case 37:
+#line 659 "..\source\batchgen.y"
 {
       char text [TEXTLEN] ;
 
@@ -1113,6 +1150,7 @@ case 37:
    }
 break;
 case 38:
+#line 672 "..\source\batchgen.y"
 {
       /* identifier */
       yyval.expr_node = new_expr ();
@@ -1121,6 +1159,7 @@ case 38:
    }
 break;
 case 39:
+#line 679 "..\source\batchgen.y"
 {
         expr_t *id = new_expr();
 
@@ -1134,6 +1173,7 @@ case 39:
    }
 break;
 case 40:
+#line 691 "..\source\batchgen.y"
 {
       /* environmental variable */
       yyval.expr_node = new_expr ();
@@ -1141,6 +1181,7 @@ case 40:
    }
 break;
 case 41:
+#line 697 "..\source\batchgen.y"
 {
         expr_t *ev = new_expr();
 
@@ -1156,6 +1197,7 @@ case 41:
     }
 break;
 case 42:
+#line 711 "..\source\batchgen.y"
 {
         /* parameter */
         yyval.expr_node = new_expr ();
@@ -1163,6 +1205,7 @@ case 42:
     }
 break;
 case 43:
+#line 717 "..\source\batchgen.y"
 {
         expr_t *par = new_expr();
 
@@ -1178,6 +1221,7 @@ case 43:
     }
 break;
 case 44:
+#line 731 "..\source\batchgen.y"
 {
         /* number */
         yyval.expr_node = new_expr ();
@@ -1185,6 +1229,7 @@ case 44:
     }
 break;
 case 45:
+#line 737 "..\source\batchgen.y"
 {
         expr_t *num = new_expr();
 
@@ -1200,11 +1245,13 @@ case 45:
    }
 break;
 case 46:
+#line 751 "..\source\batchgen.y"
 {
       yyval.expr_node = new_expr ();
       add_text (yyval.expr_node, "");
    }
 break;
+#line 1255 "y.tab.c"
     }
     yyssp -= yym;
     yystate = *yyssp;
