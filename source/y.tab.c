@@ -18,8 +18,8 @@ static char yysccsid[] = "@(#)yaccpar	1.9 (Berkeley) 02/21/93";
 #include "batchgen.h"
 #include "bkpatch.h"
 #include "stacks.h"
-#include "sr.h"
-/* #include "optim.h" */
+/* #include "sr.h"
+#include "optim.h" */
 
 #define YYSTACKSIZE 5000
 extern char *yytext;
@@ -44,156 +44,148 @@ typedef union
 #define LEXERROR 257
 #define FDEF 258
 #define identifier 259
-#define func_id 260
-#define en_var 261
-#define param 262
-#define ERRORLEVEL 263
-#define GE 264
-#define EXIST 265
-#define EQ 266
-#define NE 267
-#define number 268
-#define empty 269
-#define dos_command 270
-#define CASE 271
-#define DEFAULT 272
-#define IF 273
-#define SWITCH 274
-#define WHILE 275
-#define BREAK 276
-#define RETURN 277
-#define ELSE 278
-#define LOG_OR 279
-#define LOG_AND 280
+#define en_var 260
+#define param 261
+#define ERRORLEVEL 262
+#define GE 263
+#define EXIST 264
+#define EQ 265
+#define NE 266
+#define number 267
+#define empty 268
+#define dos_command 269
+#define CASE 270
+#define DEFAULT 271
+#define IF 272
+#define SWITCH 273
+#define WHILE 274
+#define BREAK 275
+#define RETURN 276
+#define ELSE 277
+#define LOG_OR 278
+#define LOG_AND 279
 #define YYERRCODE 256
 short yylhs[] = {                                        -1,
-    0,    1,    1,    1,    1,    1,    1,    1,    1,    1,
-   16,   17,    9,    8,    7,    7,    6,    6,    2,    2,
-    3,    3,   18,    3,   19,    4,    5,    5,    5,   10,
-   10,   13,   13,   14,   14,   14,   12,   12,   12,   12,
-   12,   12,   12,   11,   11,   11,   11,   11,   11,   11,
-   11,   11,   15,
+    0,    1,    1,    1,    1,    1,    1,    1,    7,    7,
+    6,    6,    2,    2,    3,    3,   13,    3,   14,    4,
+    5,    5,    5,    8,    8,   11,   11,   12,   12,   12,
+   10,   10,   10,   10,   10,   10,   10,    9,    9,    9,
+    9,    9,    9,    9,    9,    9,
 };
 short yylen[] = {                                         2,
-    1,    1,    1,    1,    1,    1,    1,    1,    1,    1,
-    0,    0,    7,    3,    4,    3,    3,    2,    1,    2,
-    5,    7,    0,    6,    0,    6,    2,    2,    3,    1,
-    3,    1,    3,    1,    3,    2,    3,    3,    3,    3,
-    2,    3,    3,    1,    2,    1,    2,    1,    2,    1,
-    2,    1,    1,
+    1,    1,    1,    1,    1,    1,    1,    1,    4,    3,
+    3,    2,    1,    2,    5,    7,    0,    6,    0,    6,
+    2,    2,    3,    1,    3,    1,    3,    1,    3,    2,
+    3,    3,    3,    3,    2,    3,    3,    1,    2,    1,
+    2,    1,    2,    1,    2,    1,
 };
 short yydefred[] = {                                      0,
-   10,    0,   53,    2,    0,    0,    0,    0,   25,    0,
-    0,    0,    0,   19,    0,    4,    5,    7,    3,    6,
-    9,    8,    0,   11,   44,   46,   48,   50,   52,    0,
-    0,    0,    0,    0,   27,   28,    0,   18,    0,   20,
-    0,    0,   45,   47,   49,   51,    0,   16,    0,    0,
-    0,    0,    0,    0,   34,    0,   32,    0,    0,   29,
-   17,   14,    0,   15,    0,    0,    0,    0,    0,    0,
-   36,    0,    0,    0,    0,    0,    0,    0,   12,    0,
-    0,    0,    0,   35,    0,    0,    0,    0,   33,    0,
-    0,    0,    0,   24,   26,   13,   22,
+    8,    2,    0,    0,    0,    0,   19,    0,    0,    0,
+    0,   13,    0,    4,    5,    7,    3,    6,   38,   40,
+   42,   44,   46,    0,    0,    0,    0,    0,   21,   22,
+    0,   12,    0,   14,   39,   41,   43,   45,    0,   10,
+    0,    0,    0,    0,    0,    0,   28,    0,   26,    0,
+    0,   23,   11,    9,    0,    0,    0,    0,    0,    0,
+   30,    0,    0,    0,    0,    0,    0,    0,    0,    0,
+    0,    0,   29,    0,    0,    0,    0,   27,    0,    0,
+    0,   18,   20,   16,
 };
-short yydgoto[] = {                                      13,
-   14,   15,   16,   17,   18,   19,   20,   21,   22,   53,
-   54,   55,   56,   57,   23,   42,   92,   77,   34,
+short yydgoto[] = {                                      11,
+   12,   13,   14,   15,   16,   17,   18,   45,   46,   47,
+   48,   49,   67,   28,
 };
-short yysindex[] = {                                    -84,
-    0, -246,    0,    0, -234,  -36,  -17,   -8,    0,  -16,
-  -56, -114,    0,    0,  -84,    0,    0,    0,    0,    0,
-    0,    0,   -4,    0,    0,    0,    0,    0,    0,  -51,
-  -84,   20, -234,    2,    0,    0,  -40,    0,  -92,    0,
-    8,   15,    0,    0,    0,    0,  -84,    0,  -34, -234,
-   20,   20,  -27, -221,    0, -224,    0, -211,   20,    0,
-    0,    0,   17,    0, -234, -234, -234, -234, -211,  -26,
-    0,   20,  -84, -234, -234,   20,   18,  -25,    0, -211,
- -211, -211, -211,    0, -224, -217, -211, -211,    0,  -84,
-  -84,  -59,  -84,    0,    0,    0,    0,
+short yysindex[] = {                                    -87,
+    0,    0, -226,  -45,  -20,  -16,    0,  -30,  -56, -116,
+    0,    0,  -87,    0,    0,    0,    0,    0,    0,    0,
+    0,    0,    0,  -53,  -87,   -1, -226,  -15,    0,    0,
+  -40,    0,  -95,    0,    0,    0,    0,    0,  -87,    0,
+  -34, -226,   -1,   -1,  -27, -213,    0, -241,    0, -210,
+   -1,    0,    0,    0, -226, -226, -226, -226, -210,  -26,
+    0,   -1,  -87, -226, -226,   -1,    2,  -25, -210, -210,
+ -210, -210,    0, -241, -237, -210, -210,    0,  -87,  -87,
+  -87,    0,    0,    0,
 };
 short yyrindex[] = {                                      0,
     0,    0,    0,    0,    0,    0,    0,    0,    0,    0,
-    0,    0,    0,    0,   65,    0,    0,    0,    0,    0,
+    0,    0,   56,    0,    0,    0,    0,    0,    0,    0,
     0,    0,    0,    0,    0,    0,    0,    0,    0,    0,
     0,    0,    0,    0,    0,    0,    0,    0,    0,    0,
-    0,    0,    0,    0,    0,    0,    0,    0,    0,    0,
-    0,    0,    0,    0,    0,  -24,    0,   25,    0,    0,
+    0,    0,    0,    0,    0,    0,    0,  -24,    0,   17,
     0,    0,    0,    0,    0,    0,    0,    0,  -41,    0,
-    0,    0,    0,    0,    0,    0,    0,    0,    0,  -39,
-  -37,  -35,  -33,    0,  -23,    1,  -31,  -29,    0,    0,
-    0,    0,    0,    0,    0,    0,    0,
+    0,    0,    0,    0,    0,    0,    0,    0,  -39,  -37,
+  -35,  -33,    0,  -23,    1,  -31,  -29,    0,    0,    0,
+    0,    0,    0,    0,
 };
 short yygindex[] = {                                      0,
-  -10,   55,    0,    0,    0,  -22,    0,    0,    0,    3,
-   19,    0,   -1,  -32,    0,    0,    0,    0,    0,
+   -2,   49,    0,    0,    0,    0,    0,   12,   18,    0,
+    3,  -22,    0,    0,
 };
-#define YYTABLESIZE 289
-short yytable[] = {                                      41,
-   21,   37,   36,   39,   40,   40,   47,   38,   12,   42,
-   38,   43,   24,   73,   84,   91,   30,   31,   60,   71,
-   48,   31,   32,   30,   25,   68,   26,   27,   40,   37,
-   12,   33,   61,   28,   29,   41,   64,   43,   12,   44,
-   45,   59,   35,   89,   74,   75,   46,   43,   62,   44,
-   45,   58,   52,   70,   63,   76,   46,   79,   90,   51,
-   93,   78,   86,   12,    1,   23,   39,    0,   69,   96,
-   85,    0,    0,    0,    0,    0,    0,    0,    0,   94,
-   95,    0,   97,   80,   81,   82,   83,    0,    0,    0,
-    0,    0,   87,   88,    0,    0,    0,    0,    0,    0,
+#define YYTABLESIZE 277
+short yytable[] = {                                      35,
+   15,   31,   30,   33,   39,   34,   10,   32,   32,   36,
+   34,   37,   25,   63,   73,   80,   24,   25,   52,   26,
+   24,   61,   40,   27,   51,   58,   31,   10,   29,   53,
+   34,   44,   19,   20,   21,   10,   54,   66,   43,   81,
+   22,   23,   79,   78,   50,   35,   36,   37,   35,   36,
+   37,   64,   65,   38,   60,    1,   38,   17,   33,   59,
+   75,    0,   68,    0,   74,    0,    0,    0,    0,    0,
+    0,    0,   69,   70,   71,   72,   82,   83,   84,    0,
+    0,   76,   77,    0,    0,    0,    0,    0,    0,    0,
     0,    0,    0,    0,    0,    0,    0,    0,    0,    0,
     0,    0,    0,    0,    0,    0,    0,    0,    0,    0,
-    0,    0,    0,   21,    0,   21,    0,    0,    0,    0,
     0,    0,    0,    0,    0,    0,    0,    0,    0,    0,
-    0,    1,    0,    2,    0,    3,    0,    0,    0,    0,
-    0,    0,    0,    0,    0,    4,    5,    6,    7,    8,
-    9,   10,   11,    1,    0,    2,    0,    3,    0,    0,
-    0,    1,    0,    2,    0,    3,    0,    4,    5,    6,
-    7,    8,    9,   10,   11,    4,    5,    6,    7,    8,
-    9,   10,   11,    0,    0,    0,    0,    0,    0,    0,
-    0,    0,   25,    0,   26,   27,    0,   43,    0,   44,
-   45,   28,   29,    0,    0,    0,   46,    0,   43,    0,
-   44,   45,    0,    0,    0,    0,    0,   46,    0,   65,
-    0,   66,   67,    0,    0,    0,    0,   41,   41,   37,
-   37,   39,   39,   40,   40,   38,   38,   42,   42,   43,
-   43,   72,   72,   72,   30,   31,   21,    0,   21,    0,
-   21,    0,    0,    0,    0,    0,    0,    0,    0,    0,
-   21,   21,   21,   21,   21,   21,   21,   21,   25,    0,
-   26,   27,   49,    0,   50,    0,    0,   28,   29,
+    0,    0,    0,   15,    0,   15,    0,    0,    0,    0,
+    0,    0,    0,    0,    0,    0,    0,    0,    0,    1,
+    0,    0,    0,    0,    0,    0,    0,    0,    0,    0,
+    0,    0,    2,    3,    4,    5,    6,    7,    8,    9,
+    1,    0,    0,    0,    0,    0,    0,    0,    1,    0,
+    0,    0,    0,    2,    3,    4,    5,    6,    7,    8,
+    9,    2,    3,    4,    5,    6,    7,    8,    9,    0,
+    0,    0,    0,    0,    0,    0,    0,    0,    0,    0,
+    0,    0,   19,   20,   21,   35,   36,   37,    0,    0,
+   22,   23,    0,   38,    0,    0,    0,    0,   35,   36,
+   37,    0,    0,    0,    0,    0,   38,    0,   55,    0,
+   56,   57,    0,    0,    0,    0,   35,   35,   31,   31,
+   33,   33,   34,   34,   32,   32,   36,   36,   37,   37,
+   62,   62,   62,   24,   25,    0,   15,   19,   20,   21,
+   41,    0,   42,    0,    0,   22,   23,    0,    0,   15,
+   15,   15,   15,   15,   15,   15,   15,
 };
 short yycheck[] = {                                      41,
-    0,   41,   59,   41,   15,   41,   58,   41,  123,   41,
-  125,   41,  259,   41,   41,   41,   41,   41,   59,   52,
-   31,   58,   40,    5,  259,   60,  261,  262,   39,   11,
-  123,   40,  125,  268,  269,   40,   47,  259,  123,  261,
-  262,   40,   59,   76,  266,  267,  268,  259,   41,  261,
-  262,   33,   33,   51,   40,  280,  268,   41,   41,   40,
-  278,   59,   73,  123,    0,   41,   12,   -1,   50,   92,
-   72,   -1,   -1,   -1,   -1,   -1,   -1,   -1,   -1,   90,
-   91,   -1,   93,   65,   66,   67,   68,   -1,   -1,   -1,
-   -1,   -1,   74,   75,   -1,   -1,   -1,   -1,   -1,   -1,
+    0,   41,   59,   41,   58,   41,  123,   41,  125,   41,
+   13,   41,   58,   41,   41,   41,   41,   41,   59,   40,
+    3,   44,   25,   40,   40,   60,    9,  123,   59,  125,
+   33,   33,  259,  260,  261,  123,   39,  279,   40,  277,
+  267,  268,   41,   66,   27,  259,  260,  261,  259,  260,
+  261,  265,  266,  267,   43,    0,  267,   41,   10,   42,
+   63,   -1,   51,   -1,   62,   -1,   -1,   -1,   -1,   -1,
+   -1,   -1,   55,   56,   57,   58,   79,   80,   81,   -1,
+   -1,   64,   65,   -1,   -1,   -1,   -1,   -1,   -1,   -1,
+   -1,   -1,   -1,   -1,   -1,   -1,   -1,   -1,   -1,   -1,
    -1,   -1,   -1,   -1,   -1,   -1,   -1,   -1,   -1,   -1,
    -1,   -1,   -1,   -1,   -1,   -1,   -1,   -1,   -1,   -1,
    -1,   -1,   -1,  123,   -1,  125,   -1,   -1,   -1,   -1,
+   -1,   -1,   -1,   -1,   -1,   -1,   -1,   -1,   -1,  256,
    -1,   -1,   -1,   -1,   -1,   -1,   -1,   -1,   -1,   -1,
-   -1,  256,   -1,  258,   -1,  260,   -1,   -1,   -1,   -1,
-   -1,   -1,   -1,   -1,   -1,  270,  271,  272,  273,  274,
-  275,  276,  277,  256,   -1,  258,   -1,  260,   -1,   -1,
-   -1,  256,   -1,  258,   -1,  260,   -1,  270,  271,  272,
-  273,  274,  275,  276,  277,  270,  271,  272,  273,  274,
-  275,  276,  277,   -1,   -1,   -1,   -1,   -1,   -1,   -1,
-   -1,   -1,  259,   -1,  261,  262,   -1,  259,   -1,  261,
-  262,  268,  269,   -1,   -1,   -1,  268,   -1,  259,   -1,
-  261,  262,   -1,   -1,   -1,   -1,   -1,  268,   -1,  264,
-   -1,  266,  267,   -1,   -1,   -1,   -1,  279,  280,  279,
-  280,  279,  280,  279,  280,  279,  280,  279,  280,  279,
-  280,  279,  279,  279,  279,  279,  256,   -1,  258,   -1,
-  260,   -1,   -1,   -1,   -1,   -1,   -1,   -1,   -1,   -1,
-  270,  271,  272,  273,  274,  275,  276,  277,  259,   -1,
-  261,  262,  263,   -1,  265,   -1,   -1,  268,  269,
+   -1,   -1,  269,  270,  271,  272,  273,  274,  275,  276,
+  256,   -1,   -1,   -1,   -1,   -1,   -1,   -1,  256,   -1,
+   -1,   -1,   -1,  269,  270,  271,  272,  273,  274,  275,
+  276,  269,  270,  271,  272,  273,  274,  275,  276,   -1,
+   -1,   -1,   -1,   -1,   -1,   -1,   -1,   -1,   -1,   -1,
+   -1,   -1,  259,  260,  261,  259,  260,  261,   -1,   -1,
+  267,  268,   -1,  267,   -1,   -1,   -1,   -1,  259,  260,
+  261,   -1,   -1,   -1,   -1,   -1,  267,   -1,  263,   -1,
+  265,  266,   -1,   -1,   -1,   -1,  278,  279,  278,  279,
+  278,  279,  278,  279,  278,  279,  278,  279,  278,  279,
+  278,  278,  278,  278,  278,   -1,  256,  259,  260,  261,
+  262,   -1,  264,   -1,   -1,  267,  268,   -1,   -1,  269,
+  270,  271,  272,  273,  274,  275,  276,
 };
-#define YYFINAL 13
+#define YYFINAL 11
 #ifndef YYDEBUG
-#define YYDEBUG 1
+#define YYDEBUG 0
 #endif
-#define YYMAXTOKEN 280
+#define YYMAXTOKEN 279
 #if YYDEBUG
 char *yyname[] = {
 "end-of-file",0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
@@ -203,9 +195,9 @@ char *yyname[] = {
 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
-"LEXERROR","FDEF","identifier","func_id","en_var","param","ERRORLEVEL","GE",
-"EXIST","EQ","NE","number","empty","dos_command","CASE","DEFAULT","IF","SWITCH",
-"WHILE","BREAK","RETURN","ELSE","LOG_OR","LOG_AND",
+"LEXERROR","FDEF","identifier","en_var","param","ERRORLEVEL","GE","EXIST","EQ",
+"NE","number","empty","dos_command","CASE","DEFAULT","IF","SWITCH","WHILE",
+"BREAK","RETURN","ELSE","LOG_OR","LOG_AND",
 };
 char *yyrule[] = {
 "$accept : batch_file",
@@ -216,13 +208,7 @@ char *yyrule[] = {
 "statement : while_statement",
 "statement : labelled_statement",
 "statement : jump_statement",
-"statement : function_definition",
-"statement : function_call",
 "statement : error",
-"$$1 :",
-"$$2 :",
-"function_definition : FDEF identifier $$1 '(' ')' $$2 compound_statement",
-"function_call : function_identifier '(' ')'",
 "labelled_statement : CASE primary_expression ':' statement",
 "labelled_statement : DEFAULT ':' statement",
 "compound_statement : '{' statement_list '}'",
@@ -231,10 +217,10 @@ char *yyrule[] = {
 "statement_list : statement_list statement",
 "selection_statement : IF '(' dos_expression ')' statement",
 "selection_statement : IF '(' dos_expression ')' statement ELSE statement",
-"$$3 :",
-"selection_statement : SWITCH '(' primary_expression $$3 ')' statement",
-"$$4 :",
-"while_statement : WHILE $$4 '(' dos_expression ')' statement",
+"$$1 :",
+"selection_statement : SWITCH '(' primary_expression $$1 ')' statement",
+"$$2 :",
+"while_statement : WHILE $$2 '(' dos_expression ')' statement",
 "jump_statement : BREAK ';'",
 "jump_statement : RETURN ';'",
 "jump_statement : RETURN primary_expression ';'",
@@ -261,7 +247,6 @@ char *yyrule[] = {
 "primary_expression : number",
 "primary_expression : primary_expression number",
 "primary_expression : empty",
-"function_identifier : func_id",
 };
 #endif
 #ifdef YYSTACKSIZE
@@ -286,7 +271,7 @@ YYSTYPE yylval;
 short yyss[YYSTACKSIZE];
 YYSTYPE yyvs[YYSTACKSIZE];
 #define yystacksize YYSTACKSIZE
-#line 856 "batchgen.y"
+#line 758 "batchgen.y"
 
 int yyerror (char *s)
 {
@@ -421,7 +406,7 @@ void main (void)
       printf ("\nyyparse returns int %d =  char %c\n\n", c, c);
 }
 #endif
-#line 425 "y.tab.c"
+#line 410 "y.tab.c"
 #define YYABORT goto yyabort
 #define YYREJECT goto yyabort
 #define YYACCEPT goto yyaccept
@@ -563,7 +548,7 @@ yyreduce:
     switch (yyn)
     {
 case 1:
-#line 85 "batchgen.y"
+#line 81 "batchgen.y"
 {
       /*
          code pointed to by $1.code.
@@ -580,7 +565,7 @@ case 1:
    }
 break;
 case 2:
-#line 103 "batchgen.y"
+#line 99 "batchgen.y"
 {
       /*
           dos_command
@@ -594,110 +579,14 @@ case 2:
    }
 break;
 case 8:
-#line 120 "batchgen.y"
-{
-     /* function definition reduced */
-     yyval.code_node = new_code_node ();
-     add_string (yyval.code_node, "");
-   }
-break;
-case 9:
-#line 126 "batchgen.y"
-{
-      /* function_call reduced */
-      yyval.code_node = yyvsp[0].code_node;
-   }
-break;
-case 10:
-#line 130 "batchgen.y"
+#line 115 "batchgen.y"
 {fprintf (stderr, "error near line %d\n", lineno);
             if (yydebug)
                printf ("error near line %d\n", lineno);
            }
 break;
-case 11:
-#line 138 "batchgen.y"
-{
-      yyvsp[0].expr_node = new_expr ();
-      add_text (yyvsp[0].expr_node, yytext);
-   }
-break;
-case 12:
-#line 143 "batchgen.y"
-{
-      /* function definition: fdef identifier () ... */
-
-      char errstr [] = "error: cannot define function "
-                               "from within function at line %d\n";
-
-      if (in_sr)
-      {
-         yyerror ("");
-         yyerrok;
-         if (yydebug)
-            printf (errstr, lineno);
-         fprintf (stderr, errstr, lineno);
-         in_sr--;
-         return 1; 
-      }
-      in_sr++;
-      install_func (yyvsp[-3].expr_node->expr_code->code);
-   }
-break;
-case 13:
-#line 163 "batchgen.y"
-{
-      /* function definition: ... {}; */
-      /* deal with function definition code */
-   
-      if (add_srcode (yyvsp[-5].expr_node->expr_code->code, yyvsp[0].code_node) != 0)
-         in_sr--;
-      else
-      {
-         fprintf (stderr, "error adding sub routine code at line %i\n", \
-                                                     lineno);
-         return 1;
-      }
-   
-   }
-break;
-case 14:
-#line 181 "batchgen.y"
-{  
-      /* function call
-         form code set %<RET_LABEL>%=END_SR_PFX<ret_num>
-                   goto SR_PFX<sr_no>
-                   :END_SR_PFX<ret_num>
-      */
-      char label [80],
-           code [TEXTLEN];
-      int ret_num = new_sr_return++;
-      char errstr [] = "error: cannot call function "
-                               "from within function at line %d\n";
-
-      if (in_sr)
-      {
-         yyerror ("");
-         yyerrok;
-         if (yydebug)
-            printf (errstr, lineno);
-         fprintf (stderr, errstr, lineno);
-         in_sr--;
-         return 1; 
-      }
-      sprintf (label, END_SR_PFX"%i\n", ret_num);
-      sprintf (code, 
-               "set "RET_LABEL"=%sgoto "SR_PFX"%i\n:%s\n",
-               label, 
-               yyvsp[-2].integer, 
-               label);
-      yyval.code_node = new_code_node ();
-      add_string (yyval.code_node, code);
-      sr_call_count++;
-   }
-break;
-case 15:
-#line 217 "batchgen.y"
+case 9:
+#line 123 "batchgen.y"
 {
       code_list_t *sw_code = to_ss (),
                   *label_def = new_code_node ();
@@ -731,8 +620,8 @@ case 15:
       }
     }
 break;
-case 16:
-#line 251 "batchgen.y"
+case 10:
+#line 157 "batchgen.y"
 {
       /*
           default: check we are in a switch
@@ -757,8 +646,8 @@ case 16:
       }
     }
 break;
-case 17:
-#line 278 "batchgen.y"
+case 11:
+#line 184 "batchgen.y"
 {
       /*
          compound statement
@@ -767,16 +656,16 @@ case 17:
       yyval.code_node = yyvsp[-1].code_node;
    }
 break;
-case 18:
-#line 286 "batchgen.y"
+case 12:
+#line 192 "batchgen.y"
 {
       /* insert rem statement */
       yyval.code_node = new_code_node ();
       add_string (yyval.code_node, "rem\n");
     }
 break;
-case 19:
-#line 295 "batchgen.y"
+case 13:
+#line 201 "batchgen.y"
 {
        /*
           statement
@@ -785,8 +674,8 @@ case 19:
        yyval.code_node = yyvsp[0].code_node;
     }
 break;
-case 20:
-#line 303 "batchgen.y"
+case 14:
+#line 209 "batchgen.y"
 {
        /*
           statement_list statement
@@ -796,8 +685,8 @@ case 20:
        code_join (2, yyval.code_node, yyvsp[0].code_node);
      }
 break;
-case 21:
-#line 317 "batchgen.y"
+case 15:
+#line 223 "batchgen.y"
 {
       /*
          IF ( expr ) stmt
@@ -848,8 +737,8 @@ case 21:
       }
    }
 break;
-case 22:
-#line 368 "batchgen.y"
+case 16:
+#line 274 "batchgen.y"
 {
       /*
          IF ( expr ) stmt else stmt
@@ -910,8 +799,8 @@ case 22:
          }
       }
 break;
-case 23:
-#line 429 "batchgen.y"
+case 17:
+#line 335 "batchgen.y"
 {
          /* stack first half of test code */
 
@@ -921,8 +810,8 @@ case 23:
          spush (sw_code);
       }
 break;
-case 24:
-#line 440 "batchgen.y"
+case 18:
+#line 346 "batchgen.y"
 {
          /* switch:
          form code: rem switch
@@ -959,8 +848,8 @@ case 24:
            yyval.code_node = code_join (6, remsw, yyvsp[0].code_node, remdef, default_code, remedef, labeldef);
         }
 break;
-case 25:
-#line 480 "batchgen.y"
+case 19:
+#line 386 "batchgen.y"
 {
       /*
          push a code node onto wstack and flag the fact
@@ -973,8 +862,8 @@ case 25:
       wpush (breaks);
    }
 break;
-case 26:
-#line 493 "batchgen.y"
+case 20:
+#line 399 "batchgen.y"
 {
       /*
          get 3 labels, true, false + begin
@@ -1034,8 +923,8 @@ case 26:
       }
    }
 break;
-case 27:
-#line 556 "batchgen.y"
+case 21:
+#line 462 "batchgen.y"
 {
       /*
          break: check we are in a while or a switch. if so find out which one
@@ -1062,34 +951,36 @@ case 27:
       }
    }
 break;
-case 28:
-#line 582 "batchgen.y"
+case 22:
+#line 488 "batchgen.y"
 {
       yyval.code_node = new_code_node ();
+	  /*
       if (in_sr)
-         add_string (yyval.code_node, "goto %"RET_LABEL"%\n");
+         add_string ($$, "goto %"RET_LABEL"%\n");
       else
+	  */
          add_string (yyval.code_node, "goto batch_end\n");
    }
 break;
-case 29:
-#line 590 "batchgen.y"
+case 23:
+#line 498 "batchgen.y"
 {
       char text [TEXTLEN];
                                  
       yyval.code_node = new_code_node ();
-      sprintf (text, "el %s\ngoto batch_end\n", yyvsp[-1].expr_node->expr_code->code);
+      sprintf (text, "exit /b %s\n", yyvsp[-1].expr_node->expr_code->code);
       add_string (yyval.code_node, text);
    }
 break;
-case 30:
-#line 601 "batchgen.y"
+case 24:
+#line 509 "batchgen.y"
 {
       yyval.expr_node = yyvsp[0].expr_node;
    }
 break;
-case 31:
-#line 605 "batchgen.y"
+case 25:
+#line 513 "batchgen.y"
 {
       /*
          logical or
@@ -1121,14 +1012,14 @@ case 31:
                          (3, yyvsp[-2].expr_node->expr_code, label_def, yyvsp[0].expr_node->expr_code);
    }
 break;
-case 32:
-#line 639 "batchgen.y"
+case 26:
+#line 547 "batchgen.y"
 {
       yyval.expr_node = yyvsp[0].expr_node;
    }
 break;
-case 33:
-#line 643 "batchgen.y"
+case 27:
+#line 551 "batchgen.y"
 {
       /*
          logical and
@@ -1157,20 +1048,20 @@ case 33:
       yyval.expr_node->expr_code = code_join (3, yyvsp[-2].expr_node->expr_code, label_def, yyvsp[0].expr_node->expr_code);
    }
 break;
-case 34:
-#line 674 "batchgen.y"
+case 28:
+#line 582 "batchgen.y"
 {
       yyval.expr_node = yyvsp[0].expr_node;
    }
 break;
-case 35:
-#line 678 "batchgen.y"
+case 29:
+#line 586 "batchgen.y"
 {
       yyval.expr_node = yyvsp[-1].expr_node;
    }
 break;
-case 36:
-#line 682 "batchgen.y"
+case 30:
+#line 590 "batchgen.y"
 {
       /* not unary_expr */
       yyval.expr_node = new_expr ();
@@ -1179,8 +1070,8 @@ case 36:
       yyval.expr_node->expr_code = yyvsp[0].expr_node->expr_code;
    }
 break;
-case 37:
-#line 693 "batchgen.y"
+case 31:
+#line 601 "batchgen.y"
 {
       char text [TEXTLEN] ;
 
@@ -1190,8 +1081,8 @@ case 37:
          return 1;
    }
 break;
-case 38:
-#line 702 "batchgen.y"
+case 32:
+#line 610 "batchgen.y"
 {
       char text [TEXTLEN] ;
 
@@ -1201,8 +1092,8 @@ case 38:
          return 1;
    }
 break;
-case 39:
-#line 712 "batchgen.y"
+case 33:
+#line 620 "batchgen.y"
 {
       char text [TEXTLEN] ;
 
@@ -1212,8 +1103,8 @@ case 39:
          return 1;
    }
 break;
-case 40:
-#line 722 "batchgen.y"
+case 34:
+#line 630 "batchgen.y"
 {
       char text [TEXTLEN] ;
 
@@ -1223,8 +1114,8 @@ case 40:
          return 1;
    }
 break;
-case 41:
-#line 732 "batchgen.y"
+case 35:
+#line 640 "batchgen.y"
 {
       char text [TEXTLEN] ;
 
@@ -1234,8 +1125,8 @@ case 41:
          return 1;
    }
 break;
-case 42:
-#line 741 "batchgen.y"
+case 36:
+#line 649 "batchgen.y"
 {
       char text [TEXTLEN] ;
 
@@ -1246,8 +1137,8 @@ case 42:
          return 1;
    }
 break;
-case 43:
-#line 751 "batchgen.y"
+case 37:
+#line 659 "batchgen.y"
 {
       char text [TEXTLEN] ;
 
@@ -1258,8 +1149,8 @@ case 43:
          return 1;
    }
 break;
-case 44:
-#line 764 "batchgen.y"
+case 38:
+#line 672 "batchgen.y"
 {
       /* identifier */
       yyval.expr_node = new_expr ();
@@ -1267,8 +1158,8 @@ case 44:
 
    }
 break;
-case 45:
-#line 771 "batchgen.y"
+case 39:
+#line 679 "batchgen.y"
 {
         expr_t *id = new_expr();
 
@@ -1281,16 +1172,16 @@ case 45:
          return 1;
    }
 break;
-case 46:
-#line 783 "batchgen.y"
+case 40:
+#line 691 "batchgen.y"
 {
       /* environmental variable */
       yyval.expr_node = new_expr ();
       add_text (yyval.expr_node, yytext);
    }
 break;
-case 47:
-#line 789 "batchgen.y"
+case 41:
+#line 697 "batchgen.y"
 {
         expr_t *ev = new_expr();
 
@@ -1305,16 +1196,16 @@ case 47:
             return 1;
     }
 break;
-case 48:
-#line 803 "batchgen.y"
+case 42:
+#line 711 "batchgen.y"
 {
         /* parameter */
         yyval.expr_node = new_expr ();
         add_text (yyval.expr_node, yytext);
     }
 break;
-case 49:
-#line 809 "batchgen.y"
+case 43:
+#line 717 "batchgen.y"
 {
         expr_t *par = new_expr();
 
@@ -1329,16 +1220,16 @@ case 49:
             return 1;
     }
 break;
-case 50:
-#line 823 "batchgen.y"
+case 44:
+#line 731 "batchgen.y"
 {
         /* number */
         yyval.expr_node = new_expr ();
         add_text (yyval.expr_node, yytext);
     }
 break;
-case 51:
-#line 829 "batchgen.y"
+case 45:
+#line 737 "batchgen.y"
 {
         expr_t *num = new_expr();
 
@@ -1353,20 +1244,14 @@ case 51:
          return 1;
    }
 break;
-case 52:
-#line 843 "batchgen.y"
+case 46:
+#line 751 "batchgen.y"
 {
       yyval.expr_node = new_expr ();
       add_text (yyval.expr_node, "");
    }
 break;
-case 53:
-#line 851 "batchgen.y"
-{
-      yyval.integer = is_func (yytext);
-   }
-break;
-#line 1370 "y.tab.c"
+#line 1255 "y.tab.c"
     }
     yyssp -= yym;
     yystate = *yyssp;

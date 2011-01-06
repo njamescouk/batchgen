@@ -107,10 +107,6 @@ SOURCE=..\source\optim.c
 # End Source File
 # Begin Source File
 
-SOURCE=..\source\sr.c
-# End Source File
-# Begin Source File
-
 SOURCE=..\source\stacks.c
 # End Source File
 # Begin Source File
@@ -139,10 +135,6 @@ SOURCE=..\source\optim.h
 # End Source File
 # Begin Source File
 
-SOURCE=..\source\sr.h
-# End Source File
-# Begin Source File
-
 SOURCE=..\source\stacks.h
 # End Source File
 # Begin Source File
@@ -167,7 +159,7 @@ SOURCE=..\source\batchgen.l
 # Begin Custom Build - building lexer
 InputPath=..\source\batchgen.l
 
-"lex.yy.c" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
+"lexyy.c" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
 	cd ..\source 
 	flex batchgen.l 
 	
@@ -179,7 +171,7 @@ InputPath=..\source\batchgen.l
 # Begin Custom Build - building lexer
 InputPath=..\source\batchgen.l
 
-"lex.yy.c" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
+"lexyy.c" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
 	cd ..\source 
 	flex -d batchgen.l 
 	

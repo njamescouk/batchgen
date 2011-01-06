@@ -1,9 +1,9 @@
 <html>
 <head>
-<title>..\source\batchgen.y</title>
+<title>batchgen.y</title>
 </head>
 <body>
-<h2>..\source\batchgen.y</h2><A NAME="batch_file"><b>batch_file:</b></a><br/>
+<h2>batchgen.y</h2><A NAME="batch_file"><b>batch_file:</b></a><br/>
 <code><a href="#statement_list">statement_list</a> </code><br/>
 ;<br/>
 <br/>
@@ -14,17 +14,7 @@
 | <code><a href="#while_statement">while_statement</a> </code><br/>
 | <code><a href="#labelled_statement">labelled_statement</a> </code><br/>
 | <code><a href="#jump_statement">jump_statement</a> </code><br/>
-| <code><a href="#function_definition">function_definition</a> </code><br/>
-| <code><a href="#function_call">function_call</a> </code><br/>
 | <code><a href="#error">error</a> </code><br/>
-;<br/>
-<br/>
-<A NAME="function_definition"><b>function_definition:</b></a><br/>
-<code>FDEF identifier '(' ')' <a href="#compound_statement">compound_statement</a> </code><br/>
-;<br/>
-<br/>
-<A NAME="function_call"><b>function_call:</b></a><br/>
-<code><a href="#function_identifier">function_identifier</a> '(' ')' </code><br/>
 ;<br/>
 <br/>
 <A NAME="labelled_statement"><b>labelled_statement:</b></a><br/>
@@ -94,10 +84,6 @@
 | <code>number </code><br/>
 | <code><a href="#primary_expression">primary_expression</a> number </code><br/>
 | <code>empty </code><br/>
-;<br/>
-<br/>
-<A NAME="function_identifier"><b>function_identifier:</b></a><br/>
-<code>func_id </code><br/>
 ;<br/>
 <br/>
 </body>

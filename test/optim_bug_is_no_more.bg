@@ -1,106 +1,51 @@
 [#@echo off#]
 
-fdef initialise()
-{
-    [#
-    rem set DEBUG=<anything> gets a debug build
-    set DEBUG=
-    set VC_MAKE_HELP=
-    set SOURCE_FILES=
-    set LEX_FLAGS=
-    set YACC_FLAGS=
-    set CC_FLAGS=
-    set SOURCE_FILES=batcomp.c lex.yy.c y.tab.c bkpatch.c stacks.c optim.c sr.c
-    rem you will need cl, flex and yacc on your path
-    set CC=cl
-    set FLEX=flex
-    set YACC=yacc
-    #]
-}
-
-fdef getopts()
-{
-    while (%1 != "")
-    {
-        if (%1 == -d)
-        {
-        [# set DEBUG=True#]
-        }
-        if (%1 == -h)
-        {
-        [#set VC_MAKE_HELP=True#]
-        }
-        [# shift #]
-    }
-}
-
-fdef usage()
+if (%DEBUG% == "")
 {
    [#
-   echo usage vc_make [options]
-
-   echo options
-   echo     -d     include debugging code for lexer and parser
-   echo     -h     help
+   set LEX_FLAGS=
+   set YACC_FLAGS= -vd
+   set CC_FLAGS=/nologo /ML /W4 /D "WIN32" /D "NDEBUG" /D "_CONSOLE"
+   set YYDEBUG=
    #]
-}
-
-initialise()
-getopts()
-
-if (%VC_MAKE_HELP% == True)
-{
-    usage()
 }
 else
 {
-    if (%DEBUG% == "")
-    {
-       [#
-       set LEX_FLAGS=
-       set YACC_FLAGS= -vd
-       set CC_FLAGS=/nologo /ML /W4 /D "WIN32" /D "NDEBUG" /D "_CONSOLE"
-       set YYDEBUG=
-       #]
-    }
-    else
-    {
-       [#
-       set LEX_FLAGS=-d
-       set YACC_FLAGS=-vdt
-       set CC_FLAGS=/nologo /ML /W4 /D "WIN32" /D "_CONSOLE" /D "YYDEBUG"
-       set YYDEBUG=1
-       #]
-    }
+   [#
+   set LEX_FLAGS=-d
+   set YACC_FLAGS=-vdt
+   set CC_FLAGS=/nologo /ML /W4 /D "WIN32" /D "_CONSOLE" /D "YYDEBUG"
+   set YYDEBUG=1
+   #]
+}
 
-    [#
-    @echo on
+[#
+@echo on
 
-    %FLEX% %LEX_FLAGS% batcomp.l
-    %YACC% %YACC_FLAGS% batcomp.y
-    %CC% %CC_FLAGS% %SOURCE_FILES%
+%FLEX% %LEX_FLAGS% batcomp.l
+%YACC% %YACC_FLAGS% batcomp.y
+%CC% %CC_FLAGS% %SOURCE_FILES%
 
-    @echo off
+@echo off
 
-    copy y.output ..\doc\y.output
-    del *.obj
-    #]
+copy y.output ..\doc\y.output
+del *.obj
+#]
 
-    if (%DEBUG% == "")
-    {
-       [#
-       del y.output
-       del lex.yy.c
-       del y.tab.c
-       del y.tab.h
-       copy batcomp.exe ..\bin
-       #]
-    }
-    else
-    {
-       [#
-       copy batcomp.exe ..\bin\batcomp_debug.exe
-       #]
-    }
+if (%DEBUG% == "")
+{
+   [#
+   del y.output
+   del lex.yy.c
+   del y.tab.c
+   del y.tab.h
+   copy batcomp.exe ..\bin
+   #]
+}
+else
+{
+   [#
+   copy batcomp.exe ..\bin\batcomp_debug.exe
+   #]
 }
 

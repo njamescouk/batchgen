@@ -4,7 +4,7 @@
 #include <time.h>
 #include "batchgen.h"
 #include "stacks.h"
-#include "sr.h"
+/* #include "sr.h" */
 #ifdef FILEOPTIM
 #include "foptim.h"
 #else
@@ -58,10 +58,12 @@ char main (int argc, char *argv[])
         char banner[BUFSIZ];
         char opts[BUFSIZ];
         code_list_t *mainjmp = new_code_node ();
-        int i;
 
+		/*
+        int i;
         for (i = 0; i < num_sr; i++)
             cl = code_join (2, srcode [i], cl);
+        */
 
         add_string (mainjmp, "@goto main\n");
         cl = code_join (2, mainjmp, cl);

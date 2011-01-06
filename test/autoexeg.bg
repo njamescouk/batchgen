@@ -1,16 +1,3 @@
-fdef old_printer ()
-{
-   [#
-   @echo old printer setup
-   rem get paper width
-   rem choice /c:wn paper - wide or narrow? /t:n,2
-   rem call geterl -q
-   rem if %errval%==1 set paper=132
-   rem if %errval%==2 set paper=80
-   rem mode lpt1 lines=8 cols=%paper%
-   #]
-}
-
 [#
 @ECHO OFF
 PROMPT $e[s$e[0;32;44m$e[H$t $d $p $e[K$e[u$e[1;34;46m$$$e[0;34;46m
@@ -22,7 +9,6 @@ if (%config%==windefault || %config%==excel|| %config%==paradox || %config%==wor
 else
    [#   set windows=no
         PATH C:\DOS;C:\;C:\BIN;..;\ #]
-old_printer ()
 [#
 set minpth=C:\DOS;C:\;C:\BIN;..;\
 set stdpath=%path%

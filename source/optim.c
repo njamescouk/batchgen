@@ -4,7 +4,7 @@
 #include <ctype.h>
 #include "batchgen.h" 
 #include "optim.h"
-#include "sr.h"
+/* #include "sr.h" */
 
 // char *strdup(const char *s);
 
@@ -208,17 +208,19 @@ char get_labels (char **ca)
 
    /* printf ("get_labels\n");  */
 
+   /*
    sprintf (text, "%%"RET_LABEL"%%");
    install_def (text);
    for (i = 0; i < sr_call_count && result == 0; i++)
    {
       sprintf (text, END_SR_PFX"%i", i);
       result = install_ref (text);
-      /*
+      *//*
       sprintf (text, SR_PFX"%i", i);
       install_ref (text);
-      */
-   }
+      *//*
+   }*/
+
    for (i = 0; i < code_lines && result == 0; i++)
    {
       if (is_label (ca [i]))

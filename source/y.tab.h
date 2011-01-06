@@ -1,27 +1,26 @@
 #define LEXERROR 257
 #define FDEF 258
 #define identifier 259
-#define func_id 260
-#define en_var 261
-#define param 262
-#define ERRORLEVEL 263
-#define GE 264
-#define EXIST 265
-#define EQ 266
-#define NE 267
-#define number 268
-#define empty 269
-#define dos_command 270
-#define CASE 271
-#define DEFAULT 272
-#define IF 273
-#define SWITCH 274
-#define WHILE 275
-#define BREAK 276
-#define RETURN 277
-#define ELSE 278
-#define LOG_OR 279
-#define LOG_AND 280
+#define en_var 260
+#define param 261
+#define ERRORLEVEL 262
+#define GE 263
+#define EXIST 264
+#define EQ 265
+#define NE 266
+#define number 267
+#define empty 268
+#define dos_command 269
+#define CASE 270
+#define DEFAULT 271
+#define IF 272
+#define SWITCH 273
+#define WHILE 274
+#define BREAK 275
+#define RETURN 276
+#define ELSE 277
+#define LOG_OR 278
+#define LOG_AND 279
 typedef union
 {
    code_list_t *code_node;
