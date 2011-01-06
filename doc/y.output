@@ -8,1066 +8,1222 @@
    5            | while_statement
    6            | labelled_statement
    7            | jump_statement
-   8            | error
+   8            | function_definition
+   9            | function_call
+  10            | error
 
-   9  labelled_statement : CASE primary_expression ':' statement
-  10                     | DEFAULT ':' statement
+  11  $$1 :
 
-  11  compound_statement : '{' statement_list '}'
-  12                     | '{' '}'
+  12  $$2 :
 
-  13  statement_list : statement
-  14                 | statement_list statement
+  13  function_definition : FDEF identifier $$1 '(' ')' $$2 compound_statement
 
-  15  selection_statement : IF '(' dos_expression ')' statement
-  16                      | IF '(' dos_expression ')' statement ELSE statement
+  14  function_call : function_identifier '(' ')'
 
-  17  $$1 :
+  15  labelled_statement : CASE primary_expression ':' statement
+  16                     | DEFAULT ':' statement
 
-  18  selection_statement : SWITCH '(' primary_expression $$1 ')' statement
+  17  compound_statement : '{' statement_list '}'
+  18                     | '{' '}'
 
-  19  $$2 :
+  19  statement_list : statement
+  20                 | statement_list statement
 
-  20  while_statement : WHILE $$2 '(' dos_expression ')' statement
+  21  selection_statement : IF '(' dos_expression ')' statement
+  22                      | IF '(' dos_expression ')' statement ELSE statement
 
-  21  jump_statement : BREAK ';'
-  22                 | RETURN ';'
-  23                 | RETURN primary_expression ';'
+  23  $$3 :
 
-  24  dos_expression : logical_AND_expression
-  25                 | dos_expression LOG_OR logical_AND_expression
+  24  selection_statement : SWITCH '(' primary_expression $$3 ')' statement
 
-  26  logical_AND_expression : unary_expression
-  27                         | logical_AND_expression LOG_AND unary_expression
+  25  $$4 :
 
-  28  unary_expression : dos_logical_expression
-  29                   | '(' dos_expression ')'
-  30                   | '!' unary_expression
+  26  while_statement : WHILE $$4 '(' dos_expression ')' statement
 
-  31  dos_logical_expression : ERRORLEVEL GE primary_expression
-  32                         | ERRORLEVEL '<' primary_expression
-  33                         | ERRORLEVEL EQ primary_expression
-  34                         | ERRORLEVEL NE primary_expression
-  35                         | EXIST primary_expression
-  36                         | primary_expression EQ primary_expression
-  37                         | primary_expression NE primary_expression
+  27  jump_statement : BREAK ';'
+  28                 | RETURN ';'
+  29                 | RETURN primary_expression ';'
 
-  38  primary_expression : identifier
-  39                     | primary_expression identifier
-  40                     | en_var
-  41                     | primary_expression en_var
-  42                     | param
-  43                     | primary_expression param
-  44                     | number
-  45                     | primary_expression number
-  46                     | empty
+  30  dos_expression : logical_AND_expression
+  31                 | dos_expression LOG_OR logical_AND_expression
+
+  32  logical_AND_expression : unary_expression
+  33                         | logical_AND_expression LOG_AND unary_expression
+
+  34  unary_expression : dos_logical_expression
+  35                   | '(' dos_expression ')'
+  36                   | '!' unary_expression
+
+  37  dos_logical_expression : ERRORLEVEL GE primary_expression
+  38                         | ERRORLEVEL '<' primary_expression
+  39                         | ERRORLEVEL EQ primary_expression
+  40                         | ERRORLEVEL NE primary_expression
+  41                         | EXIST primary_expression
+  42                         | primary_expression EQ primary_expression
+  43                         | primary_expression NE primary_expression
+
+  44  primary_expression : identifier
+  45                     | primary_expression identifier
+  46                     | en_var
+  47                     | primary_expression en_var
+  48                     | param
+  49                     | primary_expression param
+  50                     | number
+  51                     | primary_expression number
+  52                     | empty
+
+  53  function_identifier : func_id
 
 state 0
 	$accept : . batch_file $end  (0)
 
 	error  shift 1
-	dos_command  shift 2
-	CASE  shift 3
-	DEFAULT  shift 4
-	IF  shift 5
-	SWITCH  shift 6
-	WHILE  shift 7
-	BREAK  shift 8
-	RETURN  shift 9
-	'{'  shift 10
+	FDEF  shift 2
+	func_id  shift 3
+	dos_command  shift 4
+	CASE  shift 5
+	DEFAULT  shift 6
+	IF  shift 7
+	SWITCH  shift 8
+	WHILE  shift 9
+	BREAK  shift 10
+	RETURN  shift 11
+	'{'  shift 12
 	.  error
 
-	batch_file  goto 11
-	statement  goto 12
-	statement_list  goto 13
-	selection_statement  goto 14
-	while_statement  goto 15
-	jump_statement  goto 16
-	compound_statement  goto 17
-	labelled_statement  goto 18
+	batch_file  goto 13
+	statement  goto 14
+	statement_list  goto 15
+	selection_statement  goto 16
+	while_statement  goto 17
+	jump_statement  goto 18
+	compound_statement  goto 19
+	labelled_statement  goto 20
+	function_call  goto 21
+	function_definition  goto 22
+	function_identifier  goto 23
 
 
 state 1
-	statement : error .  (8)
+	statement : error .  (10)
 
-	.  reduce 8
+	.  reduce 10
 
 
 state 2
+	function_definition : FDEF . identifier $$1 '(' ')' $$2 compound_statement  (13)
+
+	identifier  shift 24
+	.  error
+
+
+state 3
+	function_identifier : func_id .  (53)
+
+	.  reduce 53
+
+
+state 4
 	statement : dos_command .  (2)
 
 	.  reduce 2
 
 
-state 3
-	labelled_statement : CASE . primary_expression ':' statement  (9)
-
-	identifier  shift 19
-	en_var  shift 20
-	param  shift 21
-	number  shift 22
-	empty  shift 23
-	.  error
-
-	primary_expression  goto 24
-
-
-state 4
-	labelled_statement : DEFAULT . ':' statement  (10)
-
-	':'  shift 25
-	.  error
-
-
 state 5
-	selection_statement : IF . '(' dos_expression ')' statement  (15)
-	selection_statement : IF . '(' dos_expression ')' statement ELSE statement  (16)
+	labelled_statement : CASE . primary_expression ':' statement  (15)
 
-	'('  shift 26
+	identifier  shift 25
+	en_var  shift 26
+	param  shift 27
+	number  shift 28
+	empty  shift 29
 	.  error
+
+	primary_expression  goto 30
 
 
 state 6
-	selection_statement : SWITCH . '(' primary_expression $$1 ')' statement  (18)
+	labelled_statement : DEFAULT . ':' statement  (16)
 
-	'('  shift 27
+	':'  shift 31
 	.  error
 
 
 state 7
-	while_statement : WHILE . $$2 '(' dos_expression ')' statement  (20)
-	$$2 : .  (19)
+	selection_statement : IF . '(' dos_expression ')' statement  (21)
+	selection_statement : IF . '(' dos_expression ')' statement ELSE statement  (22)
 
-	.  reduce 19
-
-	$$2  goto 28
+	'('  shift 32
+	.  error
 
 
 state 8
-	jump_statement : BREAK . ';'  (21)
+	selection_statement : SWITCH . '(' primary_expression $$3 ')' statement  (24)
 
-	';'  shift 29
+	'('  shift 33
 	.  error
 
 
 state 9
-	jump_statement : RETURN . ';'  (22)
-	jump_statement : RETURN . primary_expression ';'  (23)
+	while_statement : WHILE . $$4 '(' dos_expression ')' statement  (26)
+	$$4 : .  (25)
 
-	identifier  shift 19
-	en_var  shift 20
-	param  shift 21
-	number  shift 22
-	empty  shift 23
-	';'  shift 30
-	.  error
+	.  reduce 25
 
-	primary_expression  goto 31
+	$$4  goto 34
 
 
 state 10
-	compound_statement : '{' . statement_list '}'  (11)
-	compound_statement : '{' . '}'  (12)
+	jump_statement : BREAK . ';'  (27)
 
-	error  shift 1
-	dos_command  shift 2
-	CASE  shift 3
-	DEFAULT  shift 4
-	IF  shift 5
-	SWITCH  shift 6
-	WHILE  shift 7
-	BREAK  shift 8
-	RETURN  shift 9
-	'{'  shift 10
-	'}'  shift 32
+	';'  shift 35
 	.  error
-
-	statement  goto 12
-	statement_list  goto 33
-	selection_statement  goto 14
-	while_statement  goto 15
-	jump_statement  goto 16
-	compound_statement  goto 17
-	labelled_statement  goto 18
 
 
 state 11
+	jump_statement : RETURN . ';'  (28)
+	jump_statement : RETURN . primary_expression ';'  (29)
+
+	identifier  shift 25
+	en_var  shift 26
+	param  shift 27
+	number  shift 28
+	empty  shift 29
+	';'  shift 36
+	.  error
+
+	primary_expression  goto 37
+
+
+state 12
+	compound_statement : '{' . statement_list '}'  (17)
+	compound_statement : '{' . '}'  (18)
+
+	error  shift 1
+	FDEF  shift 2
+	func_id  shift 3
+	dos_command  shift 4
+	CASE  shift 5
+	DEFAULT  shift 6
+	IF  shift 7
+	SWITCH  shift 8
+	WHILE  shift 9
+	BREAK  shift 10
+	RETURN  shift 11
+	'{'  shift 12
+	'}'  shift 38
+	.  error
+
+	statement  goto 14
+	statement_list  goto 39
+	selection_statement  goto 16
+	while_statement  goto 17
+	jump_statement  goto 18
+	compound_statement  goto 19
+	labelled_statement  goto 20
+	function_call  goto 21
+	function_definition  goto 22
+	function_identifier  goto 23
+
+
+state 13
 	$accept : batch_file . $end  (0)
 
 	$end  accept
 
 
-state 12
-	statement_list : statement .  (13)
+state 14
+	statement_list : statement .  (19)
 
-	.  reduce 13
+	.  reduce 19
 
 
-state 13
+state 15
 	batch_file : statement_list .  (1)
-	statement_list : statement_list . statement  (14)
+	statement_list : statement_list . statement  (20)
 
 	error  shift 1
-	dos_command  shift 2
-	CASE  shift 3
-	DEFAULT  shift 4
-	IF  shift 5
-	SWITCH  shift 6
-	WHILE  shift 7
-	BREAK  shift 8
-	RETURN  shift 9
-	'{'  shift 10
+	FDEF  shift 2
+	func_id  shift 3
+	dos_command  shift 4
+	CASE  shift 5
+	DEFAULT  shift 6
+	IF  shift 7
+	SWITCH  shift 8
+	WHILE  shift 9
+	BREAK  shift 10
+	RETURN  shift 11
+	'{'  shift 12
 	$end  reduce 1
 
-	statement  goto 34
-	selection_statement  goto 14
-	while_statement  goto 15
-	jump_statement  goto 16
-	compound_statement  goto 17
-	labelled_statement  goto 18
+	statement  goto 40
+	selection_statement  goto 16
+	while_statement  goto 17
+	jump_statement  goto 18
+	compound_statement  goto 19
+	labelled_statement  goto 20
+	function_call  goto 21
+	function_definition  goto 22
+	function_identifier  goto 23
 
 
-state 14
+state 16
 	statement : selection_statement .  (4)
 
 	.  reduce 4
 
 
-state 15
+state 17
 	statement : while_statement .  (5)
 
 	.  reduce 5
 
 
-state 16
+state 18
 	statement : jump_statement .  (7)
 
 	.  reduce 7
 
 
-state 17
+state 19
 	statement : compound_statement .  (3)
 
 	.  reduce 3
 
 
-state 18
+state 20
 	statement : labelled_statement .  (6)
 
 	.  reduce 6
 
 
-state 19
-	primary_expression : identifier .  (38)
-
-	.  reduce 38
-
-
-state 20
-	primary_expression : en_var .  (40)
-
-	.  reduce 40
-
-
 state 21
-	primary_expression : param .  (42)
-
-	.  reduce 42
-
-
-state 22
-	primary_expression : number .  (44)
-
-	.  reduce 44
-
-
-state 23
-	primary_expression : empty .  (46)
-
-	.  reduce 46
-
-
-state 24
-	labelled_statement : CASE primary_expression . ':' statement  (9)
-	primary_expression : primary_expression . identifier  (39)
-	primary_expression : primary_expression . en_var  (41)
-	primary_expression : primary_expression . param  (43)
-	primary_expression : primary_expression . number  (45)
-
-	identifier  shift 35
-	en_var  shift 36
-	param  shift 37
-	number  shift 38
-	':'  shift 39
-	.  error
-
-
-state 25
-	labelled_statement : DEFAULT ':' . statement  (10)
-
-	error  shift 1
-	dos_command  shift 2
-	CASE  shift 3
-	DEFAULT  shift 4
-	IF  shift 5
-	SWITCH  shift 6
-	WHILE  shift 7
-	BREAK  shift 8
-	RETURN  shift 9
-	'{'  shift 10
-	.  error
-
-	statement  goto 40
-	selection_statement  goto 14
-	while_statement  goto 15
-	jump_statement  goto 16
-	compound_statement  goto 17
-	labelled_statement  goto 18
-
-
-state 26
-	selection_statement : IF '(' . dos_expression ')' statement  (15)
-	selection_statement : IF '(' . dos_expression ')' statement ELSE statement  (16)
-
-	identifier  shift 19
-	en_var  shift 20
-	param  shift 21
-	ERRORLEVEL  shift 41
-	EXIST  shift 42
-	number  shift 22
-	empty  shift 23
-	'('  shift 43
-	'!'  shift 44
-	.  error
-
-	dos_expression  goto 45
-	primary_expression  goto 46
-	dos_logical_expression  goto 47
-	logical_AND_expression  goto 48
-	unary_expression  goto 49
-
-
-state 27
-	selection_statement : SWITCH '(' . primary_expression $$1 ')' statement  (18)
-
-	identifier  shift 19
-	en_var  shift 20
-	param  shift 21
-	number  shift 22
-	empty  shift 23
-	.  error
-
-	primary_expression  goto 50
-
-
-state 28
-	while_statement : WHILE $$2 . '(' dos_expression ')' statement  (20)
-
-	'('  shift 51
-	.  error
-
-
-state 29
-	jump_statement : BREAK ';' .  (21)
-
-	.  reduce 21
-
-
-state 30
-	jump_statement : RETURN ';' .  (22)
-
-	.  reduce 22
-
-
-state 31
-	jump_statement : RETURN primary_expression . ';'  (23)
-	primary_expression : primary_expression . identifier  (39)
-	primary_expression : primary_expression . en_var  (41)
-	primary_expression : primary_expression . param  (43)
-	primary_expression : primary_expression . number  (45)
-
-	identifier  shift 35
-	en_var  shift 36
-	param  shift 37
-	number  shift 38
-	';'  shift 52
-	.  error
-
-
-state 32
-	compound_statement : '{' '}' .  (12)
-
-	.  reduce 12
-
-
-state 33
-	compound_statement : '{' statement_list . '}'  (11)
-	statement_list : statement_list . statement  (14)
-
-	error  shift 1
-	dos_command  shift 2
-	CASE  shift 3
-	DEFAULT  shift 4
-	IF  shift 5
-	SWITCH  shift 6
-	WHILE  shift 7
-	BREAK  shift 8
-	RETURN  shift 9
-	'{'  shift 10
-	'}'  shift 53
-	.  error
-
-	statement  goto 34
-	selection_statement  goto 14
-	while_statement  goto 15
-	jump_statement  goto 16
-	compound_statement  goto 17
-	labelled_statement  goto 18
-
-
-state 34
-	statement_list : statement_list statement .  (14)
-
-	.  reduce 14
-
-
-state 35
-	primary_expression : primary_expression identifier .  (39)
-
-	.  reduce 39
-
-
-state 36
-	primary_expression : primary_expression en_var .  (41)
-
-	.  reduce 41
-
-
-state 37
-	primary_expression : primary_expression param .  (43)
-
-	.  reduce 43
-
-
-state 38
-	primary_expression : primary_expression number .  (45)
-
-	.  reduce 45
-
-
-state 39
-	labelled_statement : CASE primary_expression ':' . statement  (9)
-
-	error  shift 1
-	dos_command  shift 2
-	CASE  shift 3
-	DEFAULT  shift 4
-	IF  shift 5
-	SWITCH  shift 6
-	WHILE  shift 7
-	BREAK  shift 8
-	RETURN  shift 9
-	'{'  shift 10
-	.  error
-
-	statement  goto 54
-	selection_statement  goto 14
-	while_statement  goto 15
-	jump_statement  goto 16
-	compound_statement  goto 17
-	labelled_statement  goto 18
-
-
-state 40
-	labelled_statement : DEFAULT ':' statement .  (10)
-
-	.  reduce 10
-
-
-state 41
-	dos_logical_expression : ERRORLEVEL . GE primary_expression  (31)
-	dos_logical_expression : ERRORLEVEL . '<' primary_expression  (32)
-	dos_logical_expression : ERRORLEVEL . EQ primary_expression  (33)
-	dos_logical_expression : ERRORLEVEL . NE primary_expression  (34)
-
-	GE  shift 55
-	EQ  shift 56
-	NE  shift 57
-	'<'  shift 58
-	.  error
-
-
-state 42
-	dos_logical_expression : EXIST . primary_expression  (35)
-
-	identifier  shift 19
-	en_var  shift 20
-	param  shift 21
-	number  shift 22
-	empty  shift 23
-	.  error
-
-	primary_expression  goto 59
-
-
-state 43
-	unary_expression : '(' . dos_expression ')'  (29)
-
-	identifier  shift 19
-	en_var  shift 20
-	param  shift 21
-	ERRORLEVEL  shift 41
-	EXIST  shift 42
-	number  shift 22
-	empty  shift 23
-	'('  shift 43
-	'!'  shift 44
-	.  error
-
-	dos_expression  goto 60
-	primary_expression  goto 46
-	dos_logical_expression  goto 47
-	logical_AND_expression  goto 48
-	unary_expression  goto 49
-
-
-state 44
-	unary_expression : '!' . unary_expression  (30)
-
-	identifier  shift 19
-	en_var  shift 20
-	param  shift 21
-	ERRORLEVEL  shift 41
-	EXIST  shift 42
-	number  shift 22
-	empty  shift 23
-	'('  shift 43
-	'!'  shift 44
-	.  error
-
-	primary_expression  goto 46
-	dos_logical_expression  goto 47
-	unary_expression  goto 61
-
-
-state 45
-	selection_statement : IF '(' dos_expression . ')' statement  (15)
-	selection_statement : IF '(' dos_expression . ')' statement ELSE statement  (16)
-	dos_expression : dos_expression . LOG_OR logical_AND_expression  (25)
-
-	LOG_OR  shift 62
-	')'  shift 63
-	.  error
-
-
-state 46
-	dos_logical_expression : primary_expression . EQ primary_expression  (36)
-	dos_logical_expression : primary_expression . NE primary_expression  (37)
-	primary_expression : primary_expression . identifier  (39)
-	primary_expression : primary_expression . en_var  (41)
-	primary_expression : primary_expression . param  (43)
-	primary_expression : primary_expression . number  (45)
-
-	identifier  shift 35
-	en_var  shift 36
-	param  shift 37
-	EQ  shift 64
-	NE  shift 65
-	number  shift 38
-	.  error
-
-
-state 47
-	unary_expression : dos_logical_expression .  (28)
-
-	.  reduce 28
-
-
-state 48
-	dos_expression : logical_AND_expression .  (24)
-	logical_AND_expression : logical_AND_expression . LOG_AND unary_expression  (27)
-
-	LOG_AND  shift 66
-	LOG_OR  reduce 24
-	')'  reduce 24
-
-
-state 49
-	logical_AND_expression : unary_expression .  (26)
-
-	.  reduce 26
-
-
-state 50
-	selection_statement : SWITCH '(' primary_expression . $$1 ')' statement  (18)
-	primary_expression : primary_expression . identifier  (39)
-	primary_expression : primary_expression . en_var  (41)
-	primary_expression : primary_expression . param  (43)
-	primary_expression : primary_expression . number  (45)
-	$$1 : .  (17)
-
-	identifier  shift 35
-	en_var  shift 36
-	param  shift 37
-	number  shift 38
-	')'  reduce 17
-
-	$$1  goto 67
-
-
-state 51
-	while_statement : WHILE $$2 '(' . dos_expression ')' statement  (20)
-
-	identifier  shift 19
-	en_var  shift 20
-	param  shift 21
-	ERRORLEVEL  shift 41
-	EXIST  shift 42
-	number  shift 22
-	empty  shift 23
-	'('  shift 43
-	'!'  shift 44
-	.  error
-
-	dos_expression  goto 68
-	primary_expression  goto 46
-	dos_logical_expression  goto 47
-	logical_AND_expression  goto 48
-	unary_expression  goto 49
-
-
-state 52
-	jump_statement : RETURN primary_expression ';' .  (23)
-
-	.  reduce 23
-
-
-state 53
-	compound_statement : '{' statement_list '}' .  (11)
-
-	.  reduce 11
-
-
-state 54
-	labelled_statement : CASE primary_expression ':' statement .  (9)
+	statement : function_call .  (9)
 
 	.  reduce 9
 
 
-state 55
-	dos_logical_expression : ERRORLEVEL GE . primary_expression  (31)
+state 22
+	statement : function_definition .  (8)
 
-	identifier  shift 19
-	en_var  shift 20
-	param  shift 21
-	number  shift 22
-	empty  shift 23
+	.  reduce 8
+
+
+state 23
+	function_call : function_identifier . '(' ')'  (14)
+
+	'('  shift 41
+	.  error
+
+
+state 24
+	function_definition : FDEF identifier . $$1 '(' ')' $$2 compound_statement  (13)
+	$$1 : .  (11)
+
+	.  reduce 11
+
+	$$1  goto 42
+
+
+state 25
+	primary_expression : identifier .  (44)
+
+	.  reduce 44
+
+
+state 26
+	primary_expression : en_var .  (46)
+
+	.  reduce 46
+
+
+state 27
+	primary_expression : param .  (48)
+
+	.  reduce 48
+
+
+state 28
+	primary_expression : number .  (50)
+
+	.  reduce 50
+
+
+state 29
+	primary_expression : empty .  (52)
+
+	.  reduce 52
+
+
+state 30
+	labelled_statement : CASE primary_expression . ':' statement  (15)
+	primary_expression : primary_expression . identifier  (45)
+	primary_expression : primary_expression . en_var  (47)
+	primary_expression : primary_expression . param  (49)
+	primary_expression : primary_expression . number  (51)
+
+	identifier  shift 43
+	en_var  shift 44
+	param  shift 45
+	number  shift 46
+	':'  shift 47
+	.  error
+
+
+state 31
+	labelled_statement : DEFAULT ':' . statement  (16)
+
+	error  shift 1
+	FDEF  shift 2
+	func_id  shift 3
+	dos_command  shift 4
+	CASE  shift 5
+	DEFAULT  shift 6
+	IF  shift 7
+	SWITCH  shift 8
+	WHILE  shift 9
+	BREAK  shift 10
+	RETURN  shift 11
+	'{'  shift 12
+	.  error
+
+	statement  goto 48
+	selection_statement  goto 16
+	while_statement  goto 17
+	jump_statement  goto 18
+	compound_statement  goto 19
+	labelled_statement  goto 20
+	function_call  goto 21
+	function_definition  goto 22
+	function_identifier  goto 23
+
+
+state 32
+	selection_statement : IF '(' . dos_expression ')' statement  (21)
+	selection_statement : IF '(' . dos_expression ')' statement ELSE statement  (22)
+
+	identifier  shift 25
+	en_var  shift 26
+	param  shift 27
+	ERRORLEVEL  shift 49
+	EXIST  shift 50
+	number  shift 28
+	empty  shift 29
+	'('  shift 51
+	'!'  shift 52
+	.  error
+
+	dos_expression  goto 53
+	primary_expression  goto 54
+	dos_logical_expression  goto 55
+	logical_AND_expression  goto 56
+	unary_expression  goto 57
+
+
+state 33
+	selection_statement : SWITCH '(' . primary_expression $$3 ')' statement  (24)
+
+	identifier  shift 25
+	en_var  shift 26
+	param  shift 27
+	number  shift 28
+	empty  shift 29
+	.  error
+
+	primary_expression  goto 58
+
+
+state 34
+	while_statement : WHILE $$4 . '(' dos_expression ')' statement  (26)
+
+	'('  shift 59
+	.  error
+
+
+state 35
+	jump_statement : BREAK ';' .  (27)
+
+	.  reduce 27
+
+
+state 36
+	jump_statement : RETURN ';' .  (28)
+
+	.  reduce 28
+
+
+state 37
+	jump_statement : RETURN primary_expression . ';'  (29)
+	primary_expression : primary_expression . identifier  (45)
+	primary_expression : primary_expression . en_var  (47)
+	primary_expression : primary_expression . param  (49)
+	primary_expression : primary_expression . number  (51)
+
+	identifier  shift 43
+	en_var  shift 44
+	param  shift 45
+	number  shift 46
+	';'  shift 60
+	.  error
+
+
+state 38
+	compound_statement : '{' '}' .  (18)
+
+	.  reduce 18
+
+
+state 39
+	compound_statement : '{' statement_list . '}'  (17)
+	statement_list : statement_list . statement  (20)
+
+	error  shift 1
+	FDEF  shift 2
+	func_id  shift 3
+	dos_command  shift 4
+	CASE  shift 5
+	DEFAULT  shift 6
+	IF  shift 7
+	SWITCH  shift 8
+	WHILE  shift 9
+	BREAK  shift 10
+	RETURN  shift 11
+	'{'  shift 12
+	'}'  shift 61
+	.  error
+
+	statement  goto 40
+	selection_statement  goto 16
+	while_statement  goto 17
+	jump_statement  goto 18
+	compound_statement  goto 19
+	labelled_statement  goto 20
+	function_call  goto 21
+	function_definition  goto 22
+	function_identifier  goto 23
+
+
+state 40
+	statement_list : statement_list statement .  (20)
+
+	.  reduce 20
+
+
+state 41
+	function_call : function_identifier '(' . ')'  (14)
+
+	')'  shift 62
+	.  error
+
+
+state 42
+	function_definition : FDEF identifier $$1 . '(' ')' $$2 compound_statement  (13)
+
+	'('  shift 63
+	.  error
+
+
+state 43
+	primary_expression : primary_expression identifier .  (45)
+
+	.  reduce 45
+
+
+state 44
+	primary_expression : primary_expression en_var .  (47)
+
+	.  reduce 47
+
+
+state 45
+	primary_expression : primary_expression param .  (49)
+
+	.  reduce 49
+
+
+state 46
+	primary_expression : primary_expression number .  (51)
+
+	.  reduce 51
+
+
+state 47
+	labelled_statement : CASE primary_expression ':' . statement  (15)
+
+	error  shift 1
+	FDEF  shift 2
+	func_id  shift 3
+	dos_command  shift 4
+	CASE  shift 5
+	DEFAULT  shift 6
+	IF  shift 7
+	SWITCH  shift 8
+	WHILE  shift 9
+	BREAK  shift 10
+	RETURN  shift 11
+	'{'  shift 12
+	.  error
+
+	statement  goto 64
+	selection_statement  goto 16
+	while_statement  goto 17
+	jump_statement  goto 18
+	compound_statement  goto 19
+	labelled_statement  goto 20
+	function_call  goto 21
+	function_definition  goto 22
+	function_identifier  goto 23
+
+
+state 48
+	labelled_statement : DEFAULT ':' statement .  (16)
+
+	.  reduce 16
+
+
+state 49
+	dos_logical_expression : ERRORLEVEL . GE primary_expression  (37)
+	dos_logical_expression : ERRORLEVEL . '<' primary_expression  (38)
+	dos_logical_expression : ERRORLEVEL . EQ primary_expression  (39)
+	dos_logical_expression : ERRORLEVEL . NE primary_expression  (40)
+
+	GE  shift 65
+	EQ  shift 66
+	NE  shift 67
+	'<'  shift 68
+	.  error
+
+
+state 50
+	dos_logical_expression : EXIST . primary_expression  (41)
+
+	identifier  shift 25
+	en_var  shift 26
+	param  shift 27
+	number  shift 28
+	empty  shift 29
 	.  error
 
 	primary_expression  goto 69
 
 
-state 56
-	dos_logical_expression : ERRORLEVEL EQ . primary_expression  (33)
+state 51
+	unary_expression : '(' . dos_expression ')'  (35)
 
-	identifier  shift 19
-	en_var  shift 20
-	param  shift 21
-	number  shift 22
-	empty  shift 23
+	identifier  shift 25
+	en_var  shift 26
+	param  shift 27
+	ERRORLEVEL  shift 49
+	EXIST  shift 50
+	number  shift 28
+	empty  shift 29
+	'('  shift 51
+	'!'  shift 52
 	.  error
 
-	primary_expression  goto 70
+	dos_expression  goto 70
+	primary_expression  goto 54
+	dos_logical_expression  goto 55
+	logical_AND_expression  goto 56
+	unary_expression  goto 57
 
 
-state 57
-	dos_logical_expression : ERRORLEVEL NE . primary_expression  (34)
+state 52
+	unary_expression : '!' . unary_expression  (36)
 
-	identifier  shift 19
-	en_var  shift 20
-	param  shift 21
-	number  shift 22
-	empty  shift 23
+	identifier  shift 25
+	en_var  shift 26
+	param  shift 27
+	ERRORLEVEL  shift 49
+	EXIST  shift 50
+	number  shift 28
+	empty  shift 29
+	'('  shift 51
+	'!'  shift 52
 	.  error
 
-	primary_expression  goto 71
+	primary_expression  goto 54
+	dos_logical_expression  goto 55
+	unary_expression  goto 71
 
 
-state 58
-	dos_logical_expression : ERRORLEVEL '<' . primary_expression  (32)
+state 53
+	selection_statement : IF '(' dos_expression . ')' statement  (21)
+	selection_statement : IF '(' dos_expression . ')' statement ELSE statement  (22)
+	dos_expression : dos_expression . LOG_OR logical_AND_expression  (31)
 
-	identifier  shift 19
-	en_var  shift 20
-	param  shift 21
-	number  shift 22
-	empty  shift 23
-	.  error
-
-	primary_expression  goto 72
-
-
-state 59
-	dos_logical_expression : EXIST primary_expression .  (35)
-	primary_expression : primary_expression . identifier  (39)
-	primary_expression : primary_expression . en_var  (41)
-	primary_expression : primary_expression . param  (43)
-	primary_expression : primary_expression . number  (45)
-
-	identifier  shift 35
-	en_var  shift 36
-	param  shift 37
-	number  shift 38
-	LOG_OR  reduce 35
-	LOG_AND  reduce 35
-	')'  reduce 35
-
-
-state 60
-	dos_expression : dos_expression . LOG_OR logical_AND_expression  (25)
-	unary_expression : '(' dos_expression . ')'  (29)
-
-	LOG_OR  shift 62
+	LOG_OR  shift 72
 	')'  shift 73
 	.  error
 
 
-state 61
-	unary_expression : '!' unary_expression .  (30)
+state 54
+	dos_logical_expression : primary_expression . EQ primary_expression  (42)
+	dos_logical_expression : primary_expression . NE primary_expression  (43)
+	primary_expression : primary_expression . identifier  (45)
+	primary_expression : primary_expression . en_var  (47)
+	primary_expression : primary_expression . param  (49)
+	primary_expression : primary_expression . number  (51)
 
-	.  reduce 30
+	identifier  shift 43
+	en_var  shift 44
+	param  shift 45
+	EQ  shift 74
+	NE  shift 75
+	number  shift 46
+	.  error
+
+
+state 55
+	unary_expression : dos_logical_expression .  (34)
+
+	.  reduce 34
+
+
+state 56
+	dos_expression : logical_AND_expression .  (30)
+	logical_AND_expression : logical_AND_expression . LOG_AND unary_expression  (33)
+
+	LOG_AND  shift 76
+	LOG_OR  reduce 30
+	')'  reduce 30
+
+
+state 57
+	logical_AND_expression : unary_expression .  (32)
+
+	.  reduce 32
+
+
+state 58
+	selection_statement : SWITCH '(' primary_expression . $$3 ')' statement  (24)
+	primary_expression : primary_expression . identifier  (45)
+	primary_expression : primary_expression . en_var  (47)
+	primary_expression : primary_expression . param  (49)
+	primary_expression : primary_expression . number  (51)
+	$$3 : .  (23)
+
+	identifier  shift 43
+	en_var  shift 44
+	param  shift 45
+	number  shift 46
+	')'  reduce 23
+
+	$$3  goto 77
+
+
+state 59
+	while_statement : WHILE $$4 '(' . dos_expression ')' statement  (26)
+
+	identifier  shift 25
+	en_var  shift 26
+	param  shift 27
+	ERRORLEVEL  shift 49
+	EXIST  shift 50
+	number  shift 28
+	empty  shift 29
+	'('  shift 51
+	'!'  shift 52
+	.  error
+
+	dos_expression  goto 78
+	primary_expression  goto 54
+	dos_logical_expression  goto 55
+	logical_AND_expression  goto 56
+	unary_expression  goto 57
+
+
+state 60
+	jump_statement : RETURN primary_expression ';' .  (29)
+
+	.  reduce 29
+
+
+state 61
+	compound_statement : '{' statement_list '}' .  (17)
+
+	.  reduce 17
 
 
 state 62
-	dos_expression : dos_expression LOG_OR . logical_AND_expression  (25)
+	function_call : function_identifier '(' ')' .  (14)
 
-	identifier  shift 19
-	en_var  shift 20
-	param  shift 21
-	ERRORLEVEL  shift 41
-	EXIST  shift 42
-	number  shift 22
-	empty  shift 23
-	'('  shift 43
-	'!'  shift 44
-	.  error
-
-	primary_expression  goto 46
-	dos_logical_expression  goto 47
-	logical_AND_expression  goto 74
-	unary_expression  goto 49
+	.  reduce 14
 
 
 state 63
-	selection_statement : IF '(' dos_expression ')' . statement  (15)
-	selection_statement : IF '(' dos_expression ')' . statement ELSE statement  (16)
-
-	error  shift 1
-	dos_command  shift 2
-	CASE  shift 3
-	DEFAULT  shift 4
-	IF  shift 5
-	SWITCH  shift 6
-	WHILE  shift 7
-	BREAK  shift 8
-	RETURN  shift 9
-	'{'  shift 10
-	.  error
-
-	statement  goto 75
-	selection_statement  goto 14
-	while_statement  goto 15
-	jump_statement  goto 16
-	compound_statement  goto 17
-	labelled_statement  goto 18
-
-
-state 64
-	dos_logical_expression : primary_expression EQ . primary_expression  (36)
-
-	identifier  shift 19
-	en_var  shift 20
-	param  shift 21
-	number  shift 22
-	empty  shift 23
-	.  error
-
-	primary_expression  goto 76
-
-
-state 65
-	dos_logical_expression : primary_expression NE . primary_expression  (37)
-
-	identifier  shift 19
-	en_var  shift 20
-	param  shift 21
-	number  shift 22
-	empty  shift 23
-	.  error
-
-	primary_expression  goto 77
-
-
-state 66
-	logical_AND_expression : logical_AND_expression LOG_AND . unary_expression  (27)
-
-	identifier  shift 19
-	en_var  shift 20
-	param  shift 21
-	ERRORLEVEL  shift 41
-	EXIST  shift 42
-	number  shift 22
-	empty  shift 23
-	'('  shift 43
-	'!'  shift 44
-	.  error
-
-	primary_expression  goto 46
-	dos_logical_expression  goto 47
-	unary_expression  goto 78
-
-
-state 67
-	selection_statement : SWITCH '(' primary_expression $$1 . ')' statement  (18)
+	function_definition : FDEF identifier $$1 '(' . ')' $$2 compound_statement  (13)
 
 	')'  shift 79
 	.  error
 
 
-state 68
-	while_statement : WHILE $$2 '(' dos_expression . ')' statement  (20)
-	dos_expression : dos_expression . LOG_OR logical_AND_expression  (25)
+state 64
+	labelled_statement : CASE primary_expression ':' statement .  (15)
 
-	LOG_OR  shift 62
-	')'  shift 80
+	.  reduce 15
+
+
+state 65
+	dos_logical_expression : ERRORLEVEL GE . primary_expression  (37)
+
+	identifier  shift 25
+	en_var  shift 26
+	param  shift 27
+	number  shift 28
+	empty  shift 29
 	.  error
+
+	primary_expression  goto 80
+
+
+state 66
+	dos_logical_expression : ERRORLEVEL EQ . primary_expression  (39)
+
+	identifier  shift 25
+	en_var  shift 26
+	param  shift 27
+	number  shift 28
+	empty  shift 29
+	.  error
+
+	primary_expression  goto 81
+
+
+state 67
+	dos_logical_expression : ERRORLEVEL NE . primary_expression  (40)
+
+	identifier  shift 25
+	en_var  shift 26
+	param  shift 27
+	number  shift 28
+	empty  shift 29
+	.  error
+
+	primary_expression  goto 82
+
+
+state 68
+	dos_logical_expression : ERRORLEVEL '<' . primary_expression  (38)
+
+	identifier  shift 25
+	en_var  shift 26
+	param  shift 27
+	number  shift 28
+	empty  shift 29
+	.  error
+
+	primary_expression  goto 83
 
 
 state 69
-	dos_logical_expression : ERRORLEVEL GE primary_expression .  (31)
-	primary_expression : primary_expression . identifier  (39)
-	primary_expression : primary_expression . en_var  (41)
-	primary_expression : primary_expression . param  (43)
-	primary_expression : primary_expression . number  (45)
+	dos_logical_expression : EXIST primary_expression .  (41)
+	primary_expression : primary_expression . identifier  (45)
+	primary_expression : primary_expression . en_var  (47)
+	primary_expression : primary_expression . param  (49)
+	primary_expression : primary_expression . number  (51)
 
-	identifier  shift 35
-	en_var  shift 36
-	param  shift 37
-	number  shift 38
-	LOG_OR  reduce 31
-	LOG_AND  reduce 31
-	')'  reduce 31
+	identifier  shift 43
+	en_var  shift 44
+	param  shift 45
+	number  shift 46
+	LOG_OR  reduce 41
+	LOG_AND  reduce 41
+	')'  reduce 41
 
 
 state 70
-	dos_logical_expression : ERRORLEVEL EQ primary_expression .  (33)
-	primary_expression : primary_expression . identifier  (39)
-	primary_expression : primary_expression . en_var  (41)
-	primary_expression : primary_expression . param  (43)
-	primary_expression : primary_expression . number  (45)
+	dos_expression : dos_expression . LOG_OR logical_AND_expression  (31)
+	unary_expression : '(' dos_expression . ')'  (35)
 
-	identifier  shift 35
-	en_var  shift 36
-	param  shift 37
-	number  shift 38
-	LOG_OR  reduce 33
-	LOG_AND  reduce 33
-	')'  reduce 33
+	LOG_OR  shift 72
+	')'  shift 84
+	.  error
 
 
 state 71
-	dos_logical_expression : ERRORLEVEL NE primary_expression .  (34)
-	primary_expression : primary_expression . identifier  (39)
-	primary_expression : primary_expression . en_var  (41)
-	primary_expression : primary_expression . param  (43)
-	primary_expression : primary_expression . number  (45)
+	unary_expression : '!' unary_expression .  (36)
 
-	identifier  shift 35
-	en_var  shift 36
-	param  shift 37
-	number  shift 38
-	LOG_OR  reduce 34
-	LOG_AND  reduce 34
-	')'  reduce 34
+	.  reduce 36
 
 
 state 72
-	dos_logical_expression : ERRORLEVEL '<' primary_expression .  (32)
-	primary_expression : primary_expression . identifier  (39)
-	primary_expression : primary_expression . en_var  (41)
-	primary_expression : primary_expression . param  (43)
-	primary_expression : primary_expression . number  (45)
+	dos_expression : dos_expression LOG_OR . logical_AND_expression  (31)
 
-	identifier  shift 35
-	en_var  shift 36
-	param  shift 37
-	number  shift 38
-	LOG_OR  reduce 32
-	LOG_AND  reduce 32
-	')'  reduce 32
+	identifier  shift 25
+	en_var  shift 26
+	param  shift 27
+	ERRORLEVEL  shift 49
+	EXIST  shift 50
+	number  shift 28
+	empty  shift 29
+	'('  shift 51
+	'!'  shift 52
+	.  error
+
+	primary_expression  goto 54
+	dos_logical_expression  goto 55
+	logical_AND_expression  goto 85
+	unary_expression  goto 57
 
 
 state 73
-	unary_expression : '(' dos_expression ')' .  (29)
+	selection_statement : IF '(' dos_expression ')' . statement  (21)
+	selection_statement : IF '(' dos_expression ')' . statement ELSE statement  (22)
 
-	.  reduce 29
+	error  shift 1
+	FDEF  shift 2
+	func_id  shift 3
+	dos_command  shift 4
+	CASE  shift 5
+	DEFAULT  shift 6
+	IF  shift 7
+	SWITCH  shift 8
+	WHILE  shift 9
+	BREAK  shift 10
+	RETURN  shift 11
+	'{'  shift 12
+	.  error
+
+	statement  goto 86
+	selection_statement  goto 16
+	while_statement  goto 17
+	jump_statement  goto 18
+	compound_statement  goto 19
+	labelled_statement  goto 20
+	function_call  goto 21
+	function_definition  goto 22
+	function_identifier  goto 23
 
 
 state 74
-	dos_expression : dos_expression LOG_OR logical_AND_expression .  (25)
-	logical_AND_expression : logical_AND_expression . LOG_AND unary_expression  (27)
+	dos_logical_expression : primary_expression EQ . primary_expression  (42)
 
-	LOG_AND  shift 66
-	LOG_OR  reduce 25
-	')'  reduce 25
+	identifier  shift 25
+	en_var  shift 26
+	param  shift 27
+	number  shift 28
+	empty  shift 29
+	.  error
+
+	primary_expression  goto 87
 
 
-75: shift/reduce conflict (shift 81, reduce 15) on ELSE
 state 75
-	selection_statement : IF '(' dos_expression ')' statement .  (15)
-	selection_statement : IF '(' dos_expression ')' statement . ELSE statement  (16)
+	dos_logical_expression : primary_expression NE . primary_expression  (43)
 
-	ELSE  shift 81
-	$end  reduce 15
-	error  reduce 15
-	dos_command  reduce 15
-	CASE  reduce 15
-	DEFAULT  reduce 15
-	IF  reduce 15
-	SWITCH  reduce 15
-	WHILE  reduce 15
-	BREAK  reduce 15
-	RETURN  reduce 15
-	'{'  reduce 15
-	'}'  reduce 15
+	identifier  shift 25
+	en_var  shift 26
+	param  shift 27
+	number  shift 28
+	empty  shift 29
+	.  error
+
+	primary_expression  goto 88
 
 
 state 76
-	dos_logical_expression : primary_expression EQ primary_expression .  (36)
-	primary_expression : primary_expression . identifier  (39)
-	primary_expression : primary_expression . en_var  (41)
-	primary_expression : primary_expression . param  (43)
-	primary_expression : primary_expression . number  (45)
+	logical_AND_expression : logical_AND_expression LOG_AND . unary_expression  (33)
 
-	identifier  shift 35
-	en_var  shift 36
-	param  shift 37
-	number  shift 38
-	LOG_OR  reduce 36
-	LOG_AND  reduce 36
-	')'  reduce 36
+	identifier  shift 25
+	en_var  shift 26
+	param  shift 27
+	ERRORLEVEL  shift 49
+	EXIST  shift 50
+	number  shift 28
+	empty  shift 29
+	'('  shift 51
+	'!'  shift 52
+	.  error
+
+	primary_expression  goto 54
+	dos_logical_expression  goto 55
+	unary_expression  goto 89
 
 
 state 77
-	dos_logical_expression : primary_expression NE primary_expression .  (37)
-	primary_expression : primary_expression . identifier  (39)
-	primary_expression : primary_expression . en_var  (41)
-	primary_expression : primary_expression . param  (43)
-	primary_expression : primary_expression . number  (45)
+	selection_statement : SWITCH '(' primary_expression $$3 . ')' statement  (24)
 
-	identifier  shift 35
-	en_var  shift 36
-	param  shift 37
-	number  shift 38
+	')'  shift 90
+	.  error
+
+
+state 78
+	while_statement : WHILE $$4 '(' dos_expression . ')' statement  (26)
+	dos_expression : dos_expression . LOG_OR logical_AND_expression  (31)
+
+	LOG_OR  shift 72
+	')'  shift 91
+	.  error
+
+
+state 79
+	function_definition : FDEF identifier $$1 '(' ')' . $$2 compound_statement  (13)
+	$$2 : .  (12)
+
+	.  reduce 12
+
+	$$2  goto 92
+
+
+state 80
+	dos_logical_expression : ERRORLEVEL GE primary_expression .  (37)
+	primary_expression : primary_expression . identifier  (45)
+	primary_expression : primary_expression . en_var  (47)
+	primary_expression : primary_expression . param  (49)
+	primary_expression : primary_expression . number  (51)
+
+	identifier  shift 43
+	en_var  shift 44
+	param  shift 45
+	number  shift 46
 	LOG_OR  reduce 37
 	LOG_AND  reduce 37
 	')'  reduce 37
 
 
-state 78
-	logical_AND_expression : logical_AND_expression LOG_AND unary_expression .  (27)
-
-	.  reduce 27
-
-
-state 79
-	selection_statement : SWITCH '(' primary_expression $$1 ')' . statement  (18)
-
-	error  shift 1
-	dos_command  shift 2
-	CASE  shift 3
-	DEFAULT  shift 4
-	IF  shift 5
-	SWITCH  shift 6
-	WHILE  shift 7
-	BREAK  shift 8
-	RETURN  shift 9
-	'{'  shift 10
-	.  error
-
-	statement  goto 82
-	selection_statement  goto 14
-	while_statement  goto 15
-	jump_statement  goto 16
-	compound_statement  goto 17
-	labelled_statement  goto 18
-
-
-state 80
-	while_statement : WHILE $$2 '(' dos_expression ')' . statement  (20)
-
-	error  shift 1
-	dos_command  shift 2
-	CASE  shift 3
-	DEFAULT  shift 4
-	IF  shift 5
-	SWITCH  shift 6
-	WHILE  shift 7
-	BREAK  shift 8
-	RETURN  shift 9
-	'{'  shift 10
-	.  error
-
-	statement  goto 83
-	selection_statement  goto 14
-	while_statement  goto 15
-	jump_statement  goto 16
-	compound_statement  goto 17
-	labelled_statement  goto 18
-
-
 state 81
-	selection_statement : IF '(' dos_expression ')' statement ELSE . statement  (16)
+	dos_logical_expression : ERRORLEVEL EQ primary_expression .  (39)
+	primary_expression : primary_expression . identifier  (45)
+	primary_expression : primary_expression . en_var  (47)
+	primary_expression : primary_expression . param  (49)
+	primary_expression : primary_expression . number  (51)
 
-	error  shift 1
-	dos_command  shift 2
-	CASE  shift 3
-	DEFAULT  shift 4
-	IF  shift 5
-	SWITCH  shift 6
-	WHILE  shift 7
-	BREAK  shift 8
-	RETURN  shift 9
-	'{'  shift 10
-	.  error
-
-	statement  goto 84
-	selection_statement  goto 14
-	while_statement  goto 15
-	jump_statement  goto 16
-	compound_statement  goto 17
-	labelled_statement  goto 18
+	identifier  shift 43
+	en_var  shift 44
+	param  shift 45
+	number  shift 46
+	LOG_OR  reduce 39
+	LOG_AND  reduce 39
+	')'  reduce 39
 
 
 state 82
-	selection_statement : SWITCH '(' primary_expression $$1 ')' statement .  (18)
+	dos_logical_expression : ERRORLEVEL NE primary_expression .  (40)
+	primary_expression : primary_expression . identifier  (45)
+	primary_expression : primary_expression . en_var  (47)
+	primary_expression : primary_expression . param  (49)
+	primary_expression : primary_expression . number  (51)
 
-	.  reduce 18
+	identifier  shift 43
+	en_var  shift 44
+	param  shift 45
+	number  shift 46
+	LOG_OR  reduce 40
+	LOG_AND  reduce 40
+	')'  reduce 40
 
 
 state 83
-	while_statement : WHILE $$2 '(' dos_expression ')' statement .  (20)
+	dos_logical_expression : ERRORLEVEL '<' primary_expression .  (38)
+	primary_expression : primary_expression . identifier  (45)
+	primary_expression : primary_expression . en_var  (47)
+	primary_expression : primary_expression . param  (49)
+	primary_expression : primary_expression . number  (51)
 
-	.  reduce 20
+	identifier  shift 43
+	en_var  shift 44
+	param  shift 45
+	number  shift 46
+	LOG_OR  reduce 38
+	LOG_AND  reduce 38
+	')'  reduce 38
 
 
 state 84
-	selection_statement : IF '(' dos_expression ')' statement ELSE statement .  (16)
+	unary_expression : '(' dos_expression ')' .  (35)
 
-	.  reduce 16
-
-
-State 75 contains 1 shift/reduce conflict.
+	.  reduce 35
 
 
-33 terminals, 16 nonterminals
-47 grammar rules, 85 states
+state 85
+	dos_expression : dos_expression LOG_OR logical_AND_expression .  (31)
+	logical_AND_expression : logical_AND_expression . LOG_AND unary_expression  (33)
+
+	LOG_AND  shift 76
+	LOG_OR  reduce 31
+	')'  reduce 31
+
+
+86: shift/reduce conflict (shift 93, reduce 21) on ELSE
+state 86
+	selection_statement : IF '(' dos_expression ')' statement .  (21)
+	selection_statement : IF '(' dos_expression ')' statement . ELSE statement  (22)
+
+	ELSE  shift 93
+	$end  reduce 21
+	error  reduce 21
+	FDEF  reduce 21
+	func_id  reduce 21
+	dos_command  reduce 21
+	CASE  reduce 21
+	DEFAULT  reduce 21
+	IF  reduce 21
+	SWITCH  reduce 21
+	WHILE  reduce 21
+	BREAK  reduce 21
+	RETURN  reduce 21
+	'{'  reduce 21
+	'}'  reduce 21
+
+
+state 87
+	dos_logical_expression : primary_expression EQ primary_expression .  (42)
+	primary_expression : primary_expression . identifier  (45)
+	primary_expression : primary_expression . en_var  (47)
+	primary_expression : primary_expression . param  (49)
+	primary_expression : primary_expression . number  (51)
+
+	identifier  shift 43
+	en_var  shift 44
+	param  shift 45
+	number  shift 46
+	LOG_OR  reduce 42
+	LOG_AND  reduce 42
+	')'  reduce 42
+
+
+state 88
+	dos_logical_expression : primary_expression NE primary_expression .  (43)
+	primary_expression : primary_expression . identifier  (45)
+	primary_expression : primary_expression . en_var  (47)
+	primary_expression : primary_expression . param  (49)
+	primary_expression : primary_expression . number  (51)
+
+	identifier  shift 43
+	en_var  shift 44
+	param  shift 45
+	number  shift 46
+	LOG_OR  reduce 43
+	LOG_AND  reduce 43
+	')'  reduce 43
+
+
+state 89
+	logical_AND_expression : logical_AND_expression LOG_AND unary_expression .  (33)
+
+	.  reduce 33
+
+
+state 90
+	selection_statement : SWITCH '(' primary_expression $$3 ')' . statement  (24)
+
+	error  shift 1
+	FDEF  shift 2
+	func_id  shift 3
+	dos_command  shift 4
+	CASE  shift 5
+	DEFAULT  shift 6
+	IF  shift 7
+	SWITCH  shift 8
+	WHILE  shift 9
+	BREAK  shift 10
+	RETURN  shift 11
+	'{'  shift 12
+	.  error
+
+	statement  goto 94
+	selection_statement  goto 16
+	while_statement  goto 17
+	jump_statement  goto 18
+	compound_statement  goto 19
+	labelled_statement  goto 20
+	function_call  goto 21
+	function_definition  goto 22
+	function_identifier  goto 23
+
+
+state 91
+	while_statement : WHILE $$4 '(' dos_expression ')' . statement  (26)
+
+	error  shift 1
+	FDEF  shift 2
+	func_id  shift 3
+	dos_command  shift 4
+	CASE  shift 5
+	DEFAULT  shift 6
+	IF  shift 7
+	SWITCH  shift 8
+	WHILE  shift 9
+	BREAK  shift 10
+	RETURN  shift 11
+	'{'  shift 12
+	.  error
+
+	statement  goto 95
+	selection_statement  goto 16
+	while_statement  goto 17
+	jump_statement  goto 18
+	compound_statement  goto 19
+	labelled_statement  goto 20
+	function_call  goto 21
+	function_definition  goto 22
+	function_identifier  goto 23
+
+
+state 92
+	function_definition : FDEF identifier $$1 '(' ')' $$2 . compound_statement  (13)
+
+	'{'  shift 12
+	.  error
+
+	compound_statement  goto 96
+
+
+state 93
+	selection_statement : IF '(' dos_expression ')' statement ELSE . statement  (22)
+
+	error  shift 1
+	FDEF  shift 2
+	func_id  shift 3
+	dos_command  shift 4
+	CASE  shift 5
+	DEFAULT  shift 6
+	IF  shift 7
+	SWITCH  shift 8
+	WHILE  shift 9
+	BREAK  shift 10
+	RETURN  shift 11
+	'{'  shift 12
+	.  error
+
+	statement  goto 97
+	selection_statement  goto 16
+	while_statement  goto 17
+	jump_statement  goto 18
+	compound_statement  goto 19
+	labelled_statement  goto 20
+	function_call  goto 21
+	function_definition  goto 22
+	function_identifier  goto 23
+
+
+state 94
+	selection_statement : SWITCH '(' primary_expression $$3 ')' statement .  (24)
+
+	.  reduce 24
+
+
+state 95
+	while_statement : WHILE $$4 '(' dos_expression ')' statement .  (26)
+
+	.  reduce 26
+
+
+state 96
+	function_definition : FDEF identifier $$1 '(' ')' $$2 compound_statement .  (13)
+
+	.  reduce 13
+
+
+state 97
+	selection_statement : IF '(' dos_expression ')' statement ELSE statement .  (22)
+
+	.  reduce 22
+
+
+State 86 contains 1 shift/reduce conflict.
+
+
+34 terminals, 21 nonterminals
+54 grammar rules, 98 states

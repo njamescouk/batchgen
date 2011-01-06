@@ -16,6 +16,7 @@
     <ClCompile Include="..\source\fileread.c" />
     <ClCompile Include="..\source\lex.yy.c" />
     <ClCompile Include="..\source\optim.c" />
+    <ClCompile Include="..\source\sr.c" />
     <ClCompile Include="..\source\stacks.c" />
     <ClCompile Include="..\source\y.tab.c" />
   </ItemGroup>
@@ -24,6 +25,7 @@
     <ClInclude Include="..\source\bkpatch.h" />
     <ClInclude Include="..\source\fileread.h" />
     <ClInclude Include="..\source\optim.h" />
+    <ClInclude Include="..\source\sr.h" />
     <ClInclude Include="..\source\stacks.h" />
     <ClInclude Include="..\source\y.tab.h" />
   </ItemGroup>
