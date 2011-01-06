@@ -11,6 +11,8 @@
 #include "optim.h"
 #endif
 
+#pragma warning( disable : 4996 )
+
 char getopts (int argc, char *argv[]);
 void set_flag(char *argv);
 void make_banner(char *progname, char *fname, char *opts, char banner[BUFSIZ]);

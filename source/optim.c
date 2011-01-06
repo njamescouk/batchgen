@@ -8,6 +8,8 @@
 
 // char *strdup(const char *s);
 
+#pragma warning( disable : 4996 )
+
 #define END_OF_LIST -1
 
 label_detail_t *labels = NULL;

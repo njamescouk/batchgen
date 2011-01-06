@@ -4,6 +4,8 @@
 #include "batchgen.h"
 #include "bkpatch.h"
 
+#pragma warning( disable : 4996 )
+
 goto_list_t *makelist (code_list_t *goto_node)
 {
    /* return a pointer to a new goto_list pointing at the code

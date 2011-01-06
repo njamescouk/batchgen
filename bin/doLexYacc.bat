@@ -12,8 +12,8 @@ rem set DEBUG=<anything> gets a debug build
 set DLY_DEBUG=
 set DLY_HELP=
 set DLY_TERMINATE=
-set DLY_LEX_FILE=..\source\batchgen.l
-set DLY_GRAMMAR_FILE=..\source\batchgen.y
+set DLY_LEX_FILE=batchgen.l
+set DLY_GRAMMAR_FILE=batchgen.y
 
 rem edit these to suit
 set DLY_FLEX="C:\Program Files (x86)\GnuWin32\bin\flex.exe"
@@ -50,6 +50,7 @@ goto :eof
 
 call :initialise
 call :getopts %*
+pushd I:\usr\NIK\dev\batchgen\source
 
 if "%DLY_HELP%" == "True" call :usage
 if "%DLY_TERMINATE%"=="yes" goto batch_end
@@ -81,8 +82,10 @@ rem endif
 @echo off
 
 move y.output ..\doc\y.output > nul
-move lex.yy.* ..\source > nul
-move y.tab.* ..\source > nul
+rem move lex.yy.* ..\source > nul
+rem move y.tab.* ..\source > nul
+
+popd
 
 set DLY_DEBUG=
 set DLY_HELP=
