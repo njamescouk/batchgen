@@ -11,6 +11,8 @@
 /* #include "sr.h"
 #include "optim.h" */
 
+#pragma warning( disable : 4996 )
+
 #define YYSTACKSIZE 5000
 extern char *yytext;
 
