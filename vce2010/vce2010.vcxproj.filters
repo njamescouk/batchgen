@@ -36,6 +36,9 @@
     <ClCompile Include="..\source\y.tab.c">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="..\source\sr.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\source\batchgen.h">
@@ -54,6 +57,9 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="..\source\y.tab.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\source\sr.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
