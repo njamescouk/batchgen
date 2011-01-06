@@ -1,0 +1,7 @@
+   if (%1 == end)
+   {
+      [#
+       dir *.y
+       type if.bc
+      #]
+   }

@@ -1,0 +1,15 @@
+if (%1 == %2 && %3 == %4 || exist ..\junk.*)
+{
+   [#@echo and is true#]
+}
+else
+   [#@echo and is false#]
+
+if (%1 == %2 || %3 == %4)
+   [#@echo or is true#]
+else
+   [#@echo or is false#]
+if (! %1 == %2)
+   [#@echo %1 != %2#]
+else
+   [#@echo %1 == %2#]

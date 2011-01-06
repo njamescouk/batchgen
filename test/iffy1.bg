@@ -1,0 +1,14 @@
+if (%1 == -help || %1 == -h || %1 == "")
+{
+[#
+echo usage: fe function -l lim (-u ulim)
+echo           (-s step size) (-sn number of steps)
+echo           (-ors output record separator) (-ofs output field separator)
+echo           (-o output file)
+echo NOTE -s & -sn are mutually contradictory, step overrides number of steps
+echo NOTE function must be a function of x
+echo.
+#]
+return 1;
+}
+

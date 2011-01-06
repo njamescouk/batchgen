@@ -1,0 +1,5 @@
+restructure the more confused parts of the code
+port to c++
+html readme
+turboc
+

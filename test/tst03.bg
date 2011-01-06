@@ -1,0 +1,7 @@
+while (fred==fred)
+
+   [#fred %1#]
+{
+   [#fred %var%
+   dir#]
+}

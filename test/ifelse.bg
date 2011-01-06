@@ -1,0 +1,8 @@
+   if (%1 == end)
+      [#wer#]
+   else
+   {
+      [#echo the end is not nigh
+       tretretre
+      #]
+   }

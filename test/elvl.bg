@@ -1,0 +1,20 @@
+[#@echo off#]
+if (errorlevel >= 7 && errorlevel < 90)
+{
+   [#@echo it's between 7 & 90#]
+}
+if (errorlevel >= 90)
+{
+[#
+   @echo it's GE 90
+#]
+}
+else
+[#
+   @echo it's less than 90
+#]
+
+if (errorlevel >= 234 && errorlevel < 235)
+{
+   [#@echo it's 234#]
+}

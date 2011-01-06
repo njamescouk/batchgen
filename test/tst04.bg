@@ -1,0 +1,17 @@
+while (%1==fred)
+{
+   if (%1 == %tyre%)
+      [#echo env var tyre = fred#]
+   else
+   {
+      while (exist bert)
+         [#echo bert exists
+          del bert#]
+   }
+   [#shift
+    echo %1#]
+}
+{
+   [#fred %var%
+   dir *.y#]
+}

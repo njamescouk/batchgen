@@ -1,0 +1,5 @@
+   [#fred %1
+   fred %var%
+   dir#]
+   [#dir /s#]
+   [#shift#]

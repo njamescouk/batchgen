@@ -1,0 +1,104 @@
+<html>
+<head>
+<title>..\source\batchgen.y</title>
+</head>
+<body>
+<h2>..\source\batchgen.y</h2><A NAME="batch_file"><b>batch_file:</b></a><br/>
+<code><a href="#statement_list">statement_list</a> </code><br/>
+;<br/>
+<br/>
+<A NAME="statement"><b>statement:</b></a><br/>
+&nbsp;&nbsp;<code>dos_command </code><br/>
+| <code><a href="#compound_statement">compound_statement</a> </code><br/>
+| <code><a href="#selection_statement">selection_statement</a> </code><br/>
+| <code><a href="#while_statement">while_statement</a> </code><br/>
+| <code><a href="#labelled_statement">labelled_statement</a> </code><br/>
+| <code><a href="#jump_statement">jump_statement</a> </code><br/>
+| <code><a href="#function_definition">function_definition</a> </code><br/>
+| <code><a href="#function_call">function_call</a> </code><br/>
+| <code><a href="#error">error</a> </code><br/>
+;<br/>
+<br/>
+<A NAME="function_definition"><b>function_definition:</b></a><br/>
+<code>FDEF identifier '(' ')' <a href="#compound_statement">compound_statement</a> </code><br/>
+;<br/>
+<br/>
+<A NAME="function_call"><b>function_call:</b></a><br/>
+<code><a href="#function_identifier">function_identifier</a> '(' ')' </code><br/>
+;<br/>
+<br/>
+<A NAME="labelled_statement"><b>labelled_statement:</b></a><br/>
+&nbsp;&nbsp;<code>CASE <a href="#primary_expression">primary_expression</a> ':' <a href="#statement">statement</a> </code><br/>
+| <code>DEFAULT ':' <a href="#statement">statement</a> </code><br/>
+;<br/>
+<br/>
+<A NAME="compound_statement"><b>compound_statement:</b></a><br/>
+&nbsp;&nbsp;<code>'{' <a href="#statement_list">statement_list</a> '}' </code><br/>
+| <code>'{' '}' </code><br/>
+;<br/>
+<br/>
+<A NAME="statement_list"><b>statement_list:</b></a><br/>
+&nbsp;&nbsp;<code><a href="#statement">statement</a> </code><br/>
+| <code><a href="#statement_list">statement_list</a> <a href="#statement">statement</a> </code><br/>
+;<br/>
+<br/>
+<A NAME="selection_statement"><b>selection_statement:</b></a><br/>
+&nbsp;&nbsp;<code>IF '(' <a href="#dos_expression">dos_expression</a> ')' <a href="#statement">statement</a> </code><br/>
+| <code>IF '(' <a href="#dos_expression">dos_expression</a> ')' <a href="#statement">statement</a> ELSE <a href="#statement">statement</a> </code><br/>
+| <code>SWITCH '(' <a href="#primary_expression">primary_expression</a> ')' <a href="#statement">statement</a> </code><br/>
+;<br/>
+<br/>
+<A NAME="while_statement"><b>while_statement:</b></a><br/>
+<code>WHILE '(' <a href="#dos_expression">dos_expression</a> ')' <a href="#statement">statement</a> </code><br/>
+;<br/>
+<br/>
+<A NAME="jump_statement"><b>jump_statement:</b></a><br/>
+&nbsp;&nbsp;<code>BREAK ';' </code><br/>
+| <code>RETURN ';' </code><br/>
+| <code>RETURN <a href="#primary_expression">primary_expression</a> ';' </code><br/>
+;<br/>
+<br/>
+<A NAME="dos_expression"><b>dos_expression:</b></a><br/>
+&nbsp;&nbsp;<code><a href="#logical_AND_expression">logical_AND_expression</a> </code><br/>
+| <code><a href="#dos_expression">dos_expression</a> LOG_OR <a href="#logical_AND_expression">logical_AND_expression</a> </code><br/>
+;<br/>
+<br/>
+<A NAME="logical_AND_expression"><b>logical_AND_expression:</b></a><br/>
+&nbsp;&nbsp;<code><a href="#unary_expression">unary_expression</a> </code><br/>
+| <code><a href="#logical_AND_expression">logical_AND_expression</a> LOG_AND <a href="#unary_expression">unary_expression</a> </code><br/>
+;<br/>
+<br/>
+<A NAME="unary_expression"><b>unary_expression:</b></a><br/>
+&nbsp;&nbsp;<code><a href="#dos_logical_expression">dos_logical_expression</a> </code><br/>
+| <code>'(' <a href="#dos_expression">dos_expression</a> ')' </code><br/>
+| <code>'!' <a href="#unary_expression">unary_expression</a> </code><br/>
+;<br/>
+<br/>
+<A NAME="dos_logical_expression"><b>dos_logical_expression:</b></a><br/>
+&nbsp;&nbsp;<code>ERRORLEVEL GE <a href="#primary_expression">primary_expression</a> </code><br/>
+| <code>ERRORLEVEL '<' <a href="#primary_expression">primary_expression</a> </code><br/>
+| <code>ERRORLEVEL EQ <a href="#primary_expression">primary_expression</a> </code><br/>
+| <code>ERRORLEVEL NE <a href="#primary_expression">primary_expression</a> </code><br/>
+| <code>EXIST <a href="#primary_expression">primary_expression</a> </code><br/>
+| <code><a href="#primary_expression">primary_expression</a> EQ <a href="#primary_expression">primary_expression</a> </code><br/>
+| <code><a href="#primary_expression">primary_expression</a> NE <a href="#primary_expression">primary_expression</a> </code><br/>
+;<br/>
+<br/>
+<A NAME="primary_expression"><b>primary_expression:</b></a><br/>
+&nbsp;&nbsp;<code>identifier </code><br/>
+| <code><a href="#primary_expression">primary_expression</a> identifier </code><br/>
+| <code>en_var </code><br/>
+| <code><a href="#primary_expression">primary_expression</a> en_var </code><br/>
+| <code>param </code><br/>
+| <code><a href="#primary_expression">primary_expression</a> param </code><br/>
+| <code>number </code><br/>
+| <code><a href="#primary_expression">primary_expression</a> number </code><br/>
+| <code>empty </code><br/>
+;<br/>
+<br/>
+<A NAME="function_identifier"><b>function_identifier:</b></a><br/>
+<code>func_id </code><br/>
+;<br/>
+<br/>
+</body>
+</html>

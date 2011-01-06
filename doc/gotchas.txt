@@ -1,0 +1,24 @@
+GOTCHAS
+=======
+
+Trailing space on environmental variables. This can be a real pain. 
+[# set VAR=99 #]
+when translated and executed by the OS will give VAR the value "99 ".
+You will be doing something like
+if VAR==99   do something
+and your program won't do something, it will do nothing. This is
+because VAR has the value "99 ", not "99".
+However 
+[# set VAR=99<-new line right here
+ #]
+will be ok; VAR will be set to "99"
+
+colons and semi-colons need to be isolated by white space where they 
+are used by batcomp as separators, eg. 
+      case blob: [#do this#] 
+will result in an error as blob: will be read as a single token.
+      case blob : [# do this#] 
+will be read correctly.
+
+Line length is limited to 500 char
+

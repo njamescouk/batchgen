@@ -1,0 +1,7 @@
+if (this=="" || that=="" && the_other=="")
+{
+[#
+do_something
+#]
+}
+
