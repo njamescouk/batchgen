@@ -1,0 +1,103 @@
+[#
+:initialise
+
+rem set DEBUG=<anything> gets a debug build
+set DEBUG=
+set VC_MAKE_HELP=
+set ILLEGAL_OPT=
+set CC_FLAGS=
+set SOURCE_FILES=batchgen.c bkpatch.c fileread.c lex.yy.c optim.c sr.c stacks.c y.tab.c
+
+rem edit these to suit
+set CC=c:\bin\MinGW\bin\g++.exe
+goto :eof
+#]
+
+[#
+:getopts
+#]
+while (%1 != "")
+{
+    if (%1 == -d)
+    {
+    [# set DEBUG=True#]
+    }
+    else if (%1 == -h)
+    {
+    [#set VC_MAKE_HELP=True#]
+    }
+    else
+    {
+    [#set ILLEGAL_OPT=True#]
+    }
+    [# shift #]
+}
+[#
+goto :eof
+#]
+
+[#
+:usage
+echo usage vc_make [options]
+
+echo options
+echo     -d     include debugging code for lexer and parser
+echo     -h     help
+goto :eof
+#]
+
+[#
+call :initialise
+call :getopts
+#]
+
+if (%VC_MAKE_HELP% == True || %ILLEGAL_OPT% == True)
+{
+    [# call :usage #]
+    return ;
+}
+else
+{
+    if (%DEBUG% == "")
+    {
+       [#
+       call doLexYacc
+       set CC_FLAGS=/nologo /ML /W4 /D "WIN32" /D "NDEBUG" /D "_CONSOLE"
+       set YYDEBUG=
+       #]
+    }
+    else
+    {
+       [#
+       call doLexYacc -d
+       set CC_FLAGS=/nologo /ML /W4 /D "WIN32" /D "_CONSOLE" /D "DEBUG" /D "YYDEBUG"
+       set YYDEBUG=1
+       #]
+    }
+
+    [#
+    @echo on
+
+    %CC% %CC_FLAGS% %SOURCE_FILES%
+
+    @echo off
+
+    del *.obj
+    #]
+
+    if (%DEBUG% == "")
+    {
+       [#
+       copy batchgen.exe ..\bin
+       #]
+    }
+    else
+    {
+       [#
+       copy batchgen.exe ..\bin\batchgen_debug.exe
+       #]
+    }
+    
+    [#del batchgen.exe#]
+}
+[# @echo finished #]
