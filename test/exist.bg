@@ -1,0 +1,4 @@
+if (exist %1.bat)
+{}
+if (exist %1bat%3fred%bert%asd)
+{}

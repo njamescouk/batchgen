@@ -1,0 +1,8 @@
+if (fred == fred)
+   [#fred %1#]
+else
+   [#fred %var%#]
+while (%1 == bert)
+{
+   [#shift#]
+}

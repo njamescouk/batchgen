@@ -1,0 +1,193 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8" /><title>Batchgen - a batch file generator</title><link rel="stylesheet" href="http://www.njames.co.uk/styles/main.css" /><meta name="generator" content="DocBook XSL Stylesheets V1.68.0" /></head><body><div class="article" lang="en" xml:lang="en"><div class="titlepage"><div><div><h2 class="title"><a id="id319977"></a>Batchgen - a batch file generator</h2></div><div><div class="author"><h3 class="author"><span class="firstname">Nick</span> <span class="surname">James</span></h3></div></div><div><div class="revhistory"><table border="1" width="100%" summary="Revision history"><tr><th align="left" valign="top" colspan="2"><b>Revision History</b></th></tr><tr><td align="left">Revision 1</td><td align="left">30-7-2007</td></tr><tr><td align="left">Revision 2</td><td align="left">31-10-2008</td></tr><tr><td align="left" colspan="2">
+          <p>Having noticed that this program has been consistently
+          downloaded over the last 4 years, and in the belief that someone may
+          actually be using it, I've tweaked the documentation. In addition
+          the improvements to the (previously arcane) file upload process on
+          <a href="https://sourceforge.net/projects/batchgen/" target="_top">sourceforge</a>
+          make it possible to upload the version 1.2 zip, as well as hosting
+          it on <a href="http://www.njames.co.uk/desktop.html" target="_top">my own
+          site</a>.</p>
+        </td></tr></table></div></div></div><hr /></div><div class="toc"><p><b>Table of Contents</b></p><dl><dt><span class="sect1"><a href="#id319750">1. Introduction</a></span></dt><dt><span class="sect1"><a href="#id319277">2. Usage</a></span></dt><dd><dl><dt><span class="sect2"><a href="#id315073">2.1. Options</a></span></dt><dt><span class="sect2"><a href="#id317198">2.2. Output</a></span></dt></dl></dd><dt><span class="sect1"><a href="#id317298">3. Batchgen language</a></span></dt><dd><dl><dt><span class="sect2"><a href="#id317604">3.1. Reserved words</a></span></dt><dt><span class="sect2"><a href="#id317737">3.2. Grammar</a></span></dt></dl></dd><dt><span class="sect1"><a href="#id322876">4. Building</a></span></dt><dt><span class="sect1"><a href="#id322938">5. Bugs</a></span></dt><dt><span class="sect1"><a href="#id322987">6. Acknowledgments</a></span></dt></dl></div><div class="warning" style="margin-left: 0.5in; margin-right: 0.5in;"><h3 class="title">Warning</h3><p>This software contains known and unknown bugs: use it at your own
+    risk.</p></div><div class="abstract"><p class="title"><b>Abstract</b></p><p>batchgen is a program to generate dos batch files from a higher
+    level language, making it easier to use boolean logic in batch
+    files.</p></div><div class="sect1" lang="en" xml:lang="en"><div class="titlepage"><div><div><h2 class="title" style="clear: both"><a id="id319750"></a>1. Introduction</h2></div></div></div><p>One of the failings of DOS/command.com/cmd.exe is that the only
+    logical operator is "not". The other big failing is that it can't add up.
+    batchgen is an attempt to bring boolean logic to DOS. You need to be quite
+    happy writing batch files before using batchgen, it doesn't quite write
+    them for you. If you have experience of C life will be easier.</p><p>The big idea is that we use batchgen to do all the flow of control
+    transformations, whilst we enclose normal DOS commands [# rem like this
+    #]. batchgen turns the flow of control statements into legal DOS commands,
+    and copies text enclosed in [##] verbatim. (this can lead to problems, see
+    <a href="#bugs">Bugs</a>, below).</p><p>If we have the following as input:</p><pre class="programlisting">if (%1==%2 &amp;&amp; ! %3==%4 || exist %5)
+    [# rem this will be copied verbatim
+       @echo it's true #]</pre><p> batchgen's output
+    is:</p><pre class="programlisting">@goto main
+:main
+if "%1" == "%2" goto AT0
+goto ORF1
+:AT0
+if "%3" == "%4" goto ORF1
+goto IF0
+:ORF1
+if exist %5 goto IF0
+goto EI0
+:IF0
+
+     rem this will be copied verbatim
+     @echo it's true
+   
+rem endif
+:EI0
+:batch_end</pre><p> if we ask for optimization we get:</p><pre class="programlisting">if not "%1" == "%2" goto ORF1
+if not "%3" == "%4" goto IF0
+:ORF1
+if not exist %5 goto EI0
+:IF0
+     @echo it's true
+:EI0</pre><p> If you ask me, that's pretty slick, and it saves a lot
+    of unecessary thinking. batchgen is a run of the mill lex/yacc parser. The
+    lexemes are defined in <a href="../source/batchgen.l" target="_top">batchgen.l</a>, the grammar and it's
+    associated semantic actions are defined in <a href="../source/batchgen.y" target="_top">batchgen.y</a>. The parser does not parse
+    DOS commands.</p></div><div class="sect1" lang="en" xml:lang="en"><div class="titlepage"><div><div><h2 class="title" style="clear: both"><a id="id319277"></a>2. Usage</h2></div></div></div><pre class="synopsis">batchgen [-o[r|b]] [filename]</pre><p> In the absence of
+    a filename, batchgen will read input from the command line, terminated
+    with ctrl-z if you're using the keyboard.</p><pre class="synopsis">batchgen filename</pre><p>
+    is equivalent to</p><pre class="synopsis">batchgen &lt; filename</pre><p> is equivalent
+    to</p><pre class="synopsis">type filename | batchgen</pre><p> and all three of these
+    command lines will work. batchgen file1 file2 .. is equivalent to batchgen
+    file1. There are no warnings or errors.</p><div class="sect2" lang="en" xml:lang="en"><div class="titlepage"><div><div><h3 class="title"><a id="id315073"></a>2.1. Options</h3></div></div></div><p>The options are as follows:</p><div class="itemizedlist"><ul type="disc"><li><p>-o optimizes but leaves lines beginning with rem and blank
+            lines</p></li><li><p>-or optimizes as for -o and also removes rems</p></li><li><p>-ob optimizes as for -o and also removes blank lines</p></li><li><p>-orb = -obr is full on optimization</p></li><li><p>-h prints a usage string</p></li></ul></div></div><div class="sect2" lang="en" xml:lang="en"><div class="titlepage"><div><div><h3 class="title"><a id="id317198"></a>2.2. Output</h3></div></div></div><p>Output is to bg.bat in the current directory. If you've asked for
+      optimization, your output is in bg.bat and the optimized output is in
+      bgo.bat. If optimization fails (see Bugs, below) bgo.bat is written,
+      with code that makes it return immediately wrapped round it, so as not
+      to execute potentially damaging instructions..</p></div></div><div class="sect1" lang="en" xml:lang="en"><div class="titlepage"><div><div><h2 class="title" style="clear: both"><a id="id317298"></a>3. Batchgen language</h2></div></div></div><p>The syntax is pretty much C like.</p><p>Functions do not take parameters, nor do they return values. It is
+    an error for a function definition to contain a function call, ie
+    functions cannot be nested, owing to the extremely crude return mechanism.
+    Functions must have been defined before they can be called.</p><p>break may only be used inside a while or switch statement. return;
+    may be used in a function, in which case control goes back to the main
+    program, or in the main program, in which case control returns to the
+    operating system. return primary_expression; (eg return 42;) is a bit of a
+    bodge; a program called el is invoked, which returns it's argument as an
+    int. Control is then given to the operating system. The errorlevel when
+    the batch file terminates is thus set to, for example, 42. This requires
+    that the program el.com or el.exe be available to your batch file.</p><p>case and default are only legal inside a switch statement, despite
+    the grammar.</p><p>Blocks of dos code to be passed through are enclosed by [# and #].
+    This text is copied verbatim to the output batch file. This should,
+    therefore, be legal DOS commands. batchgen does not parse this
+    text.</p><div class="sect2" lang="en" xml:lang="en"><div class="titlepage"><div><div><h3 class="title"><a id="id317604"></a>3.1. Reserved words</h3></div></div></div><p>if case else switch default while return break fdef || &amp;&amp;
+      == != &gt;= "" errorlevel ERRORLEVEL exist EXIST</p></div><div class="sect2" lang="en" xml:lang="en"><div class="titlepage"><div><div><h3 class="title"><a id="id317737"></a>3.2. Grammar</h3></div></div></div><pre class="programlisting"><a id="batch_file"></a><span class="emphasis"><em>batch_file:</em></span>
+<a href="#statement_list">statement_list</a> 
+;
+
+<a id="statement"></a><span class="emphasis"><em>statement:</em></span>
+  dos_command 
+| <a href="#compound_statement">compound_statement</a> 
+| <a href="#selection_statement">selection_statement</a> 
+| <a href="#while_statement">while_statement</a> 
+| <a href="#labelled_statement">labelled_statement</a> 
+| <a href="#jump_statement">jump_statement</a> 
+| <a href="#function_definition">function_definition</a> 
+| <a href="#function_call">function_call</a> 
+| 
+;
+
+<a id="function_definition"></a><span class="emphasis"><em>function_definition:</em></span>
+FDEF identifier '(' ')' <a href="#compound_statement">compound_statement</a> 
+;
+
+<a id="function_call"></a><span class="emphasis"><em>function_call:</em></span>
+<a href="#function_identifier">function_identifier</a> '(' ')' 
+;
+
+<a id="labelled_statement"></a><span class="emphasis"><em>labelled_statement:</em></span>
+  CASE <a href="#primary_expression">primary_expression</a> ':' <a href="#statement">statement</a> 
+| DEFAULT ':' <a href="#statement">statement</a> 
+;
+
+<a id="compound_statement"></a><span class="emphasis"><em>compound_statement:</em></span>
+  '{' <a href="#statement_list">statement_list</a> '}' 
+| '{' '}' 
+;
+
+<a id="statement_list"></a><span class="emphasis"><em>statement_list:</em></span>
+  <a href="#statement">statement</a> 
+| <a href="#statement_list">statement_list</a> <a href="#statement">statement</a> 
+;
+
+<a id="selection_statement"></a><span class="emphasis"><em>selection_statement:</em></span>
+  IF '(' <a href="#dos_expression">dos_expression</a> ')' <a href="#statement">statement</a> 
+| IF '(' <a href="#dos_expression">dos_expression</a> ')' <a href="#statement">statement</a> ELSE <a href="#statement">statement</a> 
+| SWITCH '(' <a href="#primary_expression">primary_expression</a> ')' <a href="#statement">statement</a> 
+;
+
+<a id="while_statement"></a><span class="emphasis"><em>while_statement:</em></span>
+WHILE '(' <a href="#dos_expression">dos_expression</a> ')' <a href="#statement">statement</a> 
+;
+
+<a id="jump_statement"></a><span class="emphasis"><em>jump_statement:</em></span>
+  BREAK ';' 
+| RETURN ';' 
+| RETURN <a href="#primary_expression">primary_expression</a> ';' 
+;
+
+<a id="dos_expression"></a><span class="emphasis"><em>dos_expression:</em></span>
+  <a href="#logical_AND_expression">logical_AND_expression</a> 
+| <a href="#dos_expression">dos_expression</a> LOG_OR <a href="#logical_AND_expression">logical_AND_expression</a> 
+;
+
+<a id="logical_AND_expression"></a><span class="emphasis"><em>logical_AND_expression:</em></span>
+  <a href="#unary_expression">unary_expression</a> 
+| <a href="#logical_AND_expression">logical_AND_expression</a> LOG_AND <a href="#unary_expression">unary_expression</a> 
+;
+
+<a id="unary_expression"></a><span class="emphasis"><em>unary_expression:</em></span>
+  <a href="#dos_logical_expression">dos_logical_expression</a> 
+| '(' <a href="#dos_expression">dos_expression</a> ')' 
+| '!' <a href="#unary_expression">unary_expression</a> 
+;
+
+<a id="dos_logical_expression"></a><span class="emphasis"><em>dos_logical_expression:</em></span>
+  ERRORLEVEL GE <a href="#primary_expression">primary_expression</a> 
+| ERRORLEVEL &lt; <a href="#primary_expression">primary_expression</a> 
+| ERRORLEVEL EQ <a href="#primary_expression">primary_expression</a> 
+| ERRORLEVEL NE <a href="#primary_expression">primary_expression</a> 
+| EXIST <a href="#primary_expression">primary_expression</a> 
+| <a href="#primary_expression">primary_expression</a> EQ <a href="#primary_expression">primary_expression</a> 
+| <a href="#primary_expression">primary_expression</a> NE <a href="#primary_expression">primary_expression</a> 
+;
+
+<a id="primary_expression"></a><span class="emphasis"><em>primary_expression:</em></span>
+  identifier 
+| <a href="#primary_expression">primary_expression</a> identifier 
+| en_var 
+| <a href="#primary_expression">primary_expression</a> en_var 
+| param 
+| <a href="#primary_expression">primary_expression</a> param 
+| number 
+| <a href="#primary_expression">primary_expression</a> number 
+| empty 
+;
+
+<a id="function_identifier"></a><span class="emphasis"><em>function_identifier:</em></span>
+func_id 
+;
+
+</pre><p>The non terminals identifier, func_id, en_var and param are
+      defined as follows:</p><div class="itemizedlist"><ul type="disc"><li><p>identifier
+            ({letter}|{digit}|\\|\.|\-)([a-zA-Z$\.\\_\*:]|{digit})* - this
+            should boil down to a dos directory name</p></li><li><p>func_id - is an identifer that has been fdef'd</p></li><li><p>en_var - is an identifier surrounded by %%</p></li><li><p>param - is a parameter prefixed by %</p></li></ul></div></div></div><div class="sect1" lang="en" xml:lang="en"><div class="titlepage"><div><div><h2 class="title" style="clear: both"><a id="id322876"></a>4. Building</h2></div></div></div><p>There is a generated guide to the source <a href="doxy/index.html" target="_top">here</a>.</p><p>You need:</p><div class="itemizedlist"><ul type="disc"><li><p>a C++ compiler</p></li><li><p>lex and yacc binaries</p></li></ul></div><p>vc_make.bat (derived from vc_make.bc) will build the
+    source using VC++. If you have another compiler, the </p><pre class="programlisting">    set CC=cl</pre><p>and</p><pre class="programlisting">    set CC_FLAGS= ...</pre><p>lines
+    should be changed. There are VC++ project and workspace files should they
+    be any use to you which will need copying to the source directory.</p><p>running yacc on batchgen.y gives the following
+    error:</p><pre class="programlisting"> state contains 1 shift/reduce conflict.</pre><p>This
+    is the if-else ambiguity, we accept yacc's default resolution.</p></div><div class="sect1" lang="en" xml:lang="en"><div class="titlepage"><div><div><h2 class="title" style="clear: both"><a id="id322938"></a>5. <a id="bugs"></a>Bugs</h2></div></div></div><div class="itemizedlist"><ul type="disc"><li><p>The optimizer cannot do agressive optimization without
+          removing comments and blank lines.</p></li><li><p>The contents of input and output files are held in main
+          memory, consequently you could run out of memory.</p></li><li><p>Trailing space on environmental variables. This can be a real
+          pain. </p><pre class="programlisting">[# set VAR=99 #]</pre><p> when
+          translated and executed by the OS will give VAR the value "99 ". You
+          will be saying something like </p><pre class="programlisting">if "VAR"=="99" do something</pre><p>
+          and your program won't do something, it will do nothing. This is
+          because VAR has the value "99 ", not "99".</p></li></ul></div></div><div class="sect1" lang="en" xml:lang="en"><div class="titlepage"><div><div><h2 class="title" style="clear: both"><a id="id322987"></a>6. Acknowledgments</h2></div></div></div><p>This program is pretty much lifted from Compilers: Principles,
+    Techniques and Tools by Aho, Sethi and Ullman, pub Addison Wesley
+    1986.</p><p>The grammar is pretty much lifted from C.</p></div></div></body></html>

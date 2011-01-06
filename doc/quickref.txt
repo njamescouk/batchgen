@@ -1,0 +1,63 @@
+BATCHGEN Quick Reference
+=======================
+
+command line
+~~~~~~~~~~~~
+    batchgen [options] [filename]
+    batchgen [options] < filename
+    type filename | batchgen [options]
+    batchgen [options] reads stdin up to ctrl-z
+
+    options -o[r|b] optimize [ remove rems | remove blanks ]
+            -h      help
+
+output in bg.bat, optimized output in bgo.bat
+
+syntax
+~~~~~~
+text enclosed in [# .. #] is copied to the output 
+batch file
+
+batchgen essentially gives you 
+if (boolean_expression)
+{
+    [# rem do something #]
+}
+else
+{
+    [# rem do something else #]
+}
+
+as well as 
+while (boolean_expression)
+{
+    [# rem do something repeatedly #]
+}
+
+a boolean_expression is something like:
+exist fred || exist bert
+errorlevel >= 7 && errorlevel < 90
+%1==%2 && ! %3==%4 || exist %5
+%config% != "" || %temp% != ""
+
+function definitions go like this:
+fdef func ()
+{
+    [# echo this is a function definition #]
+}
+
+switches :
+
+switch(%1)
+{
+    case help :  [# echo help #]
+    case hello : [# echo hello #]
+    default :    [# echo do nothing #]
+}
+
+break; must be inside a switch or while
+return; may be in a function or the main body of the program
+return 78; must be in the main body of the program
+
+see gotchas.txt
+

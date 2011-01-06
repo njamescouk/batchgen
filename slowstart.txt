@@ -1,0 +1,11 @@
+Familiarise youself with basic operating system concepts and 
+some elementary computer science.
+
+Become reasonably proficient at programming in some sort of 
+high level structured procedural language.
+
+Unzip batchgen.zip to a location of your choice.
+
+Read the manual.
+
+Off you go.

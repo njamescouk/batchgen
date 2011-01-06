@@ -1,0 +1,39 @@
+[#
+   @echo off
+#]
+while (%1 != "" && (%config% != "" || %temp% != ""))
+{
+   switch (%1)
+   {
+      case 1 :
+      {
+        [#
+         echo case 1
+         echo break from case#]
+        break ;
+      }
+      default :
+      {
+        [#
+           echo default
+           echo break from  default#]
+        break ;
+      }
+      case 2 :
+      {
+        [#
+           echo case 2
+           echo break from case#]
+        break ;
+      }
+   }
+   if (%1 == 7)
+   {
+      [#
+       echo its a seven
+       echo break from while#]
+      break ;
+   }
+   [#
+      shift#]
+}

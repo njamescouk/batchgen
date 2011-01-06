@@ -1,0 +1,116 @@
+[#@echo off#]
+
+fdef initialise()
+{
+    [#
+    rem set DEBUG=<anything> gets a debug build
+    set DEBUG=
+    set VC_MAKE_HELP=
+    set ILLEGAL_OPT=
+    set SOURCE_FILES=
+    set LEX_FLAGS=
+    set YACC_FLAGS=
+    set CC_FLAGS=
+    set SOURCE_FILES=batchgen.c bkpatch.c fileread.c lex.yy.c optim.c sr.c stacks.c y.tab.c
+    set LEX_FILE=batchgen.l
+    set GRAMMAR_FILE=batchgen.y
+    rem you will need cl, flex and yacc on your path
+    set CC=cl
+    set FLEX=flex
+    set YACC=yacc
+    #]
+}
+
+fdef getopts()
+{
+    while (%1 != "")
+    {
+        if (%1 == -d)
+        {
+        [# set DEBUG=True#]
+        }
+        else if (%1 == -h)
+        {
+        [#set VC_MAKE_HELP=True#]
+        }
+        else
+        {
+        [#set ILLEGAL_OPT=True#]
+        }
+        [# shift #]
+    }
+}
+
+fdef usage()
+{
+   [#
+   echo usage vc_make [options]
+
+   echo options
+   echo     -d     include debugging code for lexer and parser
+   echo     -h     help
+   #]
+}
+
+initialise()
+getopts()
+
+if (%VC_MAKE_HELP% == True || %ILLEGAL_OPT% == True)
+{
+    usage()
+    return ;
+}
+else
+{
+    if (%DEBUG% == "")
+    {
+       [#
+       set LEX_FLAGS=
+       set YACC_FLAGS= -vd
+       set CC_FLAGS=/nologo /ML /W4 /D "WIN32" /D "NDEBUG" /D "_CONSOLE"
+       set YYDEBUG=
+       #]
+    }
+    else
+    {
+       [#
+       set LEX_FLAGS=-d
+       set YACC_FLAGS=-vdt
+       set CC_FLAGS=/nologo /ML /W4 /D "WIN32" /D "_CONSOLE" /D "DEBUG" /D "YYDEBUG"
+       set YYDEBUG=1
+       #]
+    }
+
+    [#
+    @echo on
+
+    %FLEX% %LEX_FLAGS% %LEX_FILE%
+    %YACC% %YACC_FLAGS% %GRAMMAR_FILE%
+    %CC% %CC_FLAGS% %SOURCE_FILES%
+
+    @echo off
+
+    copy y.output ..\doc\y.output
+    del *.obj
+    #]
+
+    if (%DEBUG% == "")
+    {
+       [#
+       del y.output
+       del lex.yy.c
+       del y.tab.c
+       del y.tab.h
+       copy batchgen.exe ..\bin
+       #]
+    }
+    else
+    {
+       [#
+       copy batchgen.exe ..\bin\batchgen_debug.exe
+       #]
+    }
+    
+    [#del batchgen.exe#]
+}
+[# @echo finished #]

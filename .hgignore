@@ -1,0 +1,20 @@
+# use glob syntax.
+syntax: glob
+chm
+gui\*.html
+*.ncb
+*/ipch/*
+bg.bat
+bgo.bat
+testLex.exe
+testYacc.exe
+doxy\html*
+
+
+syntax: regexp
+Debug/
+Release/
+chm/
+^calgen/doxy/
+.*junk.*
+sdf$

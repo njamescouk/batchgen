@@ -1,0 +1,16 @@
+fdef fred ()
+{
+   [#@echo fred
+    @echo fred#]
+   return ;
+   [#echo redundant#]
+}
+
+fdef bert ()
+{
+   [#@echo bert
+    @echo bert#]
+}
+bert ()
+fred ()
+bert ()
