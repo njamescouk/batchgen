@@ -37,6 +37,7 @@
     <ProjectGuid>{3CCCEE19-A2E7-4180-A8E8-B982E92F5351}</ProjectGuid>
     <Keyword>Win32Proj</Keyword>
     <RootNamespace>vce2010</RootNamespace>
+    <ProjectName>batchgen</ProjectName>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
