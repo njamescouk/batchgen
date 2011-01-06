@@ -1,25 +1,29 @@
-fdef double_shift ()
-{
-   [#shift
-    shift
-   #]
-}
-
-fdef help ()
-{
-[#         @echo usage:pagin file -t title -ph page_header -pf page_footer -f footer -pl page_len
+[#
+goto ds_end
+:double_shift
+shift
+shift
 #]
-}
+return;
+[#:ds_end#]
+
+[#
+goto help_end
+:help
+@echo usage:pagin file -t title -ph page_header -pf page_footer -f footer -pl page_len
+#]
+return;
+[#:help_end#]
 
 [#@echo off#]
 if (%1 == -h || %1 == "")
 {
-   help ()
+   [# call :help #]
    return;
 }
 else
 {
- [#set pg_file=%1#]
+   [#set pg_file=%1#]
 }
 [#shift#]
 while (%1 != "")
@@ -28,44 +32,48 @@ while (%1 != "")
    {
       case -h :
       {
-         help ()
-         [#shift #]
+         [# 
+         call :help
+         shift 
+         #]
          return;
       }
       case -o :
       {
-         [#set pg_ofile=%2#]
-         double_shift ()
+         [#
+         set pg_ofile=%2
+         call :double_shift
+         #]
          break;
       }
       case -t :
       {
-      	[#set pg_title=%2#]
-         double_shift ()
+      	[#set pg_title=%2
+         call :double_shift#]
       	break;
       }
       case -ph :
       {
-      	[#set page_h=%2#]
-         double_shift ()
+      	[#set page_h=%2
+         call :double_shift#]
       	break;
       }
       case -pf :
       {
-      	[#set page_f=%2#]
-         double_shift ()
+      	[#set page_f=%2
+         call :double_shift#]
       	break;
       }
       case -f :
       {
-      	[#set foot=%2#]
-         double_shift ()
+      	[#set foot=%
+         call :double_shift2#]
       	break;
       }
       case -pl :
       {
-      	[#set page_len=%2#]
-         double_shift ()
+      	[#set page_len=%2
+         call :double_shift#]
       	break;
       }
       default : 

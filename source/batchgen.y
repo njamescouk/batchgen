@@ -8,8 +8,8 @@
 #include "batchgen.h"
 #include "bkpatch.h"
 #include "stacks.h"
-#include "sr.h"
-/* #include "optim.h" */
+/* #include "sr.h"
+#include "optim.h" */
 
 #define YYSTACKSIZE 5000
 extern char *yytext;
@@ -35,7 +35,6 @@ int new_sr_return = 0;
 %token LEXERROR
 %token FDEF
 %token identifier
-%token func_id
 %token en_var
 %token param
 %token ERRORLEVEL
@@ -64,8 +63,6 @@ int new_sr_return = 0;
 %type <code_node> jump_statement
 %type <code_node> compound_statement
 %type <code_node> labelled_statement
-%type <code_node> function_call
-%type <code_node> function_definition
 %type <expr_node> dos_expression
 %type <expr_node> primary_expression
 %type <expr_node> dos_logical_expression
@@ -76,7 +73,6 @@ int new_sr_return = 0;
 %type <expr_node> empty
 %type <expr_node> logical_AND_expression
 %type <expr_node> unary_expression
-%type <integer> function_identifier
 
 %%
 
@@ -116,100 +112,10 @@ statement
    | while_statement
    | labelled_statement
    | jump_statement
-   | function_definition
-   {
-     /* function definition reduced */
-     $$ = new_code_node ();
-     add_string ($$, "");
-   }
-   | function_call
-   {
-      /* function_call reduced */
-      $$ = $1;
-   }
    | error {fprintf (stderr, "error near line %d\n", lineno);
             if (yydebug)
                printf ("error near line %d\n", lineno);
            }
-   ;
-
-function_definition
-   : FDEF identifier
-   {
-      $2 = new_expr ();
-      add_text ($2, yytext);
-   }
-   '(' ')'
-   {
-      /* function definition: fdef identifier () ... */
-
-      char errstr [] = "error: cannot define function "
-                               "from within function at line %d\n";
-
-      if (in_sr)
-      {
-         yyerror ("");
-         yyerrok;
-         if (yydebug)
-            printf (errstr, lineno);
-         fprintf (stderr, errstr, lineno);
-         in_sr--;
-         return 1; 
-      }
-      in_sr++;
-      install_func ($2->expr_code->code);
-   }
-   compound_statement
-   {
-      /* function definition: ... {}; */
-      /* deal with function definition code */
-   
-      if (add_srcode ($2->expr_code->code, $7) != 0)
-         in_sr--;
-      else
-      {
-         fprintf (stderr, "error adding sub routine code at line %i\n", \
-                                                     lineno);
-         return 1;
-      }
-   
-   }
-   ;
-
-function_call
-   : function_identifier '(' ')'
-   {  
-      /* function call
-         form code set %<RET_LABEL>%=END_SR_PFX<ret_num>
-                   goto SR_PFX<sr_no>
-                   :END_SR_PFX<ret_num>
-      */
-      char label [80],
-           code [TEXTLEN];
-      int ret_num = new_sr_return++;
-      char errstr [] = "error: cannot call function "
-                               "from within function at line %d\n";
-
-      if (in_sr)
-      {
-         yyerror ("");
-         yyerrok;
-         if (yydebug)
-            printf (errstr, lineno);
-         fprintf (stderr, errstr, lineno);
-         in_sr--;
-         return 1; 
-      }
-      sprintf (label, END_SR_PFX"%i\n", ret_num);
-      sprintf (code, 
-               "set "RET_LABEL"=%sgoto "SR_PFX"%i\n:%s\n",
-               label, 
-               $1, 
-               label);
-      $$ = new_code_node ();
-      add_string ($$, code);
-      sr_call_count++;
-   }
    ;
 
 labelled_statement
@@ -581,9 +487,11 @@ jump_statement
    | RETURN ';'
    {
       $$ = new_code_node ();
+	  /*
       if (in_sr)
          add_string ($$, "goto %"RET_LABEL"%\n");
       else
+	  */
          add_string ($$, "goto batch_end\n");
    }
    | RETURN primary_expression ';'
@@ -591,7 +499,7 @@ jump_statement
       char text [TEXTLEN];
                                  
       $$ = new_code_node ();
-      sprintf (text, "el %s\ngoto batch_end\n", $2->expr_code->code);
+      sprintf (text, "exit /b %s\n", $2->expr_code->code);
       add_string ($$, text);
    }
    ;
@@ -845,12 +753,6 @@ primary_expression
       add_text ($$, "");
    }
    ;
-
-function_identifier
-   : func_id
-   {
-      $$ = is_func (yytext);
-   }
 
 %%
 

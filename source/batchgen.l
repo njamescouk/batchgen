@@ -10,7 +10,7 @@
 #include <string.h>
 #include "batchgen.h"
 #include "y.tab.h"
-#include "sr.h"
+/* #include "sr.h" */
 
 #ifdef LEX_DEBUG
 int lineno = 0;
@@ -76,7 +76,6 @@ default {return DEFAULT;}
 while {return WHILE;}
 return {return RETURN;}
 break  {return BREAK;}
-fdef {return FDEF;}
 "||" {return LOG_OR;}
 "&&" {return LOG_AND;}
 "==" {return EQ;}
@@ -90,13 +89,7 @@ ERRORLEVEL  {return ERRORLEVEL;}
 exist       {return EXIST;}
 EXIST       {return EXIST;}
 {number} {return number;}
-{identifier} {
-#ifndef LEX_DEBUG
-                if (is_func (yytext) != -1)
-                   return func_id;
-#endif
-                return identifier;
-             }
+{identifier} {return identifier;}
 [^ \t\n] {return yytext [0];}
 
 

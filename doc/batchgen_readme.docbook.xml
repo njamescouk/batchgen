@@ -29,9 +29,21 @@
           site</ulink>.</para>
         </revdescription>
       </revision>
+
+      <revision>
+        <revnumber>3</revnumber>
+
+        <date>12-2-2010</date>
+
+        <revdescription>
+          <para>Version 2. This has reduced functionality, owing to
+          improvements in the winXP command processor. This version may not do
+          what you want if you are not using XP.</para>
+        </revdescription>
+      </revision>
     </revhistory>
 
-    <date>31-10-2008</date>
+    <date>12-2-2010</date>
 
     <author>
       <firstname>Nick</firstname>
@@ -155,19 +167,16 @@ if not exist %5 goto EI0
 
     <para>The syntax is pretty much C like.</para>
 
-    <para>Functions do not take parameters, nor do they return values. It is
-    an error for a function definition to contain a function call, ie
-    functions cannot be nested, owing to the extremely crude return mechanism.
-    Functions must have been defined before they can be called.</para>
+    <para>Functions are not supported in version 2. Instead, use the call
+    :label syntax, see <ulink
+    url="http://technet.microsoft.com/en-us/library/bb490873.aspx">this</ulink>.</para>
 
     <para>break may only be used inside a while or switch statement. return;
-    may be used in a function, in which case control goes back to the main
-    program, or in the main program, in which case control returns to the
-    operating system. return primary_expression; (eg return 42;) is a bit of a
-    bodge; a program called el is invoked, which returns it's argument as an
-    int. Control is then given to the operating system. The errorlevel when
-    the batch file terminates is thus set to, for example, 42. This requires
-    that the program el.com or el.exe be available to your batch file.</para>
+    returns control to the operating system. return primary_expression; (eg
+    return 42;) is rewritten as exit /b primary_expression, see <ulink
+    url="http://technet.microsoft.com/en-us/library/bb490902.aspx">this</ulink>.
+    The errorlevel when the batch file terminates is thus set to, for example,
+    42.</para>
 
     <para>case and default are only legal inside a switch statement, despite
     the grammar.</para>
@@ -180,8 +189,8 @@ if not exist %5 goto EI0
     <sect2>
       <title>Reserved words</title>
 
-      <para>if case else switch default while return break fdef || &amp;&amp;
-      == != &gt;= "" errorlevel ERRORLEVEL exist EXIST</para>
+      <para>if case else switch default while return break || &amp;&amp; == !=
+      &gt;= "" errorlevel ERRORLEVEL exist EXIST</para>
     </sect2>
 
     <sect2>
@@ -198,17 +207,7 @@ if not exist %5 goto EI0
 | <link linkend="while_statement">while_statement</link> 
 | <link linkend="labelled_statement">labelled_statement</link> 
 | <link linkend="jump_statement">jump_statement</link> 
-| <link linkend="function_definition">function_definition</link> 
-| <link linkend="function_call">function_call</link> 
 | 
-;
-
-<anchor id="function_definition" /><emphasis>function_definition:</emphasis>
-FDEF identifier '(' ')' <link linkend="compound_statement">compound_statement</link> 
-;
-
-<anchor id="function_call" /><emphasis>function_call:</emphasis>
-<link linkend="function_identifier">function_identifier</link> '(' ')' 
 ;
 
 <anchor id="labelled_statement" /><emphasis>labelled_statement:</emphasis>
@@ -288,24 +287,14 @@ WHILE '(' <link linkend="dos_expression">dos_expression</link> ')' <link
 | number 
 | <link linkend="primary_expression">primary_expression</link> number 
 | empty 
-;
+;</programlisting>
 
-<anchor id="function_identifier" /><emphasis>function_identifier:</emphasis>
-func_id 
-;
-
-</programlisting>
-
-      <para>The non terminals identifier, func_id, en_var and param are
-      defined as follows:<itemizedlist>
+      <para>The non terminals identifier, en_var and param are defined as
+      follows:<itemizedlist>
           <listitem>
             <para>identifier
             ({letter}|{digit}|\\|\.|\-)([a-zA-Z$\.\\_\*:]|{digit})* - this
             should boil down to a dos directory name</para>
-          </listitem>
-
-          <listitem>
-            <para>func_id - is an identifer that has been fdef'd</para>
           </listitem>
 
           <listitem>
