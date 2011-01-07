@@ -1,68 +1,76 @@
+fdef initialise()
+{
 [#
-:initialise
-
 rem set DEBUG=<anything> gets a debug build
-set DEBUG=
-set VC_MAKE_HELP=
-set ILLEGAL_OPT=
+set BGCOMP_DEBUG=
+set BGCOMP_HELP=
+set BGCOMP_ILLEGAL_OPT=
 set CC_FLAGS=
-set SOURCE_FILES=batchgen.c bkpatch.c fileread.c lex.yy.c optim.c sr.c stacks.c y.tab.c
+set BGCOMP_SOURCE_FILES=batchgen.c bkpatch.c fileread.c lex.yy.c optim.c sr.c stacks.c y.tab.c
 
 rem edit these to suit
 set CC=c:\bin\MinGW\bin\g++.exe
-goto :eof
 #]
-
-[#
-:getopts
-#]
-while (%1 != "")
-{
-    if (%1 == -d)
-    {
-    [# set DEBUG=True#]
-    }
-    else if (%1 == -h)
-    {
-    [#set VC_MAKE_HELP=True#]
-    }
-    else
-    {
-    [#set ILLEGAL_OPT=True#]
-    }
-    [# shift #]
 }
-[#
-goto :eof
-#]
 
+fdef finalise()
+{
 [#
-:usage
-echo usage vc_make [options]
+set BGCOMP_DEBUG=
+set BGCOMP_HELP=
+set BGCOMP_ILLEGAL_OPT=
+set CC_FLAGS=
+set BGCOMP_SOURCE_FILES=
+set CC=
+#]
+}
+
+fdef getopts()
+{
+    while (%1 != "")
+    {
+        if (%1 == -d)
+        {
+            [# set BGCOMP_DEBUG=True#]
+        }
+        else if (%1 == -h)
+        {
+            [#set BGCOMP_HELP=True#]
+        }
+        else
+        {
+            [#set BGCOMP_ILLEGAL_OPT=True#]
+        }
+        [# shift #]
+    }
+}
+
+fdef usage()
+{
+[#
+echo usage %0 [options]
 
 echo options
 echo     -d     include debugging code for lexer and parser
 echo     -h     help
-goto :eof
 #]
+}
 
-[#
-call :initialise
-call :getopts
-#]
+initialise()
+getopts()
 
-if (%VC_MAKE_HELP% == True || %ILLEGAL_OPT% == True)
+if (%BGCOMP_HELP% == True || %BGCOMP_ILLEGAL_OPT% == True)
 {
-    [# call :usage #]
+    usage()
     return ;
 }
 else
 {
-    if (%DEBUG% == "")
+    if (%BGCOMP_DEBUG% == "")
     {
        [#
        call doLexYacc
-       set CC_FLAGS=/nologo /ML /W4 /D "WIN32" /D "NDEBUG" /D "_CONSOLE"
+       set CC_FLAGS=-D WIN32 -D NDEBUG -D _CONSOLE -obatchgen.exe
        set YYDEBUG=
        #]
     }
@@ -70,34 +78,42 @@ else
     {
        [#
        call doLexYacc -d
-       set CC_FLAGS=/nologo /ML /W4 /D "WIN32" /D "_CONSOLE" /D "DEBUG" /D "YYDEBUG"
+       set CC_FLAGS=-D WIN32 -D _CONSOLE -D DEBUG -D YYDEBUG  -obatchgen_debug.exe
        set YYDEBUG=1
        #]
     }
 
     [#
+    pushd I:\usr\NIK\dev\batchgen\source
+
+    markupgrammar -f batchgen.y > ..\doc\batchgen.y.html
+    markupgrammar -f batchgen.y -d > ..\doc\batchgen.y.dot
+    markupgrammar -f ..\source\batchgen.y -x > ..\doc\batchgen.y.docbook.xml
+
     @echo on
-
-    %CC% %CC_FLAGS% %SOURCE_FILES%
-
+    %CC% %CC_FLAGS% %BGCOMP_SOURCE_FILES%
     @echo off
 
-    del *.obj
+    del *.obj > nul
+    
+    pushd I:\usr\NIK\dev\batchgen\doc
+    dot -O -Tpng batchgen.y.dot
+    popd
     #]
 
-    if (%DEBUG% == "")
+    if (%BGCOMP_DEBUG% == "")
     {
        [#
-       copy batchgen.exe ..\bin
+       move batchgen.exe ..\bin
        #]
     }
     else
     {
        [#
-       copy batchgen.exe ..\bin\batchgen_debug.exe
+       move batchgen.exe ..\bin\batchgen_debug.exe
        #]
     }
-    
-    [#del batchgen.exe#]
 }
-[# @echo finished #]
+
+[# popd #]
+finalise()

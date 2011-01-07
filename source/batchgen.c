@@ -4,7 +4,7 @@
 #include <time.h>
 #include "batchgen.h"
 #include "stacks.h"
-/* #include "sr.h" */
+#include "sr.h"
 #ifdef FILEOPTIM
 #include "foptim.h"
 #else
@@ -26,7 +26,7 @@ extern int yydebug;
 char optflag = 0;
 code_list_t *cl = NULL;
 
-char main (int argc, char *argv[])
+int main (int argc, char *argv[])
 {
     FILE *oofp = NULL, 
          *uoofp = NULL;
@@ -54,25 +54,30 @@ char main (int argc, char *argv[])
     }
 
     stack_init ();
-    /* yydebug = 1; */
+
+#ifdef YYDEBUG
+    yydebug = 1;
+#endif
+
     if (yyparse () == 0)
     {
         char banner[BUFSIZ];
         char opts[BUFSIZ];
         code_list_t *mainjmp = new_code_node ();
-
-		/*
+        char filename[BUFSIZ];
         int i;
+
+        strcpy (filename, (farg == 0 ? "stdin":argv[farg]));
+
         for (i = 0; i < num_sr; i++)
             cl = code_join (2, srcode [i], cl);
-        */
 
         add_string (mainjmp, "@goto main\n");
         cl = code_join (2, mainjmp, cl);
 
         make_opts(opts);
         make_banner(argv[0], 
-                    farg == 0 ? "stdin":argv[farg],
+                    filename,
                     opts,
                     banner);
         write_code(banner, uoofp);
