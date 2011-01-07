@@ -1,0 +1,109 @@
+fdef initialise()
+{
+[#
+rem set DEBUG=<anything> gets a debug build
+set DLY_DEBUG=
+set DLY_HELP=
+set DLY_TERMINATE=
+set DLY_LEX_FILE=batchgen.l
+set DLY_GRAMMAR_FILE=batchgen.y
+
+rem edit these to suit
+set DLY_FLEX="C:\Program Files (x86)\GnuWin32\bin\flex.exe"
+set DLY_YACC="C:\Program Files (x86)\GnuWin32\bin\yacc.exe"
+#]
+}
+
+fdef getopts()
+{
+    while (%1 != "")
+    {
+        if (%1 == -d)
+        {
+            [# set DLY_DEBUG=True #]
+        }
+        
+        if (%1 == -h)
+        {
+            [# set DLY_HELP=True #]
+        }
+
+        [# shift  #]
+    }
+}
+
+fdef usage()
+{
+[#
+echo usage %0 [options]
+
+echo options
+echo     -d     include debugging code for lexer and parser
+echo     -h     this screen
+set DLY_TERMINATE=yes
+#]
+}
+
+fdef finalise()
+{
+[#
+set DLY_DEBUG=
+set DLY_HELP=
+set DLY_LEX_FLAGS=
+set DLY_YACC_FLAGS=
+set DLY_LEX_FILE=
+set DLY_GRAMMAR_FILE=
+set DLY_FLEX=
+set DLY_YACC=
+set DLY_TERMINATE=
+#]
+}
+
+initialise()
+[#
+call :getopts %* 
+pushd I:\usr\NIK\dev\batchgen\source
+#]
+
+if (%DLY_HELP% == True)
+{
+    usage()
+}
+
+if (%DLY_TERMINATE%==yes)
+{
+    return ;
+}
+
+if (%DLY_DEBUG% == "")
+{
+[#
+    set DLY_LEX_FLAGS=
+    set DLY_YACC_FLAGS= -tdv
+    set YYDEBUG=
+#]
+}
+else
+{
+[#
+    set DLY_LEX_FLAGS=-d
+    set DLY_YACC_FLAGS=-ldv
+    set YYDEBUG=1
+#]
+}
+
+[#
+@echo on
+%DLY_YACC% %DLY_YACC_FLAGS% %DLY_GRAMMAR_FILE%
+%DLY_FLEX% %DLY_LEX_FLAGS% %DLY_LEX_FILE%
+@echo off
+
+sed "/extern char \*getenv();/d" y.tab.c > junk
+del y.tab.c
+mv junk y.tab.c
+
+move y.output ..\doc\y.output > nul
+popd
+#]
+
+finalise()

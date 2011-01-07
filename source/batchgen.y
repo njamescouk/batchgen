@@ -923,7 +923,11 @@ code_list_t *code_join (int n, ...)
    va_start (argptr, n);
    if (n <= 1)
       return NULL;
+
    result = curlist = va_arg (argptr, code_list_t *);
+   if (result == NULL)
+       return NULL;
+
    while (n - 1)
    {
       while (curlist->next != NULL)

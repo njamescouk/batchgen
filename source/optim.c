@@ -222,6 +222,8 @@ char get_labels (char **ca)
       install_ref (text);
       *//*
    }*/
+   
+   result = install_def(":eof");
 
    for (i = 0; i < code_lines && result == 0; i++)
    {
@@ -826,7 +828,11 @@ int cn_count (code_list_t *code)
 
 char is_esr (char *lab)
 {
+   if (strcmp(lab, ":eof") == 0)
+       return 1;
+
    if (strstr (lab, END_SR_PFX) == NULL)
       return 0;
+
    return 1;
 }

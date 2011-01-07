@@ -1,7 +1,7 @@
 fdef initialise()
 {
 [#
-rem set DEBUG=<anything> gets a debug build
+rem set BGCOMP_DEBUG=<anything> gets a debug build
 set BGCOMP_DEBUG=
 set BGCOMP_HELP=
 set BGCOMP_ILLEGAL_OPT=
@@ -49,7 +49,7 @@ fdef usage()
 {
 [#
 echo usage %0 [options]
-
+echo .
 echo options
 echo     -d     include debugging code for lexer and parser
 echo     -h     help

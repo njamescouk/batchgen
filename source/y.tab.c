@@ -356,7 +356,11 @@ code_list_t *code_join (int n, ...)
    va_start (argptr, n);
    if (n <= 1)
       return NULL;
+
    result = curlist = va_arg (argptr, code_list_t *);
+   if (result == NULL)
+       return NULL;
+
    while (n - 1)
    {
       while (curlist->next != NULL)
@@ -423,7 +427,7 @@ void main (void)
       printf ("\nyyparse returns int %d =  char %c\n\n", c, c);
 }
 #endif
-#line 427 "y.tab.c"
+#line 431 "y.tab.c"
 #define YYABORT goto yyabort
 #define YYREJECT goto yyabort
 #define YYACCEPT goto yyaccept
@@ -1371,7 +1375,7 @@ case 53:
       yyval.integer = is_func (yytext);
    }
 break;
-#line 1376 "y.tab.c"
+#line 1380 "y.tab.c"
     }
     yyssp -= yym;
     yystate = *yyssp;
