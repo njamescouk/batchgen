@@ -59,7 +59,7 @@ if "%DLY_DEBUG%" == "" goto IF2
 goto LS2
 :IF2
 
-       set DLY_LEX_FLAGS= -d
+       set DLY_LEX_FLAGS=
        set DLY_YACC_FLAGS= -tdv
        set YYDEBUG=
  
@@ -80,6 +80,10 @@ rem endif
 %DLY_FLEX% %DLY_LEX_FLAGS% %DLY_LEX_FILE%
 
 @echo off
+
+sed "/extern char \*getenv();/d" y.tab.c > junk
+del y.tab.c
+mv junk y.tab.c
 
 move y.output ..\doc\y.output > nul
 rem move lex.yy.* ..\source > nul

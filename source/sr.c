@@ -1,4 +1,4 @@
-﻿#include <stdio.h>
+#include <stdio.h>
 #include <string.h>
 #include <stdlib.h>
 #include "batchgen.h"
@@ -22,6 +22,14 @@ char is_func (char *sought)
    return -1;
 }
 
+char *find_func (int func_number)
+{
+   if (func_number < 0 || func_number > num_sr)
+       return 0;
+
+   return srnames[func_number];
+}
+
 void install_func (char *name)
 {
    srnames = (char **) realloc (srnames, (num_sr + 1) * sizeof (char *));
@@ -33,10 +41,10 @@ void install_func (char *name)
 char add_srcode (char *name, code_list_t *code)
 {
    /* form code rem sub routine
-                :SR<sr_no>
+                :<name>
                 sr code stmts  (in code)
                 rem end sub routine
-                goto <%RET_LABEL%>
+                goto :eof
    */
    int sr_no = is_func (name);
    static int sr_alloced = 0;
@@ -44,11 +52,11 @@ char add_srcode (char *name, code_list_t *code)
    char beginlabel [80],
         *endlabel = beginlabel;
 
-   sprintf (beginlabel, "rem sub routine\n:"SR_PFX"%i\n", sr_no);
+   sprintf (beginlabel, "rem sub routine\n:%s\n", name);
    add_string (labelled_code, beginlabel);
    code = code_join (2, labelled_code, code);
    labelled_code = new_code_node ();
-   sprintf (endlabel, "rem end sub routine\ngoto %%"RET_LABEL"%%\n");
+   sprintf (endlabel, "rem end sub routine\ngoto :eof\n\n");
    add_string (labelled_code, endlabel);
    code = code_join (2, code, labelled_code);
    if (sr_no != -1)

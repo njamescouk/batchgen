@@ -182,15 +182,22 @@ function_call
    : function_identifier '(' ')'
    {  
       /* function call
-         form code set %<RET_LABEL>%=END_SR_PFX<ret_num>
-                   goto SR_PFX<sr_no>
-                   :END_SR_PFX<ret_num>
+         form code call :SR_PFX<sr_no>
       */
       char label [80],
            code [TEXTLEN];
-      int ret_num = new_sr_return++;
       char errstr [] = "error: cannot call function "
                                "from within function at line %d\n";
+      char *func_name = find_func ($1);
+      if (func_name == 0)
+      {
+         yyerror("function not found");
+         yyerrok;
+         if (yydebug)
+            printf (errstr, lineno);
+         fprintf (stderr, errstr, lineno);
+         return 1; 
+      }
 
       if (in_sr)
       {
@@ -202,12 +209,9 @@ function_call
          in_sr--;
          return 1; 
       }
-      sprintf (label, END_SR_PFX"%i\n", ret_num);
-      sprintf (code, 
-               "set "RET_LABEL"=%sgoto "SR_PFX"%i\n:%s\n",
-               label, 
-               $1, 
-               label);
+
+      sprintf (code, "call :%s\n", func_name);
+
       $$ = new_code_node ();
       add_string ($$, code);
       sr_call_count++;
@@ -313,7 +317,6 @@ statement_list
      ;
 
 selection_statement
-
    :
    IF '(' dos_expression ')' statement
    {
@@ -338,8 +341,8 @@ selection_statement
       */
 
       int label_no = newiflabel++;
-      code_list_t *true = new_code_node (),
-                  *false = new_code_node ();
+      code_list_t *trueList = new_code_node (),
+                  *falseList = new_code_node ();
       char text [TEXTLEN],
            true_label [80],
            false_label [80];
@@ -350,13 +353,13 @@ selection_statement
       backpatch_str ($3->truelist, true_label);
       backpatch_str ($3->falselist, false_label);
 
-      if (true != NULL && false != NULL)
+      if (trueList != NULL && falseList != NULL)
       {
          sprintf (text, ":%s", true_label);
-         add_string (true, text);
+         add_string (trueList, text);
          sprintf (text, "rem endif\n:%s", false_label);
-         add_string (false, text);
-         code_join(4,$3->expr_code,true,$5,false);
+         add_string (falseList, text);
+         code_join(4,$3->expr_code,trueList,$5,falseList);
          $$ = $3->expr_code;
       }
       else
@@ -365,7 +368,6 @@ selection_statement
          return 1;
       }
    }
-
    | IF '(' dos_expression ')' statement ELSE statement
    {
       /*
@@ -393,8 +395,8 @@ selection_statement
                      :<end_label>
          */
          int label_no = newiflabel++;
-         code_list_t *true = new_code_node (),
-                     *false = new_code_node (),
+         code_list_t *trueList = new_code_node (),
+                     *falseList = new_code_node (),
                      *end = new_code_node ();
          char text [TEXTLEN],
               true_label [80],
@@ -409,15 +411,15 @@ selection_statement
          backpatch_str ($3->falselist, false_label);
 
 
-         if (true != NULL && false != NULL && end != NULL)
+         if (trueList != NULL && falseList != NULL && end != NULL)
          {
             sprintf (text, ":%s", true_label);
-            add_string (true, text);
+            add_string (trueList, text);
             sprintf (text, "\ngoto %srem else\n:%s", end_label, false_label);
-            add_string (false, text);
+            add_string (falseList, text);
             sprintf (text, "rem endif\n:%s", end_label);
             add_string (end, text);
-            code_join (6, $3->expr_code, true, $5, false, $7, end);
+            code_join (6, $3->expr_code, trueList, $5, falseList, $7, end);
             $$ = $3->expr_code;
          }
          else
@@ -426,7 +428,6 @@ selection_statement
             return 1;
          }
       }
-
       | SWITCH '(' primary_expression
       {
          /* stack first half of test code */
@@ -516,8 +517,8 @@ while_statement
       */
 
       int label_no = newwhilelabel++;
-      code_list_t *true = new_code_node (),
-                  *false = new_code_node (),
+      code_list_t *trueList = new_code_node (),
+                  *falseList = new_code_node (),
                   *begin = new_code_node (),
                   *breaks = to_ws ();
       char text [TEXTLEN],
@@ -533,15 +534,15 @@ while_statement
       backpatch_str ($4->falselist, false_label);
       backpatch_str (breaks->gotos, false_label);
 
-      if (true != NULL && false != NULL && begin != NULL)
+      if (trueList != NULL && falseList != NULL && begin != NULL)
       {
          sprintf (text, "rem while\n:%s", begin_label);
          add_string (begin, text);
          sprintf (text, ":%s", true_label);
-         add_string (true, text);
+         add_string (trueList, text);
          sprintf (text, "goto %srem endwhile\n:%s", begin_label, false_label);
-         add_string (false, text);
-         $$ = code_join (5, begin, $4->expr_code, true, $6, false);
+         add_string (falseList, text);
+         $$ = code_join (5, begin, $4->expr_code, trueList, $6, falseList);
          wpop ();
       }
       else
@@ -584,7 +585,7 @@ jump_statement
    {
       $$ = new_code_node ();
       if (in_sr)
-         add_string ($$, "goto %"RET_LABEL"%\n");
+         add_string ($$, "goto :eof\n");
       else
          add_string ($$, "goto batch_end\n");
    }
@@ -594,7 +595,6 @@ jump_statement
                                  
       $$ = new_code_node ();
       sprintf (text, "exit /b %s\n", $2->expr_code->code);
-      sprintf (text, "el %s\ngoto batch_end\n", $2->expr_code->code);
       add_string ($$, text);
    }
    ;
@@ -952,11 +952,11 @@ code_list_t *make_expr_code (char *text, expr_t *expr)
                   goto <false>
 
    */
-   code_list_t *true = new_code_node (),
-               *false = new_code_node (),
-               *gto = new_code_node ();
+   code_list_t *trueList = new_code_node ();
+   code_list_t *falseList = new_code_node ();
+   code_list_t *gto = new_code_node ();
 
-   if (true != NULL && false != NULL && gto != NULL)
+   if (trueList != NULL && falseList != NULL && gto != NULL)
    {
       if (add_text (expr, text) != 0)
       {
@@ -968,9 +968,9 @@ code_list_t *make_expr_code (char *text, expr_t *expr)
          perror ("unable to make expr code");
          return NULL;
       }
-      code_join (4, expr->expr_code, true, gto, false);
-      expr->truelist = makelist (true);
-      expr->falselist = makelist (false);
+      code_join (4, expr->expr_code, trueList, gto, falseList);
+      expr->truelist = makelist (trueList);
+      expr->falselist = makelist (falseList);
       return expr->expr_code;
    }
    else

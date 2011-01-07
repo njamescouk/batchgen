@@ -385,11 +385,11 @@ code_list_t *make_expr_code (char *text, expr_t *expr)
                   goto <false>
 
    */
-   code_list_t *true = new_code_node (),
-               *false = new_code_node (),
-               *gto = new_code_node ();
+   code_list_t *trueList = new_code_node ();
+   code_list_t *falseList = new_code_node ();
+   code_list_t *gto = new_code_node ();
 
-   if (true != NULL && false != NULL && gto != NULL)
+   if (trueList != NULL && falseList != NULL && gto != NULL)
    {
       if (add_text (expr, text) != 0)
       {
@@ -401,9 +401,9 @@ code_list_t *make_expr_code (char *text, expr_t *expr)
          perror ("unable to make expr code");
          return NULL;
       }
-      code_join (4, expr->expr_code, true, gto, false);
-      expr->truelist = makelist (true);
-      expr->falselist = makelist (false);
+      code_join (4, expr->expr_code, trueList, gto, falseList);
+      expr->truelist = makelist (trueList);
+      expr->falselist = makelist (falseList);
       return expr->expr_code;
    }
    else
@@ -434,7 +434,6 @@ yyparse()
     register int yym, yyn, yystate;
 #if YYDEBUG
     register char *yys;
-    extern char *getenv();
 
     if (yys = getenv("YYDEBUG"))
     {
@@ -667,15 +666,22 @@ case 14:
 #line 183 "batchgen.y"
 {  
       /* function call
-         form code set %<RET_LABEL>%=END_SR_PFX<ret_num>
-                   goto SR_PFX<sr_no>
-                   :END_SR_PFX<ret_num>
+         form code call :SR_PFX<sr_no>
       */
       char label [80],
            code [TEXTLEN];
-      int ret_num = new_sr_return++;
       char errstr [] = "error: cannot call function "
                                "from within function at line %d\n";
+      char *func_name = find_func (yyvsp[-2].integer);
+      if (func_name == 0)
+      {
+         yyerror("function not found");
+         yyerrok;
+         if (yydebug)
+            printf (errstr, lineno);
+         fprintf (stderr, errstr, lineno);
+         return 1; 
+      }
 
       if (in_sr)
       {
@@ -687,19 +693,16 @@ case 14:
          in_sr--;
          return 1; 
       }
-      sprintf (label, END_SR_PFX"%i\n", ret_num);
-      sprintf (code, 
-               "set "RET_LABEL"=%sgoto "SR_PFX"%i\n:%s\n",
-               label, 
-               yyvsp[-2].integer, 
-               label);
+
+      sprintf (code, "call :%s\n", func_name);
+
       yyval.code_node = new_code_node ();
       add_string (yyval.code_node, code);
       sr_call_count++;
    }
 break;
 case 15:
-#line 219 "batchgen.y"
+#line 223 "batchgen.y"
 {
       code_list_t *sw_code = to_ss (),
                   *label_def = new_code_node ();
@@ -734,7 +737,7 @@ case 15:
     }
 break;
 case 16:
-#line 253 "batchgen.y"
+#line 257 "batchgen.y"
 {
       /*
           default: check we are in a switch
@@ -760,7 +763,7 @@ case 16:
     }
 break;
 case 17:
-#line 280 "batchgen.y"
+#line 284 "batchgen.y"
 {
       /*
          compound statement
@@ -770,7 +773,7 @@ case 17:
    }
 break;
 case 18:
-#line 288 "batchgen.y"
+#line 292 "batchgen.y"
 {
       /* insert rem statement */
       yyval.code_node = new_code_node ();
@@ -778,7 +781,7 @@ case 18:
     }
 break;
 case 19:
-#line 297 "batchgen.y"
+#line 301 "batchgen.y"
 {
        /*
           statement
@@ -788,7 +791,7 @@ case 19:
     }
 break;
 case 20:
-#line 305 "batchgen.y"
+#line 309 "batchgen.y"
 {
        /*
           statement_list statement
@@ -799,7 +802,7 @@ case 20:
      }
 break;
 case 21:
-#line 319 "batchgen.y"
+#line 322 "batchgen.y"
 {
       /*
          IF ( expr ) stmt
@@ -822,8 +825,8 @@ case 21:
       */
 
       int label_no = newiflabel++;
-      code_list_t *true = new_code_node (),
-                  *false = new_code_node ();
+      code_list_t *trueList = new_code_node (),
+                  *falseList = new_code_node ();
       char text [TEXTLEN],
            true_label [80],
            false_label [80];
@@ -834,13 +837,13 @@ case 21:
       backpatch_str (yyvsp[-2].expr_node->truelist, true_label);
       backpatch_str (yyvsp[-2].expr_node->falselist, false_label);
 
-      if (true != NULL && false != NULL)
+      if (trueList != NULL && falseList != NULL)
       {
          sprintf (text, ":%s", true_label);
-         add_string (true, text);
+         add_string (trueList, text);
          sprintf (text, "rem endif\n:%s", false_label);
-         add_string (false, text);
-         code_join(4,yyvsp[-2].expr_node->expr_code,true,yyvsp[0].code_node,false);
+         add_string (falseList, text);
+         code_join(4,yyvsp[-2].expr_node->expr_code,trueList,yyvsp[0].code_node,falseList);
          yyval.code_node = yyvsp[-2].expr_node->expr_code;
       }
       else
@@ -851,7 +854,7 @@ case 21:
    }
 break;
 case 22:
-#line 370 "batchgen.y"
+#line 372 "batchgen.y"
 {
       /*
          IF ( expr ) stmt else stmt
@@ -878,8 +881,8 @@ case 22:
                      :<end_label>
          */
          int label_no = newiflabel++;
-         code_list_t *true = new_code_node (),
-                     *false = new_code_node (),
+         code_list_t *trueList = new_code_node (),
+                     *falseList = new_code_node (),
                      *end = new_code_node ();
          char text [TEXTLEN],
               true_label [80],
@@ -894,15 +897,15 @@ case 22:
          backpatch_str (yyvsp[-4].expr_node->falselist, false_label);
 
 
-         if (true != NULL && false != NULL && end != NULL)
+         if (trueList != NULL && falseList != NULL && end != NULL)
          {
             sprintf (text, ":%s", true_label);
-            add_string (true, text);
+            add_string (trueList, text);
             sprintf (text, "\ngoto %srem else\n:%s", end_label, false_label);
-            add_string (false, text);
+            add_string (falseList, text);
             sprintf (text, "rem endif\n:%s", end_label);
             add_string (end, text);
-            code_join (6, yyvsp[-4].expr_node->expr_code, true, yyvsp[-2].code_node, false, yyvsp[0].code_node, end);
+            code_join (6, yyvsp[-4].expr_node->expr_code, trueList, yyvsp[-2].code_node, falseList, yyvsp[0].code_node, end);
             yyval.code_node = yyvsp[-4].expr_node->expr_code;
          }
          else
@@ -913,7 +916,7 @@ case 22:
       }
 break;
 case 23:
-#line 431 "batchgen.y"
+#line 432 "batchgen.y"
 {
          /* stack first half of test code */
 
@@ -924,7 +927,7 @@ case 23:
       }
 break;
 case 24:
-#line 442 "batchgen.y"
+#line 443 "batchgen.y"
 {
          /* switch:
          form code: rem switch
@@ -962,7 +965,7 @@ case 24:
         }
 break;
 case 25:
-#line 482 "batchgen.y"
+#line 483 "batchgen.y"
 {
       /*
          push a code node onto wstack and flag the fact
@@ -976,7 +979,7 @@ case 25:
    }
 break;
 case 26:
-#line 495 "batchgen.y"
+#line 496 "batchgen.y"
 {
       /*
          get 3 labels, true, false + begin
@@ -1001,8 +1004,8 @@ case 26:
       */
 
       int label_no = newwhilelabel++;
-      code_list_t *true = new_code_node (),
-                  *false = new_code_node (),
+      code_list_t *trueList = new_code_node (),
+                  *falseList = new_code_node (),
                   *begin = new_code_node (),
                   *breaks = to_ws ();
       char text [TEXTLEN],
@@ -1018,15 +1021,15 @@ case 26:
       backpatch_str (yyvsp[-2].expr_node->falselist, false_label);
       backpatch_str (breaks->gotos, false_label);
 
-      if (true != NULL && false != NULL && begin != NULL)
+      if (trueList != NULL && falseList != NULL && begin != NULL)
       {
          sprintf (text, "rem while\n:%s", begin_label);
          add_string (begin, text);
          sprintf (text, ":%s", true_label);
-         add_string (true, text);
+         add_string (trueList, text);
          sprintf (text, "goto %srem endwhile\n:%s", begin_label, false_label);
-         add_string (false, text);
-         yyval.code_node = code_join (5, begin, yyvsp[-2].expr_node->expr_code, true, yyvsp[0].code_node, false);
+         add_string (falseList, text);
+         yyval.code_node = code_join (5, begin, yyvsp[-2].expr_node->expr_code, trueList, yyvsp[0].code_node, falseList);
          wpop ();
       }
       else
@@ -1037,7 +1040,7 @@ case 26:
    }
 break;
 case 27:
-#line 558 "batchgen.y"
+#line 559 "batchgen.y"
 {
       /*
          break: check we are in a while or a switch. if so find out which one
@@ -1065,23 +1068,22 @@ case 27:
    }
 break;
 case 28:
-#line 584 "batchgen.y"
+#line 585 "batchgen.y"
 {
       yyval.code_node = new_code_node ();
       if (in_sr)
-         add_string (yyval.code_node, "goto %"RET_LABEL"%\n");
+         add_string (yyval.code_node, "goto :eof\n");
       else
          add_string (yyval.code_node, "goto batch_end\n");
    }
 break;
 case 29:
-#line 592 "batchgen.y"
+#line 593 "batchgen.y"
 {
       char text [TEXTLEN];
                                  
       yyval.code_node = new_code_node ();
       sprintf (text, "exit /b %s\n", yyvsp[-1].expr_node->expr_code->code);
-      sprintf (text, "el %s\ngoto batch_end\n", yyvsp[-1].expr_node->expr_code->code);
       add_string (yyval.code_node, text);
    }
 break;
@@ -1369,7 +1371,7 @@ case 53:
       yyval.integer = is_func (yytext);
    }
 break;
-#line 1373 "y.tab.c"
+#line 1376 "y.tab.c"
     }
     yyssp -= yym;
     yystate = *yyssp;

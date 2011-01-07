@@ -261,13 +261,9 @@ static void yy_flex_free YY_PROTO(( void * ));
 
 #define YY_AT_BOL() (yy_current_buffer->yy_at_bol)
 
-
-#define FLEX_DEBUG
 typedef unsigned char YY_CHAR;
 FILE *yyin = (FILE *) 0, *yyout = (FILE *) 0;
 typedef int yy_state_type;
-
-#define FLEX_DEBUG
 extern char *yytext;
 #define yytext_ptr yytext
 
@@ -434,16 +430,6 @@ static yyconst short int yy_chk[193] =
 static yy_state_type yy_last_accepting_state;
 static char *yy_last_accepting_cpos;
 
-extern int yy_flex_debug;
-int yy_flex_debug = 1;
-
-static yyconst short int yy_rule_linenum[30] =
-    {   0,
-       36,   37,   38,   39,   40,   71,   72,   73,   74,   75,
-       76,   77,   78,   79,   80,   81,   82,   83,   84,   85,
-       86,   87,   88,   89,   90,   91,   92,   93,  100
-    } ;
-
 /* The intent behind this definition is that it'll catch
  * any uses of REJECT which flex missed.
  */
@@ -476,7 +462,7 @@ extern int lineno;
 
 #define dos_cmd 1
 
-#line 480 "lex.yy.c"
+#line 466 "lex.yy.c"
 
 /* Macros after this point can all be overridden by user definitions in
  * section 1.
@@ -629,7 +615,7 @@ YY_DECL
 
 #line 35 "batchgen.l"
 
-#line 633 "lex.yy.c"
+#line 619 "lex.yy.c"
 
 	if ( yy_init )
 		{
@@ -702,21 +688,6 @@ yy_find_action:
 
 do_action:	/* This label is used only to access EOF actions. */
 
-		if ( yy_flex_debug )
-			{
-			if ( yy_act == 0 )
-				fprintf( stderr, "--scanner backing up\n" );
-			else if ( yy_act < 30 )
-				fprintf( stderr, "--accepting rule at line %d (\"%s\")\n",
-				         yy_rule_linenum[yy_act], yytext );
-			else if ( yy_act == 30 )
-				fprintf( stderr, "--accepting default rule (\"%s\")\n",
-				         yytext );
-			else if ( yy_act == 31 )
-				fprintf( stderr, "--(end of buffer or a NUL)\n" );
-			else
-				fprintf( stderr, "--EOF (start condition %d)\n", YY_START );
-			}
 
 		switch ( yy_act )
 	{ /* beginning of action switch */
@@ -912,7 +883,7 @@ YY_RULE_SETUP
 #line 103 "batchgen.l"
 ECHO;
 	YY_BREAK
-#line 916 "lex.yy.c"
+#line 887 "lex.yy.c"
 case YY_STATE_EOF(INITIAL):
 case YY_STATE_EOF(dos_cmd):
 	yyterminate();

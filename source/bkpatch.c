@@ -42,7 +42,7 @@ void backpatch (goto_list_t *goto_list, int label)
         text [80];
 
    sprintf (text, "%04d\n", label);
-   textptr = calloc (strlen (text) + 1, sizeof (char));
+   textptr = (char *)calloc (strlen (text) + 1, sizeof (char));
    if (textptr == NULL)
    {
       perror ("unable to allocate memory in backpatch");
@@ -60,7 +60,7 @@ void backpatch_str (goto_list_t *goto_list, char *label)
 {
    char *textptr = NULL;
 
-   textptr = calloc (strlen (label) + 1, sizeof (char));
+   textptr = (char *)calloc (strlen (label) + 1, sizeof (char));
    if (textptr == NULL)
    {
       perror ("unable to allocate memory in backpatch");

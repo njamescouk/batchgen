@@ -1,4 +1,4 @@
-digraph G { title="..\source\batchgen.y"
+digraph G { title="batchgen.y"
 "batch_file"[shape=record label="{<def>batch_file|{<statement_list_0>statement_list}}"];
 "statement"[shape=record label="{<def>statement|{dos_command}|{<compound_statement_1>compound_statement}|{<selection_statement_2>selection_statement}|{<while_statement_3>while_statement}|{<labelled_statement_4>labelled_statement}|{<jump_statement_5>jump_statement}|{<function_definition_6>function_definition}|{<function_call_7>function_call}|{<error_8>error}}"];
 "function_definition"[shape=record label="{<def>function_definition|{FDEF|identifier|(|)|<compound_statement_0>compound_statement}}"];
