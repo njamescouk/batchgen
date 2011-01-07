@@ -26,6 +26,7 @@ char del_unrefd_labs (char *name, char **ca);
 void print_ca (char **ca, FILE *fp);
 char *find_word (char *str, char *word);
 char is_branch (char *str);
+char is_call (char *str);
 char is_uncond_br (char *str);
 char is_label (char *str);
 void del_line (char **ca, int line_no);

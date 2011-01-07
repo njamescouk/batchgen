@@ -67,7 +67,7 @@ while (%1 != "")
       case -f :
       {
       	[#set foot=%
-         call :double_shift2#]
+         call :double_shift#]
       	break;
       }
       case -pl :

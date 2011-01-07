@@ -241,6 +241,17 @@ char get_labels (char **ca)
          sscanf (lab_beg, "%s", text);
          result = install_ref (text);
       }
+      else if (is_call (ca [i]))
+      {
+         lab_beg = strstr (ca [i], "call");
+         lab_beg += 4;
+         
+         sscanf (lab_beg, "%s", text);
+         if (text != 0 && text[0] == ':' && strlen(text) > 1)
+             result = install_ref (&text[1]);
+         else
+             result = 0; // was a call to another batch file, not call :label
+      }
    }
    return result;
 }
@@ -633,9 +644,20 @@ char is_branch (char *str)
       str += 4;
       while (isspace (*str) && *str != 0)
          str++;
-      if (*str != '%') /* exclude %_ret_label% */
+      if (*str != '%') /* exclude %_ret_label% */ /* why? can't remember. irrelevant now anyhow */
          return 1;
    }
+   return 0;
+}
+
+char is_call (char *str)
+{
+   /* printf ("is_call\n");  */
+   if ((str = find_word (str, "call")) != NULL)
+   {
+      return 1;
+   }
+
    return 0;
 }
 

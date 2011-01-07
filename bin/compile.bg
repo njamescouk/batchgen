@@ -9,7 +9,8 @@ set CC_FLAGS=
 set BGCOMP_SOURCE_FILES=batchgen.c bkpatch.c fileread.c lex.yy.c optim.c sr.c stacks.c y.tab.c
 
 rem edit these to suit
-set CC=c:\bin\MinGW\bin\g++.exe
+rem gcc produces a buggy batchgen, use vce2010
+set CC=c:\bin\MinGWNew\bin\gcc.exe
 #]
 }
 
@@ -70,7 +71,7 @@ else
     {
        [#
        call doLexYacc
-       set CC_FLAGS=-D WIN32 -D NDEBUG -D _CONSOLE -obatchgen.exe
+       set CC_FLAGS=%CC_FLAGS% -D WIN32 -D NDEBUG -D _CONSOLE -obatchgen.exe
        set YYDEBUG=
        #]
     }
@@ -78,7 +79,7 @@ else
     {
        [#
        call doLexYacc -d
-       set CC_FLAGS=-D WIN32 -D _CONSOLE -D DEBUG -D YYDEBUG  -obatchgen_debug.exe
+       set CC_FLAGS=%CC_FLAGS% -D WIN32 -D _CONSOLE -D DEBUG -D YYDEBUG  -obatchgen_debug.exe
        set YYDEBUG=1
        #]
     }
@@ -110,7 +111,7 @@ else
     else
     {
        [#
-       move batchgen.exe ..\bin\batchgen_debug.exe
+       move batchgen_debug.exe ..\bin
        #]
     }
 }
