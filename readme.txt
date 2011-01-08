@@ -1,3 +1,14 @@
+
+This is version 2.0
+
+The grammar is unchanged, but the generated code exploits the 
+new call :label syntax.
+
+Sourceforge's file upload system is now a delight to use.
+
+====================================================================
+
+
 This is version 1.2 of batchgen
 
 It started life on sourceforge, under the misnomer of batcomp.

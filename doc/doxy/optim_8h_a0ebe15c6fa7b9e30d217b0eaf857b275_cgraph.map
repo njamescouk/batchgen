@@ -1,0 +1,23 @@
+<map id="G" name="G">
+<area shape="rect" href="$foptim_8c.html#a5a4cbaab22b42aa4bb5fb858ca69149a" title="check_labels" alt="" coords="131,97,221,124"/>
+<area shape="rect" href="$optim_8c.html#afab5c688930e45520fe418bff8f78c6d" title="del_line" alt="" coords="292,249,356,276"/>
+<area shape="rect" href="$foptim_8h.html#a0f64b0464da0fcb0955347ca4fd8f698" title="del_unrefd_labs" alt="" coords="123,401,229,428"/>
+<area shape="rect" href="$optim_8c.html#aa6db2d081273fd044ec88ebab3e3b76d" title="get_labels" alt="" coords="139,148,213,175"/>
+<area shape="rect" href="$foptim_8c.html#a64ad0144d19ea84a94d8dc7d74afddd8" title="is_blank" alt="" coords="291,300,357,327"/>
+<area shape="rect" href="$foptim_8c.html#a9228a4dc8ea4c41765493c1916b6fcc8" title="is_rem" alt="" coords="148,452,204,479"/>
+<area shape="rect" href="$optim_8c.html#a2ad1f9ae798998a0030bef63c9512911" title="optimize_line" alt="" coords="129,351,223,377"/>
+<area shape="rect" href="$foptim_8c.html#aa0d2016f9622dda082e0eedefe196b91" title="install_def" alt="" coords="285,97,363,124"/>
+<area shape="rect" href="$foptim_8c.html#a5f6968119d225092053daba2bd95f353" title="install_ref" alt="" coords="287,148,361,175"/>
+<area shape="rect" href="$foptim_8c.html#a92721aab8b8ad3b23e72a430d5ed7e19" title="is_branch" alt="" coords="421,60,493,87"/>
+<area shape="rect" href="$optim_8c.html#a4d800cdcb4b0371290f679b38da408e2" title="is_call" alt="" coords="296,47,352,73"/>
+<area shape="rect" href="$foptim_8c.html#a0e3dbf5bebafb3e917d1a004bae5d082" title="is_label" alt="" coords="293,199,355,225"/>
+<area shape="rect" href="$foptim_8c.html#a60d44b9cbcedbefc8e476ab07a6d5f7c" title="find_word" alt="" coords="419,237,496,264"/>
+<area shape="rect" href="$foptim_8c.html#aac3a9733c60ca4a5064b42d89ab8dd05" title="get_label_def" alt="" coords="277,401,371,428"/>
+<area shape="rect" href="$foptim_8c.html#a9b5e60b4b596092611a904d735d93df0" title="get_label_ref" alt="" coords="279,452,369,479"/>
+<area shape="rect" href="$foptim_8c.html#af606b928d3cb8a160913035357a0cf02" title="is_cond_br" alt="" coords="284,503,364,529"/>
+<area shape="rect" href="$foptim_8c.html#a795a45e9703e74ba23a5962c299190f8" title="is_esr" alt="" coords="299,553,349,580"/>
+<area shape="rect" href="$foptim_8c.html#a0202600877953c31758bda3ea4425b26" title="is_uncond_br" alt="" coords="277,604,371,631"/>
+<area shape="rect" href="$foptim_8c.html#ae783e8e3022775228fb04974fbdc980d" title="negate" alt="" coords="296,655,352,681"/>
+<area shape="rect" href="$optim_8c.html#a2ba647010c102f7130423b62eeaff1f6" title="reref_labs" alt="" coords="287,351,361,377"/>
+<area shape="rect" href="$foptim_8c.html#aef975d43ebe49a94af772c636ff53ddb" title="find_label" alt="" coords="420,351,495,377"/>
+</map>

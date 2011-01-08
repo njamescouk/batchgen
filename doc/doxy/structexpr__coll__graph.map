@@ -1,0 +1,14 @@
+<map id="G" name="G">
+<area shape="rect" href="$structgoto__list.html" title="goto_list" alt="" coords="9,11,76,37"/>
+<area shape="rect" title="truelist\nfalselist" alt="" coords="33,33,41,41"/>
+<area shape="rect" title="truelist\nfalselist" alt="" coords="21,193,29,201"/>
+<area shape="rect" title="next" alt="" coords="57,7,65,15"/>
+<area shape="rect" title="next" alt="" coords="57,33,65,41"/>
+<area shape="rect" href="$structcode__list.html" title="code_list" alt="" coords="72,104,141,131"/>
+<area shape="rect" title="gotos" alt="" coords="48,33,56,41"/>
+<area shape="rect" title="gotos" alt="" coords="93,100,101,108"/>
+<area shape="rect" title="expr_code" alt="" coords="92,127,100,135"/>
+<area shape="rect" title="expr_code" alt="" coords="35,193,43,201"/>
+<area shape="rect" title="next" alt="" coords="120,100,128,108"/>
+<area shape="rect" title="next" alt="" coords="120,127,128,135"/>
+</map>
