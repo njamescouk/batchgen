@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
-<html xmlns="http://www.w3.org/1999/xhtml"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8" /><title>Batchgen - a batch file generator</title><link rel="stylesheet" href="http://www.njames.co.uk/styles/main.css" /><meta name="generator" content="DocBook XSL Stylesheets V1.74.0" /></head><body><div class="article" lang="en" xml:lang="en"><div class="titlepage"><div><div><h2 class="title"><a id="id105603"></a>Batchgen - a batch file generator</h2></div><div><div class="author"><h3 class="author"><span class="firstname">Nick</span> <span class="surname">James</span></h3></div></div><div><div class="revhistory"><table border="1" width="100%" summary="Revision history"><tr><th align="left" valign="top" colspan="2"><b>Revision History</b></th></tr><tr><td align="left">Revision 1</td><td align="left">30-7-2007</td></tr><tr><td align="left">Revision 2</td><td align="left">31-10-2008</td></tr><tr><td align="left" colspan="2">
+<html xmlns="http://www.w3.org/1999/xhtml"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8" /><title>Batchgen - a batch file generator</title><link rel="stylesheet" href="http://www.njames.co.uk/styles/main.css" /><meta name="generator" content="DocBook XSL Stylesheets V1.74.0" /></head><body><div class="article" lang="en" xml:lang="en"><div class="titlepage"><div><div><h2 class="title"><a id="id457832"></a>Batchgen - a batch file generator</h2></div><div><div class="author"><h3 class="author"><span class="firstname">Nick</span> <span class="surname">James</span></h3></div></div><div><div class="revhistory"><table border="1" width="100%" summary="Revision history"><tr><th align="left" valign="top" colspan="2"><b>Revision History</b></th></tr><tr><td align="left">Revision 1</td><td align="left">30-7-2007</td></tr><tr><td align="left">Revision 2</td><td align="left">31-10-2008</td></tr><tr><td align="left" colspan="2">
           <p>Having noticed that this program has been consistently
           downloaded over the last 4 years, and in the belief that someone may
           actually be using it, I've tweaked the documentation. In addition
@@ -10,13 +10,13 @@
           it on <a class="ulink" href="http://www.njames.co.uk/desktop.html" target="_top">my own
           site</a>.</p>
         </td></tr><tr><td align="left">Revision 3</td><td align="left">12-2-2010</td></tr><tr><td align="left" colspan="2">
-          <p>Version 2. This has reduced functionality, owing to
-          improvements in the winXP command processor. This version may not do
-          what you want if you are not using XP.</p>
-        </td></tr></table></div></div></div><hr /></div><div class="toc"><p><b>Table of Contents</b></p><dl><dt><span class="sect1"><a href="#id361377">1. Introduction</a></span></dt><dt><span class="sect1"><a href="#id361769">2. Usage</a></span></dt><dd><dl><dt><span class="sect2"><a href="#id359784">2.1. Options</a></span></dt><dt><span class="sect2"><a href="#id361156">2.2. Output</a></span></dt></dl></dd><dt><span class="sect1"><a href="#id361174">3. Batchgen language</a></span></dt><dd><dl><dt><span class="sect2"><a href="#id360568">3.1. Reserved words</a></span></dt><dt><span class="sect2"><a href="#id360579">3.2. Grammar</a></span></dt></dl></dd><dt><span class="sect1"><a href="#id359609">4. Building</a></span></dt><dt><span class="sect1"><a href="#id359666">5. Bugs</a></span></dt><dt><span class="sect1"><a href="#id359716">6. Acknowledgments</a></span></dt></dl></div><div class="warning" style="margin-left: 0.5in; margin-right: 0.5in;"><h3 class="title">Warning</h3><p>This software contains known and unknown bugs: use it at your own
+          <p>Version 2.0 This has improved sub routine functionality, owing
+          to improvements in the winXP command processor. This version may not
+          do what you want if you are not using XP.</p>
+        </td></tr></table></div></div></div><hr /></div><div class="toc"><p><b>Table of Contents</b></p><dl><dt><span class="sect1"><a href="#id457628">1. Introduction</a></span></dt><dt><span class="sect1"><a href="#id457522">2. Usage</a></span></dt><dd><dl><dt><span class="sect2"><a href="#id457210">2.1. Options</a></span></dt><dt><span class="sect2"><a href="#id457874">2.2. Output</a></span></dt></dl></dd><dt><span class="sect1"><a href="#id457886">3. Batchgen language</a></span></dt><dd><dl><dt><span class="sect2"><a href="#id457922">3.1. Reserved words</a></span></dt><dt><span class="sect2"><a href="#id457933">3.2. Grammar</a></span></dt></dl></dd><dt><span class="sect1"><a href="#id458265">4. Building</a></span></dt><dt><span class="sect1"><a href="#id458313">5. Bugs</a></span></dt><dt><span class="sect1"><a href="#id458371">6. Acknowledgments</a></span></dt></dl></div><div class="warning" style="margin-left: 0.5in; margin-right: 0.5in;"><h3 class="title">Warning</h3><p>This software contains known and unknown bugs: use it at your own
     risk.</p></div><div class="abstract"><p class="title"><b>Abstract</b></p><p>batchgen is a program to generate dos batch files from a higher
     level language, making it easier to use boolean logic in batch
-    files.</p></div><div class="sect1" lang="en" xml:lang="en"><div class="titlepage"><div><div><h2 class="title" style="clear: both"><a id="id361377"></a>1. Introduction</h2></div></div></div><p>One of the failings of DOS/command.com/cmd.exe is that the only
+    files.</p></div><div class="sect1" lang="en" xml:lang="en"><div class="titlepage"><div><div><h2 class="title" style="clear: both"><a id="id457628"></a>1. Introduction</h2></div></div></div><p>One of the failings of DOS/command.com/cmd.exe is that the only
     logical operator is "not". The other big failing is that it can't add up.
     batchgen is an attempt to bring boolean logic to DOS. You need to be quite
     happy writing batch files before using batchgen, it doesn't quite write
@@ -54,19 +54,21 @@ if not exist %5 goto EI0
     of unecessary thinking. batchgen is a run of the mill lex/yacc parser. The
     lexemes are defined in <a class="ulink" href="../source/batchgen.l" target="_top">batchgen.l</a>, the grammar and it's
     associated semantic actions are defined in <a class="ulink" href="../source/batchgen.y" target="_top">batchgen.y</a>. The parser does not parse
-    DOS commands.</p></div><div class="sect1" lang="en" xml:lang="en"><div class="titlepage"><div><div><h2 class="title" style="clear: both"><a id="id361769"></a>2. Usage</h2></div></div></div><pre class="synopsis">batchgen [-o[r|b]] [filename]</pre><p> In the absence of
+    DOS commands.</p></div><div class="sect1" lang="en" xml:lang="en"><div class="titlepage"><div><div><h2 class="title" style="clear: both"><a id="id457522"></a>2. Usage</h2></div></div></div><pre class="synopsis">batchgen [-o[r|b]] [filename]</pre><p> In the absence of
     a filename, batchgen will read input from the command line, terminated
     with ctrl-z if you're using the keyboard.</p><pre class="synopsis">batchgen filename</pre><p>
     is equivalent to</p><pre class="synopsis">batchgen &lt; filename</pre><p> is equivalent
     to</p><pre class="synopsis">type filename | batchgen</pre><p> and all three of these
     command lines will work. batchgen file1 file2 .. is equivalent to batchgen
-    file1. There are no warnings or errors.</p><div class="sect2" lang="en" xml:lang="en"><div class="titlepage"><div><div><h3 class="title"><a id="id359784"></a>2.1. Options</h3></div></div></div><p>The options are as follows:</p><div class="itemizedlist"><ul type="disc"><li><p>-o optimizes but leaves lines beginning with rem and blank
-            lines</p></li><li><p>-or optimizes as for -o and also removes rems</p></li><li><p>-ob optimizes as for -o and also removes blank lines</p></li><li><p>-orb = -obr is full on optimization</p></li><li><p>-h prints a usage string</p></li></ul></div></div><div class="sect2" lang="en" xml:lang="en"><div class="titlepage"><div><div><h3 class="title"><a id="id361156"></a>2.2. Output</h3></div></div></div><p>Output is to bg.bat in the current directory. If you've asked for
+    file1. There are no warnings or errors.</p><div class="sect2" lang="en" xml:lang="en"><div class="titlepage"><div><div><h3 class="title"><a id="id457210"></a>2.1. Options</h3></div></div></div><p>The options are as follows:</p><div class="itemizedlist"><ul type="disc"><li><p>-o optimizes but leaves lines beginning with rem and blank
+            lines</p></li><li><p>-or optimizes as for -o and also removes rems</p></li><li><p>-ob optimizes as for -o and also removes blank lines</p></li><li><p>-orb = -obr is full on optimization</p></li><li><p>-h prints a usage string</p></li></ul></div></div><div class="sect2" lang="en" xml:lang="en"><div class="titlepage"><div><div><h3 class="title"><a id="id457874"></a>2.2. Output</h3></div></div></div><p>Output is to bg.bat in the current directory. If you've asked for
       optimization, your output is in bg.bat and the optimized output is in
       bgo.bat. If optimization fails (see Bugs, below) bgo.bat is written,
       with code that makes it return immediately wrapped round it, so as not
-      to execute potentially damaging instructions..</p></div></div><div class="sect1" lang="en" xml:lang="en"><div class="titlepage"><div><div><h2 class="title" style="clear: both"><a id="id361174"></a>3. Batchgen language</h2></div></div></div><p>The syntax is pretty much C like.</p><p>Functions are not supported in version 2. Instead, use the call
-    :label syntax, see <a class="ulink" href="http://technet.microsoft.com/en-us/library/bb490873.aspx" target="_top">this</a>.</p><p>break may only be used inside a while or switch statement. return;
+      to execute potentially damaging instructions..</p></div></div><div class="sect1" lang="en" xml:lang="en"><div class="titlepage"><div><div><h2 class="title" style="clear: both"><a id="id457886"></a>3. Batchgen language</h2></div></div></div><p>The syntax is pretty much C like.</p><p>Version 2 handles functions by generating code that uses the call
+    :label syntax, see <a class="ulink" href="http://technet.microsoft.com/en-us/library/bb490873.aspx" target="_top">this</a>.
+    There are no changes in the grammar, but the generated code won't work
+    unles you're on XP or later.</p><p>break may only be used inside a while or switch statement. return;
     returns control to the operating system. return primary_expression; (eg
     return 42;) is rewritten as exit /b primary_expression, see <a class="ulink" href="http://technet.microsoft.com/en-us/library/bb490902.aspx" target="_top">this</a>.
     The errorlevel when the batch file terminates is thus set to, for example,
@@ -74,8 +76,8 @@ if not exist %5 goto EI0
     the grammar.</p><p>Blocks of dos code to be passed through are enclosed by [# and #].
     This text is copied verbatim to the output batch file. This should,
     therefore, be legal DOS commands. batchgen does not parse this
-    text.</p><div class="sect2" lang="en" xml:lang="en"><div class="titlepage"><div><div><h3 class="title"><a id="id360568"></a>3.1. Reserved words</h3></div></div></div><p>if case else switch default while return break || &amp;&amp; == !=
-      &gt;= "" errorlevel ERRORLEVEL exist EXIST</p></div><div class="sect2" lang="en" xml:lang="en"><div class="titlepage"><div><div><h3 class="title"><a id="id360579"></a>3.2. Grammar</h3></div></div></div><pre class="programlisting"><a id="batch_file"></a><span class="emphasis"><em>batch_file:</em></span>
+    text.</p><div class="sect2" lang="en" xml:lang="en"><div class="titlepage"><div><div><h3 class="title"><a id="id457922"></a>3.1. Reserved words</h3></div></div></div><p>if case else fdef switch default while return break || &amp;&amp;
+      == != &gt;= "" errorlevel ERRORLEVEL exist EXIST</p></div><div class="sect2" lang="en" xml:lang="en"><div class="titlepage"><div><div><h3 class="title"><a id="id457933"></a>3.2. Grammar</h3></div></div></div><pre class="programlisting"><a id="batch_file"></a><span class="emphasis"><em>batch_file:</em></span>
 <a class="link" href="#statement_list">statement_list</a> 
 ;
 
@@ -159,18 +161,24 @@ WHILE '(' <a class="link" href="#dos_expression">dos_expression</a> ')' <a class
 ;</pre><p>The non terminals identifier, en_var and param are defined as
       follows:</p><div class="itemizedlist"><ul type="disc"><li><p>identifier
             ({letter}|{digit}|\\|\.|\-)([a-zA-Z$\.\\_\*:]|{digit})* - this
-            should boil down to a dos directory name</p></li><li><p>en_var - is an identifier surrounded by %%</p></li><li><p>param - is a parameter prefixed by %</p></li></ul></div></div></div><div class="sect1" lang="en" xml:lang="en"><div class="titlepage"><div><div><h2 class="title" style="clear: both"><a id="id359609"></a>4. Building</h2></div></div></div><p>There is a generated guide to the source <a class="ulink" href="doxy/index.html" target="_top">here</a>.</p><p>You need:</p><div class="itemizedlist"><ul type="disc"><li><p>a C++ compiler</p></li><li><p>lex and yacc binaries</p></li></ul></div><p>vc_make.bat (derived from vc_make.bc) will build the
-    source using VC++. If you have another compiler, the </p><pre class="programlisting">    set CC=cl</pre><p>and</p><pre class="programlisting">    set CC_FLAGS= ...</pre><p>lines
-    should be changed. There are VC++ project and workspace files should they
-    be any use to you which will need copying to the source directory.</p><p>running yacc on batchgen.y gives the following
-    error:</p><pre class="programlisting"> state contains 1 shift/reduce conflict.</pre><p>This
-    is the if-else ambiguity, we accept yacc's default resolution.</p></div><div class="sect1" lang="en" xml:lang="en"><div class="titlepage"><div><div><h2 class="title" style="clear: both"><a id="id359666"></a>5. <a id="bugs"></a>Bugs</h2></div></div></div><div class="itemizedlist"><ul type="disc"><li><p>The optimizer cannot do agressive optimization without
+            should boil down to a dos directory name</p></li><li><p>en_var - is an identifier surrounded by %%</p></li><li><p>param - is a parameter prefixed by %</p></li></ul></div></div></div><div class="sect1" lang="en" xml:lang="en"><div class="titlepage"><div><div><h2 class="title" style="clear: both"><a id="id458265"></a>4. Building</h2></div></div></div><p>There is a generated guide to the source in
+    doc\doxy\index.html.</p><p>You need:</p><div class="itemizedlist"><ul type="disc"><li><p>a C++ compiler</p></li><li><p>lex and yacc binaries</p></li></ul></div><p>compile.bat (in bin) will compile from the command line.
+    Using MinGW produces a buggy program, you're better using Visual Studio
+    Express 2010 (free) and the batchgen.sln file (in vce2010). </p><p>The VC project doesn't run lex and yacc: bin\doLexYacc.bat calls lex
+    and yacc (I use the <a class="ulink" href="http://gnuwin32.sourceforge.net/" target="_top">GnuWin32</a> ones). Running
+    yacc on batchgen.y gives the following error:</p><pre class="programlisting"> state contains 1 shift/reduce conflict.</pre><p>This
+    is the if-else ambiguity, we accept yacc's default resolution.</p><p>There are some test files in tests, these should all generate and
+    optimize witjout error.</p></div><div class="sect1" lang="en" xml:lang="en"><div class="titlepage"><div><div><h2 class="title" style="clear: both"><a id="id458313"></a>5. <a id="bugs"></a>Bugs</h2></div></div></div><div class="itemizedlist"><ul type="disc"><li><p>The optimizer cannot do agressive optimization without
           removing comments and blank lines.</p></li><li><p>The contents of input and output files are held in main
           memory, consequently you could run out of memory.</p></li><li><p>Trailing space on environmental variables. This can be a real
           pain. </p><pre class="programlisting">[# set VAR=99 #]</pre><p> when
           translated and executed by the OS will give VAR the value "99 ". You
           will be saying something like </p><pre class="programlisting">if "VAR"=="99" do something</pre><p>
           and your program won't do something, it will do nothing. This is
-          because VAR has the value "99 ", not "99".</p></li></ul></div></div><div class="sect1" lang="en" xml:lang="en"><div class="titlepage"><div><div><h2 class="title" style="clear: both"><a id="id359716"></a>6. Acknowledgments</h2></div></div></div><p>This program is pretty much lifted from Compilers: Principles,
+          because VAR has the value "99 ", not "99".</p></li><li><p>It's not written in C++. Some of the code is pretty nasty in
+          retrospect (2011) but it more or less works.</p></li><li><p>function parameters not supported. This doesn't stop you
+          defining a function that uses parameters, but you will have to call
+          it using something like [# call func arg1 arg2 #] rather than
+          func(arg2, arg2).</p></li></ul></div></div><div class="sect1" lang="en" xml:lang="en"><div class="titlepage"><div><div><h2 class="title" style="clear: both"><a id="id458371"></a>6. Acknowledgments</h2></div></div></div><p>This program is pretty much lifted from Compilers: Principles,
     Techniques and Tools by Aho, Sethi and Ullman, pub Addison Wesley
     1986.</p><p>The grammar is pretty much lifted from C.</p></div></div></body></html>

@@ -36,14 +36,14 @@
         <date>12-2-2010</date>
 
         <revdescription>
-          <para>Version 2. This has reduced functionality, owing to
-          improvements in the winXP command processor. This version may not do
-          what you want if you are not using XP.</para>
+          <para>Version 2.0 This has improved sub routine functionality, owing
+          to improvements in the winXP command processor. This version may not
+          do what you want if you are not using XP.</para>
         </revdescription>
       </revision>
     </revhistory>
 
-    <date>12-2-2010</date>
+    <date>7-1-2011</date>
 
     <author>
       <firstname>Nick</firstname>
@@ -167,9 +167,11 @@ if not exist %5 goto EI0
 
     <para>The syntax is pretty much C like.</para>
 
-    <para>Functions are not supported in version 2. Instead, use the call
+    <para>Version 2 handles functions by generating code that uses the call
     :label syntax, see <ulink
-    url="http://technet.microsoft.com/en-us/library/bb490873.aspx">this</ulink>.</para>
+    url="http://technet.microsoft.com/en-us/library/bb490873.aspx">this</ulink>.
+    There are no changes in the grammar, but the generated code won't work
+    unles you're on XP or later.</para>
 
     <para>break may only be used inside a while or switch statement. return;
     returns control to the operating system. return primary_expression; (eg
@@ -189,8 +191,8 @@ if not exist %5 goto EI0
     <sect2>
       <title>Reserved words</title>
 
-      <para>if case else switch default while return break || &amp;&amp; == !=
-      &gt;= "" errorlevel ERRORLEVEL exist EXIST</para>
+      <para>if case else fdef switch default while return break || &amp;&amp;
+      == != &gt;= "" errorlevel ERRORLEVEL exist EXIST</para>
     </sect2>
 
     <sect2>
@@ -311,8 +313,8 @@ WHILE '(' <link linkend="dos_expression">dos_expression</link> ')' <link
   <sect1>
     <title>Building</title>
 
-    <para>There is a generated guide to the source <ulink
-    url="doxy/index.html">here</ulink>.</para>
+    <para>There is a generated guide to the source in
+    doc\doxy\index.html.</para>
 
     <para>You need:<itemizedlist>
         <listitem>
@@ -322,14 +324,18 @@ WHILE '(' <link linkend="dos_expression">dos_expression</link> ')' <link
         <listitem>
           <para>lex and yacc binaries</para>
         </listitem>
-      </itemizedlist>vc_make.bat (derived from vc_make.bc) will build the
-    source using VC++. If you have another compiler, the <programlisting>    set CC=cl</programlisting>and<programlisting>    set CC_FLAGS= ...</programlisting>lines
-    should be changed. There are VC++ project and workspace files should they
-    be any use to you which will need copying to the source directory.</para>
+      </itemizedlist>compile.bat (in bin) will compile from the command line.
+    Using MinGW produces a buggy program, you're better using Visual Studio
+    Express 2010 (free) and the batchgen.sln file (in vce2010). </para>
 
-    <para>running yacc on batchgen.y gives the following
-    error:<programlisting> state contains 1 shift/reduce conflict.</programlisting>This
+    <para>The VC project doesn't run lex and yacc: bin\doLexYacc.bat calls lex
+    and yacc (I use the <ulink
+    url="http://gnuwin32.sourceforge.net/">GnuWin32</ulink> ones). Running
+    yacc on batchgen.y gives the following error:<programlisting> state contains 1 shift/reduce conflict.</programlisting>This
     is the if-else ambiguity, we accept yacc's default resolution.</para>
+
+    <para>There are some test files in tests, these should all generate and
+    optimize witjout error.</para>
   </sect1>
 
   <sect1>
@@ -353,6 +359,18 @@ WHILE '(' <link linkend="dos_expression">dos_expression</link> ')' <link
           will be saying something like <programlisting>if "VAR"=="99" do something</programlisting>
           and your program won't do something, it will do nothing. This is
           because VAR has the value "99 ", not "99".</para>
+        </listitem>
+
+        <listitem>
+          <para>It's not written in C++. Some of the code is pretty nasty in
+          retrospect (2011) but it more or less works.</para>
+        </listitem>
+
+        <listitem>
+          <para>function parameters not supported. This doesn't stop you
+          defining a function that uses parameters, but you will have to call
+          it using something like [# call func arg1 arg2 #] rather than
+          func(arg2, arg2).</para>
         </listitem>
       </itemizedlist></para>
   </sect1>

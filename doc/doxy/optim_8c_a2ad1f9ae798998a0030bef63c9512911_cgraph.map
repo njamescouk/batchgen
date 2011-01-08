@@ -1,0 +1,15 @@
+<map id="G" name="G">
+<area shape="rect" href="$optim_8c.html#afab5c688930e45520fe418bff8f78c6d" title="del_line" alt="" coords="164,5,228,32"/>
+<area shape="rect" href="$foptim_8c.html#aac3a9733c60ca4a5064b42d89ab8dd05" title="get_label_def" alt="" coords="149,56,243,83"/>
+<area shape="rect" href="$foptim_8c.html#a9b5e60b4b596092611a904d735d93df0" title="get_label_ref" alt="" coords="151,107,241,133"/>
+<area shape="rect" href="$foptim_8c.html#a64ad0144d19ea84a94d8dc7d74afddd8" title="is_blank" alt="" coords="163,157,229,184"/>
+<area shape="rect" href="$foptim_8c.html#af606b928d3cb8a160913035357a0cf02" title="is_cond_br" alt="" coords="156,208,236,235"/>
+<area shape="rect" href="$foptim_8c.html#a795a45e9703e74ba23a5962c299190f8" title="is_esr" alt="" coords="171,259,221,285"/>
+<area shape="rect" href="$foptim_8c.html#a0e3dbf5bebafb3e917d1a004bae5d082" title="is_label" alt="" coords="165,309,227,336"/>
+<area shape="rect" href="$foptim_8c.html#a0202600877953c31758bda3ea4425b26" title="is_uncond_br" alt="" coords="149,360,243,387"/>
+<area shape="rect" href="$foptim_8c.html#ae783e8e3022775228fb04974fbdc980d" title="negate" alt="" coords="168,411,224,437"/>
+<area shape="rect" href="$optim_8c.html#a2ba647010c102f7130423b62eeaff1f6" title="reref_labs" alt="" coords="159,461,233,488"/>
+<area shape="rect" href="$foptim_8c.html#aef975d43ebe49a94af772c636ff53ddb" title="find_label" alt="" coords="292,411,367,437"/>
+<area shape="rect" href="$foptim_8c.html#a60d44b9cbcedbefc8e476ab07a6d5f7c" title="find_word" alt="" coords="291,461,368,488"/>
+<area shape="rect" href="$foptim_8c.html#a92721aab8b8ad3b23e72a430d5ed7e19" title="is_branch" alt="" coords="293,512,365,539"/>
+</map>
