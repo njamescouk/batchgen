@@ -1,0 +1,73 @@
+[#
+@ECHO OFF
+PROMPT $e[s$e[0;32;44m$e[H$t $d $p $e[K$e[u$e[1;34;46m$$$e[0;34;46m
+break=on
+#]
+if (%config%==windefault || %config%==excel|| %config%==paradox || %config%==word)
+   [#set windows=yes
+   PATH C:\WINDOWS;C:\DOS;C:\;C:\BIN;..;\;C:\PDOXWIN;C:\MATHS\EXCEL;C:\EDITORS\WINWORD;C:\ODAPI #]
+else
+   [#   set windows=no
+        PATH C:\DOS;C:\;C:\BIN;..;\ #]
+[#
+set minpth=C:\DOS;C:\;C:\BIN;..;\
+set stdpath=%path%
+SET TEMP=C:\temp
+set DIRCMD=/o:gen
+set verify=on
+LH C:\DOS\KEYB UK,,C:\DOS\KEYBOARD.SYS
+LH C:\DOS\DOSKEY/INSERT/BUFSIZ=2048
+echo.
+#]
+if (%config%==chk)
+{
+    [#C:\DOS\chkdsk c:
+    C:\DOS\chkdsk d:#]
+}
+else
+{
+   if (%config%==tmp) [#call tmp#]
+   else
+      if (%windows%==yes)
+      {
+         [#C:\DOS\SHARE.EXE /L:500 /f:4096
+         C:\DOS\SMARTDRV.EXE 2048 2048
+         rem following line part of bodge to lose silly error message
+            call unpbdge
+            rem progbdge.bat is run in start up group to make progman.ini etc
+            rem read only again so as to preserve settings #]
+         if (%config%==excel) [# win /b excel /e #]
+         if (%config%==word)  [# win /b winword #]
+         if (%config%==paradox) [# win /b pdoxwin #]
+         if (%config%==windefault) [# win /b #]
+         if (%config%!=notwin)
+         {
+            [#rem returning from windows
+            for %%t in (1 2 3 4) do echo.
+            smartdrv /c
+            choice /c:sd "save or delete bootlog  " /t:d,2
+            call geterl -q  #]
+            if (%errval%==2)
+            {
+               [# del c:\windows\bootlog.txt #]
+            }
+            [#
+            for %%t in (1 2 3 4) do echo.
+            choice /c:yn "check disc  " /t:n,2
+            call geterl -q
+            #]
+            if (%errval%!=2)
+            {
+               [#chkdsk c:
+               pause
+               chkdsk d:#]
+            }
+            [#for %%t in (1 2 3 4) do echo.
+              call bye#]
+         }
+      }
+}
+[#
+d:
+cd \work
+#]

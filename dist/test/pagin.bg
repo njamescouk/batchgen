@@ -1,0 +1,97 @@
+[#
+goto ds_end
+:double_shift
+shift
+shift
+#]
+return;
+[#:ds_end#]
+
+[#
+goto help_end
+:help
+@echo usage:pagin file -t title -ph page_header -pf page_footer -f footer -pl page_len
+#]
+return;
+[#:help_end#]
+
+[#@echo off#]
+if (%1 == -h || %1 == "")
+{
+   [# call :help #]
+   return;
+}
+else
+{
+   [#set pg_file=%1#]
+}
+[#shift#]
+while (%1 != "")
+{
+   switch (%1)
+   {
+      case -h :
+      {
+         [# 
+         call :help
+         shift 
+         #]
+         return;
+      }
+      case -o :
+      {
+         [#
+         set pg_ofile=%2
+         call :double_shift
+         #]
+         break;
+      }
+      case -t :
+      {
+      	[#set pg_title=%2
+         call :double_shift#]
+      	break;
+      }
+      case -ph :
+      {
+      	[#set page_h=%2
+         call :double_shift#]
+      	break;
+      }
+      case -pf :
+      {
+      	[#set page_f=%2
+         call :double_shift#]
+      	break;
+      }
+      case -f :
+      {
+      	[#set foot=%
+         call :double_shift#]
+      	break;
+      }
+      case -pl :
+      {
+      	[#set page_len=%2
+         call :double_shift#]
+      	break;
+      }
+      default : 
+      {
+         [#shift#]
+         break;
+      }
+   }
+}
+[#
+@echo on
+gawk -f pagin.awk %1 %pg_file%
+@echo off
+set pg_title=
+set page_h=
+set page_f=
+set foot=
+set page_len=
+set pg_ofile=
+set pg_file=
+#]

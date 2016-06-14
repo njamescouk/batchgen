@@ -1,0 +1,6 @@
+if (%t%%r% == fred)
+[# rem fred #]
+if (%t%1 == bert)
+[# erm bert #]
+if (%500 == 767)
+[# rem oo er #]

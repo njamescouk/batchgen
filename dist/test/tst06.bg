@@ -1,0 +1,9 @@
+[# @echo off #]
+
+   if (%1 == end)
+      return 67 ;
+   else
+   {
+      [#echo the end is not nigh#]
+      return 0;
+   }

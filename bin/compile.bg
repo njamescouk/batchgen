@@ -6,7 +6,7 @@ set BGCOMP_DEBUG=
 set BGCOMP_HELP=
 set BGCOMP_ILLEGAL_OPT=
 set CC_FLAGS=
-set BGCOMP_SOURCE_FILES=batchgen.c bkpatch.c fileread.c lex.yy.c optim.c sr.c stacks.c y.tab.c
+set BGCOMP_SOURCE_FILES=batchgen.c bkpatch.c fileread.c lex.yy.c sr.c stacks.c y.tab.c
 
 rem edit these to suit
 rem gcc produces a buggy batchgen, use vce2010
@@ -87,7 +87,7 @@ else
     [#
     pushd I:\usr\NIK\dev\batchgen\source
 
-    markupgrammar -f batchgen.y > ..\doc\batchgen.y.html
+    markupgrammar -s -f batchgen.y > ..\doc\batchgen.y.html
     markupgrammar -f batchgen.y -d > ..\doc\batchgen.y.dot
     markupgrammar -f ..\source\batchgen.y -x > ..\doc\batchgen.y.docbook.xml
 

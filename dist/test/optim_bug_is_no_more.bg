@@ -1,0 +1,51 @@
+[#@echo off#]
+
+if (%DEBUG% == "")
+{
+   [#
+   set LEX_FLAGS=
+   set YACC_FLAGS= -vd
+   set CC_FLAGS=/nologo /ML /W4 /D "WIN32" /D "NDEBUG" /D "_CONSOLE"
+   set YYDEBUG=
+   #]
+}
+else
+{
+   [#
+   set LEX_FLAGS=-d
+   set YACC_FLAGS=-vdt
+   set CC_FLAGS=/nologo /ML /W4 /D "WIN32" /D "_CONSOLE" /D "YYDEBUG"
+   set YYDEBUG=1
+   #]
+}
+
+[#
+@echo on
+
+%FLEX% %LEX_FLAGS% batcomp.l
+%YACC% %YACC_FLAGS% batcomp.y
+%CC% %CC_FLAGS% %SOURCE_FILES%
+
+@echo off
+
+copy y.output ..\doc\y.output
+del *.obj
+#]
+
+if (%DEBUG% == "")
+{
+   [#
+   del y.output
+   del lex.yy.c
+   del y.tab.c
+   del y.tab.h
+   copy batcomp.exe ..\bin
+   #]
+}
+else
+{
+   [#
+   copy batcomp.exe ..\bin\batcomp_debug.exe
+   #]
+}
+

@@ -1,0 +1,28 @@
+[#
+ rem run bc bert [1"|"2] 3
+@echo off
+#]
+while (%1 == bert)
+{
+	[#@echo w1#]
+   switch (%2)
+   {
+      case 1 : {[#@echo sw1 c1#]}
+      case 2 :
+      {
+      	[#@echo sw1 c2#]
+      	while (%2 == 2)
+         {
+      	   [#@echo w2#]
+         	switch (%3)
+         	{
+            	case 3 : [#@echo sw3 c3#]
+         	}
+         	[#shift#]
+         }
+      }
+   }
+   [#
+    shift
+   #]
+}

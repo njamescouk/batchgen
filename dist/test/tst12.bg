@@ -1,0 +1,74 @@
+[#  @echo off
+set G_INPUT$$=
+set G_OUTPUT$$=
+set VERSION$$=
+  
+del %TEMP%\get.a$$ > nul
+del %TEMP%\get.b$$ > nul
+
+:inloop
+if "%1"=="-h" goto assin
+if "%1"=="-o" goto assout
+if "%1"=="-v" goto assver
+if "%1"=="-d" goto assdbug
+
+:ret3
+shift
+if not "%1"=="" goto inloop
+goto label1
+
+:assin
+set G_INPUT$$=%2.HST
+shift
+goto ret3
+
+:assout
+set G_OUTPUT$$=%2
+shift
+goto ret3
+
+:assver
+set VERSION$$=%2
+shift
+goto ret3
+
+:assdbug
+echo on
+goto ret3
+
+:label1
+if "%G_INPUT$$%"=="" goto usage
+if "%G_OUTPUT$$%"=="" set G_OUTPUT$$=CON
+
+if not "%awkpath%"=="c:\lang\awk" set awkpath=c:\lang\awk 
+
+if not exist %G_INPUT$$% goto histfail
+   sed <%G_INPUT$$% -n 1,/^@@@/w" %TEMP%\get.a$$"
+   sed <%G_INPUT$$% -n /^@@@/,$w" %TEMP%\get.b$$"
+   get_revs %G_INPUT$$%
+   call geterl -q
+   set NO_OF_REVS=%ERRVAL%
+   c:\lang\awk\gawk -f getrcsed.awk %TEMP%\get.b$$ | ed %TEMP%\get.a$$ > nul
+   type %TEMP%\get.a$$ > %G_OUTPUT$$%
+   el 0
+goto clearup
+
+:histfail
+echo cannot find history file %G_INPUT$$%
+el 1
+goto end
+
+:usage
+echo get: cannot find history file
+echo usage: get -h hist-file <-o out-file> <-v version>
+el 1
+
+:clearup
+del %TEMP%\get.a$$
+del %TEMP%\get.b$$
+set G_INPUT$$=
+set G_OUTPUT$$=
+set VERSION$$=
+set NO_OF_REVS=
+
+:end#]

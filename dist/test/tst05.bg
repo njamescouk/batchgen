@@ -1,0 +1,14 @@
+   if (%1 == %tyre%)
+      [#fred %1#]
+   else
+   {
+      [#
+      splash
+      bang
+      #]
+      return 56 ;
+   }
+{
+   [#fred %var%
+   dir *.y#]
+}

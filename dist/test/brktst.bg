@@ -1,0 +1,26 @@
+while (%1 == fred)
+{
+   if (exist fred)
+   {
+      [#dir *.y#]
+      break;
+   }
+   else
+   {
+      [#
+         @echo fred doesn't exist
+      #]
+      if (exist d:bert)
+      [#
+         @echo config.sys does exist
+         shift
+      #]
+      else
+      {
+      [#
+         @echo nothing exists
+      #]
+         break;
+      }
+   }
+}

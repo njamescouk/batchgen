@@ -1,0 +1,4 @@
+if ((exist tst09.bc || exist bert) && exist %1)
+{
+   [#@echo tst09.bc or bert & %1 exists#]
+}

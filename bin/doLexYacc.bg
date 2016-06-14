@@ -25,7 +25,10 @@ fdef getopts()
         
         if (%1 == -h)
         {
-            [# set DLY_HELP=True #]
+        [#
+            set DLY_HELP=True
+            set DLY_TERMINATE=yes
+        #]
         }
 
         [# shift  #]
@@ -35,7 +38,7 @@ fdef getopts()
 fdef usage()
 {
 [#
-echo usage %0 [options]
+echo usage: doLexYacc [options]
 
 echo options
 echo     -d     include debugging code for lexer and parser
@@ -62,18 +65,25 @@ set DLY_TERMINATE=
 initialise()
 [#
 call :getopts %* 
-pushd I:\usr\NIK\dev\batchgen\source
 #]
 
 if (%DLY_HELP% == True)
 {
     usage()
+    [#
+    set DLY_TERMINATE=yes
+    #]
 }
 
 if (%DLY_TERMINATE%==yes)
 {
+    finalise()
     return ;
 }
+
+[#
+pushd I:\usr\NIK\dev\batchgen\source
+#]
 
 if (%DLY_DEBUG% == "")
 {

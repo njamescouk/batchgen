@@ -1,0 +1,276 @@
+html
+{
+}
+
+body
+{
+    background-color:#fdfde8;
+    color: #000050;
+    height: 100%;
+    /*
+    */
+}
+
+code
+{
+    text-align: left;
+}
+
+p#barcode
+{
+    text-align: center;
+}
+
+ul#listOfArticles > li
+{
+    list-style-type: none;
+    margin-bottom: .5em;
+}
+
+div#articleList
+{
+    margin-top: 2em;
+    top: 3em;
+}
+
+#centrePanel, div.article
+{
+    border: 1px solid #ddd; 
+    background-color: #fdfdcc;
+    max-width: 27em;
+    margin-top: 2em;
+    margin-left: 2em;
+    margin-right: 2em;
+    text-align: justify;
+    padding-left: 2em;
+    padding-right: 2em;
+    padding-bottom: 2em;
+    z-index: 0;
+    overflow: visible;
+    line-height: 1.5;
+}
+
+div.article
+{
+    z-index: 2;
+}
+
+div.article p
+{
+   clear: both; /* prevent first word of p being pushed about by pre */
+}
+
+span.breadcrumb
+{
+    background-color: #fdfdee;
+}
+
+span.separator:after
+{
+    content: " | "; 
+}
+
+span.breadcrumb
+{
+    position: fixed;
+    font-size: small;
+    
+    padding-top: 2px;
+    padding-left: 4px;
+    padding-bottom: 2px;
+    padding-right: 4px;
+    
+    border: #ddd 1px solid;
+    
+    top: 1em;
+    right: 1em;
+    z-index: 4;
+}
+
+/* menu */
+a.menu:hover
+{
+    color: #090;
+    background-color: #ee9;
+}
+
+p.menu
+{
+    position: fixed;
+    top: 8em;
+    left: 8em;
+}
+
+a.menu 
+{
+    width: 6em;
+    text-align: center;
+    padding: .5em;
+    margin-top: .7em;
+    color: olive;
+    display: list-item;
+    list-style-type: none;
+    font-weight:bolder;
+    padding: .5em;
+    
+    border: #ddd 1px solid;
+    
+    background-color: #fdfdee;
+    z-index: 20;
+}
+
+
+div.sect1
+{
+    padding-top: 1em;
+}
+
+div.warning
+{
+    color: red;
+}
+
+dl
+{
+    margin-top: 1em;
+}
+
+pre.programlisting, pre.synopsis /*, span.command*/
+{
+    background-color: #fff;
+    color: #000;
+    border: 1px solid #ddd; 
+}
+
+pre.programlisting, pre.synopsis
+{
+    float: left;
+    min-width: 90%;
+    padding-top:  1em;
+    padding-left:  1em;
+    padding-bottom: 1.5em;
+    padding-right:  1em;
+    line-height: 1.0;
+    margin-top: .1em;
+}
+
+div.bottomFeeder
+{
+    line-height: 2em;
+    font-size: xx-small;
+    position: fixed;
+    bottom: 1em;
+    right: 1em;
+    z-index: -1;
+}
+
+.bottomFeeder img
+{
+    border: 0;
+    vertical-align: middle;
+}
+
+a:link
+{
+    color: #005000;
+}
+
+a:visited
+{
+    color: #a05010;
+}
+
+a:focus
+{
+    color: #090;
+    background-color: #ee9;
+}
+
+a:hover
+{
+    color: #090;
+    background-color: #ee9;
+	border: 1px dashed #ddd;
+}
+
+a
+{
+	text-decoration: none;
+	border: 1px dotted #ddd;
+}
+
+table
+{
+    width: auto;
+    border: 0;
+    margin-bottom: 1em;
+}
+
+tbody
+{
+    vertical-align: top;
+}
+
+td, td.number
+{
+    vertical-align: top;
+    width: auto;
+    border: 0;
+    padding: 2px;
+    padding-left: 4px;
+    padding-right: 4px;
+}
+
+td.number
+{
+    text-align: right;
+}
+
+td.galleryCaption
+{
+    max-width: 10em;
+    background-color: #aaa;
+}
+
+td.galleryPicture
+{
+    vertical-align: bottom;
+}
+
+td.withBorder
+{
+    border: 1px solid #ddd;
+}
+
+select
+{
+    font-size: 100%;
+    font-family: monospace;
+}
+
+img.screenshot
+{
+    margin: 2em;
+    border: .5em solid;
+    border-color: #aaa;
+}
+
+span.hgField
+{
+    margin-right: 1em;
+}
+
+span.hgField>label 
+{
+    margin-right: 1em;
+}
+
+input
+{
+    font-family: monospace;
+}
+
+p
+{
+    clear: both;
+}

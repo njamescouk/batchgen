@@ -1,0 +1,19 @@
+while (%1 != "")
+{
+   switch (%1)
+   {
+      case wert :
+      {
+        [#dir#]
+        break ;
+      }
+      case fred :
+      {
+         [#dir /s#]
+         return 5 ;
+      }
+      default :
+         [#default stmts#]
+   }
+   [#shift#]
+}

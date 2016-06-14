@@ -1,19 +1,17 @@
 @echo off
-set xparams=-nonet --param glossterm.auto.link 1 --param header.rule 1 --param footer.rule 1 --param html.stylesheet.type text/css --stringparam html.stylesheet "http://www.njames.co.uk/styles/main.css" --param section.autolabel 1 
-set xtrans=C:\bin\docbook\docbook-xsl-1.74.0\xhtml\docbook.xsl
 
-set pparams=-nonet --param glossterm.auto.link 1 --stringparam  paper.type  A4 --param header.rule 1 --param footer.rule 1
-set ptrans=C:\bin\docbook\docbook-xsl-1.74.0\fo\docbook.xsl
+call ..\bin\doLexYacc.bat
 
-set docStem=batchgen_readme
-rem chunker.output.doctype-public chunker.output.doctype-system 
+markupgrammar -s -f ..\source\batchgen.y > batchgen.y.html
+youtputmarkup -g y.output > batchgen.y.dot
+dot -Tjpeg -O batchgen.y.dot
 
-xsltproc %xparams% --output %docStem%.html %xtrans% %docStem%.docbook.xml
+pp readme.md.pp > readme.md
+pandoc -c main.css -T batchgen --toc -t html5 -f markdown readme.md > readme.html
 
-set basefile=%docStem%.docbook
-xsltproc %pparams% --output %basefile%.fo %ptrans% %basefile%.xml
-call C:\bin\fop-0.20.5\fop %basefile%.fo %docStem%.pdf
+sed -n "/Introduction/,/batchgen is a run of the mill/p" readme.md | sed -n /(this/d;$!p > blurb.md
+pandoc -c main.css -t html5 -f markdown blurb.md > blurb.html
 
-del *.fo
+del y.output
 
 pause
